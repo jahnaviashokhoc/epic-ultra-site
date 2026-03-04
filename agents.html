@@ -1,475 +1,564 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Agents — EPICUltra</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #02020a; --bg2: #07071a;
-      --violet: #6c47ff; --teal: #00f5c8;
-      --violet-dim: rgba(108,71,255,0.18);
-      --glass-bg: rgba(255,255,255,0.04);
-      --glass-border: rgba(255,255,255,0.08);
-      --text: #e8e8f0; --muted: #7a7a9a; --radius: 16px;
-    }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; line-height: 1.65; overflow-x: hidden; }
-    h1,h2,h3,h4 { font-family: 'Sora', sans-serif; line-height: 1.2; }
-    a { color: inherit; text-decoration: none; }
-    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
-    .tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); border: 1px solid rgba(0,245,200,0.3); padding: 4px 14px; border-radius: 100px; margin-bottom: 20px; }
-    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.25s ease; border: none; }
-    .btn-primary { background: var(--violet); color: #fff; box-shadow: 0 0 24px rgba(108,71,255,0.45); }
-    .btn-primary:hover { background: #7d5bff; box-shadow: 0 0 36px rgba(108,71,255,0.7); transform: translateY(-2px); }
-    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--glass-border); }
-    .btn-ghost:hover { border-color: rgba(108,71,255,0.5); color: var(--violet); transform: translateY(-2px); }
-    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.65s ease, transform 0.65s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Agents — EPICUltra</title>
+<meta name="description" content="EPICUltra: Enterprise AI architecture engineered for accountability, governance, and mandate-controlled execution.">
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('eu-theme')||'dark')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 0; background: rgba(2,2,10,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); transition: background 0.3s; }
-    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; }
-    .nav-logo span { color: var(--violet); }
-    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
-    .nav-links a:hover { color: var(--text); }
-    .nav-links a.cur { color: var(--text); position: relative; }
-    .nav-links a.cur::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--violet); }
-    .nav-cta { margin-left: 16px; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
-    .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
-    .mobile-menu { display: none; flex-direction: column; background: rgba(2,2,10,0.97); border-top: 1px solid var(--glass-border); padding: 24px; gap: 20px; }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a { font-size: 16px; font-weight: 500; color: var(--muted); }
-    .mobile-menu a:hover, .mobile-menu a.cur { color: var(--text); }
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --violet:#6c47ff;--violet-dim:#4f30d4;--violet-glow:rgba(108,71,255,0.35);
+  --teal:#00b894;--teal-dim:#00966e;--teal-glow:rgba(0,184,148,0.25);
+  --bg:#050810;--bg2:#080d18;--bg3:#0d1220;
+  --surface:#111827;--surface2:#161e30;--surface3:#1c2540;
+  --border:rgba(108,71,255,0.2);--border2:rgba(0,245,200,0.15);
+  --text:#e4e8f5;--text2:#8892b0;--text3:#4a5268;
+  --nav-bg:rgba(5,8,16,0.85);
+  --font:'Sora',sans-serif;--mono:'DM Mono',monospace;
+  --r:8px;--r2:14px;--r3:20px;
+}
 
-    .breadcrumb { font-size: 13px; color: var(--muted); margin-bottom: 20px; display: flex; align-items: center; gap: 6px; }
-    .breadcrumb a { color: var(--muted); transition: color 0.2s; }
-    .breadcrumb a:hover { color: var(--text); }
-    .breadcrumb-sep { opacity: 0.4; }
-    .breadcrumb-cur { color: var(--text); }
+/* ── Light theme ── */
+[data-theme="light"]{
+  --violet:#5a35e8;--violet-dim:#4527c9;--violet-glow:rgba(90,53,232,0.2);
+  --teal:#00896e;--teal-dim:#006e59;--teal-glow:rgba(0,137,110,0.15);
+  --bg:#f4f6fb;--bg2:#eef0f8;--bg3:#e8ebf5;
+  --surface:#ffffff;--surface2:#f0f2fa;--surface3:#e4e8f5;
+  --border:rgba(90,53,232,0.15);--border2:rgba(0,137,110,0.15);
+  --text:#0f1525;--text2:#4a5580;--text3:#8892b0;
+  --nav-bg:rgba(244,246,251,0.92);
+}
+[data-theme="light"] body::before{opacity:.15}
+[data-theme="light"] .hero-bg{background:radial-gradient(ellipse 70% 60% at 60% 40%,rgba(90,53,232,.08) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 20% 80%,rgba(0,137,110,.06) 0%,transparent 60%)}
+[data-theme="light"] .hero-grid{opacity:.2}
+[data-theme="light"] .manifesto{background:linear-gradient(135deg,#fff 0%,#f4f6fb 100%)}
+[data-theme="light"] .card{box-shadow:0 2px 12px rgba(15,21,37,.06)}
+[data-theme="light"] .card:hover{box-shadow:0 8px 32px rgba(90,53,232,.12)}
+[data-theme="light"] .agent-card{box-shadow:0 2px 12px rgba(15,21,37,.06)}
+[data-theme="light"] .cta-section{background:linear-gradient(135deg,#fff 0%,#f0f2fa 100%)}
+[data-theme="light"] nav{box-shadow:0 1px 20px rgba(15,21,37,.08)}
+[data-theme="light"] .arch-layer.al-1{background:rgba(90,53,232,.1)}
+[data-theme="light"] .arch-layer.al-2{background:rgba(90,53,232,.07)}
+[data-theme="light"] .arch-layer.al-3{background:rgba(0,137,110,.07)}
+[data-theme="light"] .arch-layer.al-4{background:rgba(0,137,110,.1)}
+[data-theme="light"] .arch-layer.al-5{background:rgba(0,137,110,.14)}
+[data-theme="light"] .metric{background:#fff}
+[data-theme="light"] .sec-stat{background:#fff}
+[data-theme="light"] .compliance-item{background:#fff}
+[data-theme="light"] .pillar{background:#fff}
+[data-theme="light"] .resource-card{background:#fff}
+[data-theme="light"] .webinar-card{background:#fff}
+[data-theme="light"] .uc-item{background:#fff}
+[data-theme="light"] .flow-num{background:#f0f2fa}
+[data-theme="light"] .int-tag{background:#f0f2fa}
 
-    .hero { position: relative; min-height: 80vh; display: flex; align-items: center; padding: 120px 0 80px; overflow: hidden; }
-    .hero-content { position: relative; z-index: 2; max-width: 720px; }
-    .hero h1 { font-size: clamp(42px, 6vw, 76px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 24px; }
-    .hero h1 .accent { color: var(--violet); }
-    .hero-sub { font-size: 18px; color: var(--muted); max-width: 520px; margin-bottom: 56px; }
-    .hero-stats { display: flex; flex-wrap: wrap; gap: 0; border-top: 1px solid var(--glass-border); padding-top: 36px; }
-    .hero-stat { padding: 0 36px 0 0; border-right: 1px solid var(--glass-border); margin-right: 36px; }
-    .hero-stat:last-child { border-right: none; margin-right: 0; padding-right: 0; }
-    .hero-stat-val { font-family: 'Sora', sans-serif; font-size: 28px; font-weight: 700; color: var(--teal); line-height: 1; margin-bottom: 6px; }
-    .hero-stat-label { font-size: 13px; color: var(--muted); }
-    .orbs { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-    .orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.55; animation: float 12s ease-in-out infinite; }
-    .orb-1 { width: 480px; height: 480px; background: radial-gradient(circle, rgba(108,71,255,0.6) 0%, transparent 70%); top: -100px; right: -60px; animation-duration: 14s; }
-    .orb-2 { width: 320px; height: 320px; background: radial-gradient(circle, rgba(0,245,200,0.4) 0%, transparent 70%); bottom: 40px; right: 280px; animation-duration: 18s; animation-delay: -6s; }
-    .orb-3 { width: 240px; height: 240px; background: radial-gradient(circle, rgba(108,71,255,0.3) 0%, transparent 70%); top: 50%; left: 60%; animation-duration: 10s; animation-delay: -3s; }
-    @keyframes float { 0%,100% { transform: translateY(0) scale(1); } 33% { transform: translateY(-28px) scale(1.04); } 66% { transform: translateY(18px) scale(0.97); } }
-    .hero::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(108,71,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(108,71,255,0.04) 1px, transparent 1px); background-size: 60px 60px; z-index: 0; mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 40%, transparent 100%); }
+/* ── Theme toggle button ── */
+.theme-toggle{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:border-color .2s,background .2s,transform .15s;flex-shrink:0}
+.theme-toggle:hover{border-color:var(--violet);transform:rotate(20deg)}
+.theme-toggle .icon-dark{display:block}
+.theme-toggle .icon-light{display:none}
+[data-theme="light"] .theme-toggle .icon-dark{display:none}
+[data-theme="light"] .theme-toggle .icon-light{display:block}
 
-    section { padding: 100px 0; }
-    .section-header { text-align: center; max-width: 680px; margin: 0 auto 64px; }
-    .section-header h2 { font-size: clamp(30px, 4vw, 48px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
-    .section-header p { color: var(--muted); font-size: 17px; }
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 
-    /* AGENT CARDS */
-    .agents-section { background: var(--bg); }
-    .agents-grid { display: flex; flex-direction: column; gap: 24px; }
-    .agent-card {
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius);
-      padding: 36px;
-      backdrop-filter: blur(12px);
-      transition: border-color 0.3s, box-shadow 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-    .agent-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--violet), var(--teal)); opacity: 0; transition: opacity 0.3s; }
-    .agent-card:hover { border-color: rgba(108,71,255,0.35); box-shadow: 0 12px 40px rgba(108,71,255,0.1); }
-    .agent-card:hover::before { opacity: 1; }
-    .agent-card-inner { display: grid; grid-template-columns: auto 1fr 1fr 1fr; gap: 32px; align-items: start; }
-    .agent-head { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; min-width: 200px; }
-    .agent-icon-wrap { display: flex; align-items: center; gap: 12px; }
-    .agent-icon { font-size: 28px; }
-    .agent-num { font-family: 'Sora', sans-serif; font-size: 11px; font-weight: 700; color: var(--violet); }
-    .agent-name { font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; }
-    .agent-roles { display: flex; gap: 6px; flex-wrap: wrap; }
-    .role-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; color: var(--teal); border: 1px solid rgba(0,245,200,0.25); padding: 3px 9px; border-radius: 100px; }
-    .agent-col-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
-    .agent-col-items { display: flex; flex-direction: column; gap: 6px; }
-    .agent-col-item { font-size: 13px; color: var(--text); display: flex; align-items: flex-start; gap: 8px; }
-    .agent-col-item::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--violet); flex-shrink: 0; margin-top: 8px; }
-    .agent-integrations { display: flex; gap: 6px; flex-wrap: wrap; }
-    .int-tag { font-size: 11px; color: var(--muted); border: 1px solid var(--glass-border); padding: 3px 10px; border-radius: 100px; }
+/* ── Noise texture overlay ── */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4}
 
-    .cta-block { background: var(--bg2); position: relative; overflow: hidden; }
-    .cta-block::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(108,71,255,0.15) 0%, transparent 70%); pointer-events: none; }
-    .cta-inner { text-align: center; position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
-    .cta-inner h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 16px; }
-    .cta-inner p { color: var(--muted); font-size: 16px; margin-bottom: 32px; }
-    .cta-btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
+/* ── Nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
+.nav-logo{font-size:1.15rem;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-.02em}
+.nav-logo span{color:var(--violet)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.82rem;font-weight:500;color:var(--text2);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--teal)}
+.nav-cta{background:var(--violet);color:#fff;padding:.5rem 1.25rem;border-radius:var(--r);font-size:.82rem;font-weight:600;text-decoration:none;letter-spacing:.02em;transition:background .2s,box-shadow .2s}
+.nav-cta:hover{background:var(--violet-dim);box-shadow:0 0 20px var(--violet-glow)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);transition:.3s}
+@media(max-width:900px){
+  .nav-links{display:none;position:fixed;top:64px;left:0;right:0;background:var(--bg2);flex-direction:column;gap:0;border-bottom:1px solid var(--border);padding:1rem 0}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:.75rem 2rem;font-size:.9rem}
+  .nav-hamburger{display:flex}
+}
 
-    footer { background: var(--bg); border-top: 1px solid var(--glass-border); padding: 40px 0; }
-    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-    .footer-logo { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 18px; }
-    .footer-logo span { color: var(--violet); }
-    .footer-tagline { font-size: 13px; color: var(--muted); }
-    .footer-copy { font-size: 13px; color: var(--muted); }
+/* ── Layout ── */
+.wrap{max-width:1160px;margin:0 auto;padding:0 2rem}
+section{padding:6rem 0}
+section:first-of-type{padding-top:9rem}
 
-    @media (max-width: 1000px) { .agent-card-inner { grid-template-columns: 1fr 1fr; gap: 24px; } .agent-head { min-width: unset; } }
-    @media (max-width: 640px) { .agent-card-inner { grid-template-columns: 1fr; gap: 20px; } .agent-card { padding: 24px; } }
-    @media (max-width: 768px) { .nav-links, .nav-cta { display: none; } .hamburger { display: flex; } .hero-stats { gap: 24px; } .hero-stat { padding-right: 0; border-right: none; margin-right: 0; } .footer-inner { flex-direction: column; text-align: center; } }
-  </style>
+/* ── Badges ── */
+.badge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);border:1px solid var(--border2);border-radius:100px;padding:.35rem .9rem;margin-bottom:1.5rem}
+.badge::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal)}
+
+/* ── Hero ── */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:64px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 60% 40%,rgba(108,71,255,.12) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 20% 80%,rgba(0,245,200,.07) 0%,transparent 60%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.35;pointer-events:none;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%)}
+.hero-content{position:relative;z-index:1;max-width:780px}
+.hero h1{font-size:clamp(2.8rem,6vw,5.2rem);font-weight:800;line-height:1.08;letter-spacing:-.04em;margin-bottom:1.5rem}
+.hero h1 .accent{color:var(--violet)}
+.hero h1 .accent-teal{color:var(--teal)}
+.hero-sub{font-size:1.15rem;color:var(--text2);max-width:560px;margin-bottom:.75rem;line-height:1.7}
+.hero-support{font-size:.92rem;color:var(--text3);max-width:520px;margin-bottom:2.5rem;font-family:var(--mono)}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:4rem}
+.btn-primary{background:var(--violet);color:#fff;padding:.85rem 2rem;border-radius:var(--r);font-size:.9rem;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:background .2s,box-shadow .2s,transform .15s;letter-spacing:.01em}
+.btn-primary:hover{background:var(--violet-dim);box-shadow:0 0 30px var(--violet-glow);transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--text);padding:.85rem 2rem;border-radius:var(--r);font-size:.9rem;font-weight:500;text-decoration:none;border:1px solid var(--border);cursor:pointer;transition:border-color .2s,color .2s,transform .15s}
+.btn-secondary:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-1px)}
+.hero-stats{display:flex;gap:3rem;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;gap:.3rem}
+.stat-val{font-size:2rem;font-weight:800;color:var(--text);letter-spacing:-.04em;line-height:1}
+.stat-val span{color:var(--violet)}
+.stat-label{font-family:var(--mono);font-size:.72rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+
+/* ── Section headers ── */
+.section-header{margin-bottom:3.5rem}
+.section-header h2{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:1rem}
+.section-header p{font-size:1.05rem;color:var(--text2);max-width:560px;line-height:1.7}
+.accent{color:var(--violet)}
+.accent-teal{color:var(--teal)}
+
+/* ── Cards ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:2rem;transition:border-color .25s,transform .2s,box-shadow .25s}
+.card:hover{border-color:var(--violet);transform:translateY(-3px);box-shadow:0 8px 40px rgba(108,71,255,.15)}
+.card-icon{font-size:1.8rem;margin-bottom:1rem}
+.card h3{font-size:1.05rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.6rem}
+.card p{font-size:.9rem;color:var(--text2);line-height:1.65}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+@media(max-width:900px){.grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid-3,.grid-4,.grid-2{grid-template-columns:1fr}}
+
+/* ── Layer blocks ── */
+.layer-block{display:grid;grid-template-columns:280px 1fr;gap:3rem;align-items:start;padding:3rem 0;border-bottom:1px solid var(--border)}
+.layer-block:last-child{border-bottom:none}
+.layer-num{font-family:var(--mono);font-size:.72rem;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem}
+.layer-title{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.75rem}
+.layer-desc{font-size:.95rem;color:var(--text2);line-height:1.7;margin-bottom:1.5rem}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:.85rem}
+.feature-list li{display:flex;align-items:flex-start;gap:.75rem;font-size:.9rem;color:var(--text2);line-height:1.5}
+.feature-list li::before{content:'→';color:var(--teal);flex-shrink:0;margin-top:.05em}
+.feature-list strong{color:var(--text)}
+.tag-active,.tag-streaming,.tag-enforced,.tag-live{font-family:var(--mono);font-size:.65rem;font-weight:500;padding:.2rem .55rem;border-radius:4px;margin-left:.5rem;vertical-align:middle;letter-spacing:.06em}
+.tag-active{background:rgba(0,245,200,.12);color:var(--teal);border:1px solid rgba(0,245,200,.2)}
+.tag-streaming{background:rgba(108,71,255,.12);color:var(--violet);border:1px solid rgba(108,71,255,.2)}
+.tag-enforced{background:rgba(255,80,80,.1);color:#ff6b6b;border:1px solid rgba(255,80,80,.2)}
+.tag-live{background:rgba(0,245,200,.08);color:var(--teal-dim);border:1px solid rgba(0,245,200,.15)}
+@media(max-width:800px){.layer-block{grid-template-columns:1fr}}
+
+/* ── Agent cards ── */
+.agent-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:2rem;display:flex;flex-direction:column;gap:1rem;transition:border-color .25s,box-shadow .25s}
+.agent-card:hover{border-color:var(--violet);box-shadow:0 8px 40px rgba(108,71,255,.12)}
+.agent-role{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.25rem}
+.role-tag{font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.08em;color:var(--teal);border:1px solid var(--border2);border-radius:4px;padding:.2rem .55rem}
+.agent-card h3{font-size:1.1rem;font-weight:700;letter-spacing:-.02em}
+.agent-detail{display:flex;flex-direction:column;gap:.5rem}
+.agent-detail-row{font-size:.82rem;color:var(--text2);display:flex;gap:.5rem;line-height:1.5}
+.agent-detail-row strong{color:var(--text3);font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;flex-shrink:0;min-width:70px}
+.agent-integrations{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.int-tag{font-family:var(--mono);font-size:.65rem;color:var(--text3);border:1px solid var(--surface3);border-radius:4px;padding:.2rem .5rem}
+
+/* ── Flow steps ── */
+.flow{display:flex;flex-direction:column;gap:0}
+.flow-step{display:flex;gap:1.25rem;align-items:flex-start;padding:1rem 0;position:relative}
+.flow-step:not(:last-child)::after{content:'';position:absolute;left:15px;top:44px;bottom:-4px;width:1px;background:linear-gradient(var(--border),transparent)}
+.flow-num{width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.72rem;color:var(--violet);flex-shrink:0}
+.flow-text strong{font-size:.9rem;font-weight:600;display:block;margin-bottom:.25rem}
+.flow-text span{font-size:.82rem;color:var(--text2)}
+
+/* ── Metrics grid ── */
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-top:2rem}
+.metric{background:var(--surface);padding:1.25rem 1.5rem}
+.metric-val{font-size:1.35rem;font-weight:700;color:var(--teal);letter-spacing:-.03em;margin-bottom:.3rem}
+.metric-label{font-family:var(--mono);font-size:.7rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:700px){.metrics{grid-template-columns:repeat(2,1fr)}}
+
+/* ── Use case tabs ── */
+.uc-tabs{display:flex;gap:.5rem;margin-bottom:2.5rem;flex-wrap:wrap}
+.uc-tab{font-family:var(--mono);font-size:.75rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.5rem 1.25rem;border-radius:100px;border:1px solid var(--border);color:var(--text2);background:transparent;cursor:pointer;transition:.2s}
+.uc-tab.active,.uc-tab:hover{background:var(--violet);border-color:var(--violet);color:#fff}
+.uc-panel{display:none}
+.uc-panel.active{display:block}
+.uc-item{border-left:2px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1rem;background:var(--surface);border-radius:0 var(--r) var(--r) 0;transition:.2s}
+.uc-item:hover{border-left-color:var(--violet)}
+.uc-item h4{font-size:.95rem;font-weight:700;margin-bottom:.4rem}
+.uc-item p{font-size:.88rem;color:var(--text2);line-height:1.6;margin-bottom:.5rem}
+.uc-result{font-family:var(--mono);font-size:.75rem;color:var(--teal);letter-spacing:.04em}
+.uc-agents{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.uc-agent-tag{font-family:var(--mono);font-size:.68rem;color:var(--text3);border:1px solid var(--surface3);border-radius:4px;padding:.2rem .6rem}
+
+/* ── Governance pillars ── */
+.pillar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:2rem;transition:.25s}
+.pillar:hover{border-color:var(--teal);box-shadow:0 4px 30px var(--teal-glow)}
+.pillar-icon{font-size:2rem;margin-bottom:1rem}
+.pillar h3{font-size:1rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.6rem}
+.pillar p{font-size:.88rem;color:var(--text2);line-height:1.65}
+
+/* ── Compliance table ── */
+.compliance-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
+.compliance-item{background:var(--surface);padding:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.compliance-name{font-size:.9rem;font-weight:600}
+.compliance-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;padding:.25rem .65rem;border-radius:4px}
+.status-progress{background:rgba(108,71,255,.12);color:var(--violet);border:1px solid rgba(108,71,255,.2)}
+.status-compliant{background:rgba(0,245,200,.1);color:var(--teal);border:1px solid rgba(0,245,200,.2)}
+.status-supported{background:rgba(255,200,50,.08);color:#ffc832;border:1px solid rgba(255,200,50,.2)}
+.status-roadmap{background:rgba(255,255,255,.04);color:var(--text3);border:1px solid var(--border)}
+@media(max-width:700px){.compliance-grid{grid-template-columns:1fr}}
+
+/* ── Security stats ── */
+.sec-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:3rem}
+.sec-stat{background:var(--surface);padding:1.75rem;text-align:center}
+.sec-stat-val{font-size:1.5rem;font-weight:800;color:var(--violet);letter-spacing:-.04em;margin-bottom:.4rem}
+.sec-stat-label{font-family:var(--mono);font-size:.68rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem}
+.sec-stat-desc{font-size:.8rem;color:var(--text2)}
+@media(max-width:700px){.sec-stats{grid-template-columns:repeat(2,1fr)}}
+
+/* ── About tenets ── */
+.tenet{padding:2.5rem 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:200px 1fr;gap:2.5rem;align-items:start}
+.tenet:last-child{border-bottom:none}
+.tenet-num{font-family:var(--mono);font-size:.72rem;color:var(--violet);letter-spacing:.12em;text-transform:uppercase}
+.tenet-title{font-size:1.2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.75rem}
+.tenet p{font-size:.95rem;color:var(--text2);line-height:1.75}
+@media(max-width:700px){.tenet{grid-template-columns:1fr;gap:1rem}}
+
+/* ── Quote ── */
+.manifesto{background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border:1px solid var(--border);border-left:3px solid var(--violet);border-radius:var(--r2);padding:3rem;margin:3rem 0;position:relative;overflow:hidden}
+.manifesto::before{content:'"';position:absolute;top:-1rem;left:1.5rem;font-size:8rem;color:rgba(108,71,255,.08);font-weight:800;line-height:1;pointer-events:none}
+.manifesto p{font-size:1.35rem;font-weight:600;line-height:1.55;letter-spacing:-.02em;color:var(--text);position:relative}
+
+/* ── Resources ── */
+.resource-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:1.75rem;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;transition:.25s}
+.resource-card:hover{border-color:var(--violet);transform:translateX(4px)}
+.resource-type{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:.35rem}
+.resource-title{font-size:.95rem;font-weight:600;margin-bottom:.3rem}
+.resource-desc{font-size:.83rem;color:var(--text2)}
+.resource-dl{flex-shrink:0;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:.6rem 1.1rem;font-size:.8rem;color:var(--text2);text-decoration:none;cursor:pointer;transition:.2s;white-space:nowrap}
+.resource-dl:hover{border-color:var(--violet);color:var(--violet)}
+.webinar-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;transition:.25s}
+.webinar-card:hover{border-color:var(--teal)}
+.webinar-date{font-family:var(--mono);font-size:.72rem;color:var(--text3)}
+.webinar-title{font-size:.92rem;font-weight:600;margin:.3rem 0}
+.webinar-status{font-family:var(--mono);font-size:.68rem;padding:.25rem .65rem;border-radius:4px;flex-shrink:0}
+.ws-available{background:rgba(0,245,200,.1);color:var(--teal);border:1px solid rgba(0,245,200,.2)}
+.ws-register{background:rgba(108,71,255,.12);color:var(--violet);border:1px solid rgba(108,71,255,.2)}
+
+/* ── CTA section ── */
+.cta-section{background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border:1px solid var(--border);border-radius:var(--r3);padding:5rem 4rem;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(108,71,255,.08) 0%,transparent 70%);pointer-events:none}
+.cta-section h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.04em;margin-bottom:1rem;position:relative}
+.cta-section p{font-size:1rem;color:var(--text2);max-width:480px;margin:0 auto 2.5rem;position:relative;line-height:1.7}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative}
+
+/* ── Position statement ── */
+.position-list{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.position-list li{display:flex;align-items:center;gap:.75rem;font-size:.95rem;color:var(--text2)}
+.position-list li::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0;box-shadow:0 0 8px var(--teal)}
+
+/* ── How different ── */
+.diff-item{padding:1.75rem 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 2fr;gap:2rem}
+.diff-item:last-child{border-bottom:none}
+.diff-title{font-size:1rem;font-weight:700;color:var(--text)}
+.diff-desc{font-size:.92rem;color:var(--text2);line-height:1.7}
+@media(max-width:700px){.diff-item{grid-template-columns:1fr}}
+
+/* ── Architecture stack visual ── */
+.arch-stack{display:flex;flex-direction:column;gap:2px;margin-top:2rem;border-radius:var(--r2);overflow:hidden;border:1px solid var(--border)}
+.arch-layer{padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;font-size:.88rem;font-weight:500;transition:.2s}
+.arch-layer:hover{filter:brightness(1.1)}
+.arch-layer-label{font-family:var(--mono);font-size:.68rem;color:rgba(255,255,255,.5);letter-spacing:.08em}
+.al-1{background:rgba(108,71,255,.25);border-bottom:1px solid rgba(108,71,255,.15)}
+.al-2{background:rgba(108,71,255,.18)}
+.al-3{background:rgba(0,245,200,.12)}
+.al-4{background:rgba(0,245,200,.18)}
+.al-5{background:rgba(0,245,200,.25)}
+
+/* ── Footer ── */
+footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
+.footer-logo{font-size:1rem;font-weight:700;color:var(--text);letter-spacing:-.02em}
+.footer-logo span{color:var(--violet)}
+.footer-tag{font-size:.82rem;color:var(--text3);margin-top:.25rem}
+.footer-links{display:flex;gap:2rem;list-style:none;flex-wrap:wrap}
+.footer-links a{font-size:.8rem;color:var(--text3);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--teal)}
+.footer-copy{font-family:var(--mono);font-size:.7rem;color:var(--text3)}
+
+/* ── Animations ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.animate-up{animation:fadeUp .6s ease both}
+.animate-up-2{animation:fadeUp .6s .15s ease both}
+.animate-up-3{animation:fadeUp .6s .3s ease both}
+.animate-up-4{animation:fadeUp .6s .45s ease both}
+
+/* ── Misc ── */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:2rem 0}
+.mono{font-family:var(--mono)}
+.text2{color:var(--text2)}
+.mt-1{margin-top:1rem}.mt-2{margin-top:2rem}.mt-3{margin-top:3rem}
+.mb-1{margin-bottom:1rem}.mb-2{margin-bottom:2rem}
+
+/* ── Hero architecture animation ── */
+.hero-arch{margin-top:3rem;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;background:var(--surface)}
+.hero-arch-layer{display:flex;align-items:center;gap:1rem;padding:.85rem 1.5rem;border-bottom:1px solid var(--border);transition:.3s;cursor:default}
+.hero-arch-layer:last-child{border-bottom:none}
+.hero-arch-layer:hover{background:var(--surface2)}
+.hal-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.hal-label{font-size:.85rem;font-weight:500;flex:1}
+.hal-tag{font-family:var(--mono);font-size:.65rem;color:var(--text3);letter-spacing:.06em}
+</style>
+
 </head>
 <body>
 
-  <nav id="navbar">
-    <div class="container nav-inner">
-      <a href="index.html" class="nav-logo">EPIC<span>Ultra</span></a>
-      <ul class="nav-links">
+<nav>
+  <div style="display:flex;align-items:center;gap:3rem">
+    <a href="index.html" class="nav-logo">EPIC<span>Ultra</span></a>
+    <ul class="nav-links" id="navLinks"><li><a href="index.html" >Home</a></li><li><a href="architecture.html" >Architecture</a></li><li><a href="agents.html" class="active">AI Agents</a></li><li><a href="governance.html" >Governance</a></li><li><a href="usecases.html" >Use Cases</a></li><li><a href="about.html" >About</a></li><li><a href="resources.html" >Resources</a></li></ul>
+  </div>
+  <div style="display:flex;align-items:center;gap:.75rem">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+      <span class="icon-dark">🌙</span>
+      <span class="icon-light">☀️</span>
+    </button>
+    <a href="#contact" class="nav-cta">Request Briefing</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero" style="min-height:45vh">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="wrap" style="width:100%">
+    <div class="hero-content">
+      <div class="badge animate-up">Production-Ready</div>
+      <h1 class="animate-up-2">Nine Agents.<br><span class="accent">Every Detail.</span></h1>
+      <p class="hero-sub animate-up-3">Each agent operates within a defined mandate with explicit controls on what it monitors, decides, and executes.</p>
+      <div class="hero-stats animate-up-4" style="margin-top:2.5rem">
+        <div class="stat"><div class="stat-val">9<span>+</span></div><div class="stat-label">Production Agents</div></div>
+        <div class="stat"><div class="stat-val">100<span>%</span></div><div class="stat-label">Mandate-Controlled</div></div>
+        <div class="stat"><div class="stat-val">24/7</div><div class="stat-label">Active Monitoring</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="grid-3">
+    <div class="agent-card">
+      <div>
+        <div style="font-size:1.8rem;margin-bottom:.5rem">📊</div>
+        <div class="agent-role"><span class="role-tag">MONITOR</span><span class="role-tag">ANALYZE</span><span class="role-tag">ALERT</span></div>
+        <h3>Margin Analyst</h3>
+      </div>
+      <div class="agent-detail">
+        <div class="agent-detail-row"><strong>Monitors</strong>Real-time margin requirements, collateral levels, and intraday exposure drift</div>
+        <div class="agent-detail-row"><strong>Decides</strong>Margin call triggers, collateral substitution recommendations, escalation paths</div>
+        <div class="agent-detail-row"><strong>Controls</strong>Hard exposure limits, minimum collateral thresholds, mandate-defined alert levels</div>
+      </div>
+      <div class="agent-integrations"><span class="int-tag">CME SPAN</span><span class="int-tag">Bloomberg</span><span class="int-tag">Internal ERP</span></div>
+    </div>
+    <div class="agent-card">
+      <div>
+        <div style="font-size:1.8rem;margin-bottom:.5rem">📡</div>
+        <div class="agent-role"><span class="role-tag">AGGREGATE</span><span class="role-tag">REPORT</span><span class="role-tag">ALERT</span></div>
+        <h3>Exposure Monitor</h3>
+      </div>
+      <div class="agent-detail">
+        <div class="agent-detail-row"><strong>Monitors</strong>Cross-platform gross and net exposures, counterparty concentration, sector limits</div>
+        <div class="agent-detail-row"><strong>Decides</strong>Concentration breach alerts, hedging recommendations, escalation to risk desks</div>
+        <div class="agent-detail-row"><strong>Controls</strong>Counterparty limits, sector exposure caps, regulatory position limits</div>
+      </div>
+      <div class="agent-integrations"><span class="int-tag">ICE</span><span class="int-tag">Murex</span><span class="int-tag">Reuters</span></div>
+    </div>
+    <div class="agent-card">
+      <div>
+        <div style="font-size:1.8rem;margin-bottom:.5rem">📝</div>
+        <div class="agent-role"><span class="role-tag">EXTRACT</span><span class="role-tag">CLASSIFY</span><span class="role-tag">POST</span></div>
+        <h3>Journal Entry</h3>
+      </div>
+      <div class="agent-detail">
+        <div class="agent-detail-row"><strong>Monitors</strong>Bank statement feeds, transaction queues, and unposted item backlogs</div>
+        <div class="agent-detail-row"><strong>Decides</strong>GL account mapping, entry classification, approval routing for exceptions</div>
+        <div class="agent-detail-row"><strong>Controls</strong>GL mapping policies, dual-approval thresholds, entity-level posting rules</div>
+      </div>
+      <div class="agent-integrations"><span class="int-tag">SAP</span><span class="int-tag">Oracle</span><span class="int-tag">NetSuite</span></div>
+    </div>
+    <div class="agent-card">
+      <div>
+        <div style="font-size:1.8rem;margin-bottom:.5rem">⚖️</div>
+        <div class="agent-role"><span class="role-tag">VERIFY</span><span class="role-tag">MATCH</span><span class="role-tag">RESOLVE</span></div>
+        <h3>Reconciliation</h3>
+      </div>
+      <div class="agent-detail">
+        <div class="agent-detail-row"><strong>Monitors</strong>Internal ledger positions vs. custodian statements, bank feeds, clearing house records</div>
+        <div class="agent-detail-row"><strong>Decides</strong>Break classification, auto-resolution for known patterns, escalation for unmatched items</div>
+        <div class="agent-detail-row"><strong>Controls</strong>Tolerance thresholds, aging limits, mandatory human review for high-value breaks</div>
+      </div>
+      <div class="agent-integrations"><span class="int-tag">DTC</span><span class="int-tag">SWIFT</span><span class="int-tag">Custodian APIs</span></div>
+    </div>
+    <div class="agent-card">
+      <div>
+        <div style="font-size:1.8rem;margin-bottom:.5rem">⚡</div>
+        <div class="agent-role"><span class="role-tag">ORCHESTRATE</span><span class="role-tag">VALIDATE</span><span class="role-tag">CLOSE</span></div>
+        <h3>Close Accelerator</h3>
+      </div>
+      <div class="agent-detail">
+        <div class="agent-detail-row"><strong>Monitors</strong>Close task completion, open item aging, inter-company eliminations, accrual status</div>
+        <div class="agent-detail-row"><strong>Decides</strong>Task sequencing, automated accruals, exception routing, close certification triggers</div>
+        <div class="agent-detail-row"><strong>Controls</strong>Close calendar mandates, materiality thresholds, certification authority levels</div>
+      </div>
+      <div class="agent-integrations"><span class="int-tag">BlackLine</span><span class="int-tag">Workiva</span><span class="int-tag">Oracle EPM</span></div>
+    </div>
+    <div class="agent-card">
+      <div>
+        <div style="font-size:1.8rem;margin-bottom:.5rem">📋</div>
+        <div class="agent-role"><span class="role-tag">COMPILE</span><span class="role-tag">VALIDATE</span><span class="role-tag">SUBMIT</span></div>
+        <h3>Regulatory Reporting</h3>
+      </div>
+      <div class="agent-detail">
+        <div class="agent-detail-row"><strong>Monitors</strong>Reporting deadlines, schema changes, data completeness across submission requirements</div>
+        <div class="agent-detail-row"><strong>Decides</strong>Data aggregation logic, schema mapping, validation flags, pre-submission audit review</div>
+        <div class="agent-detail-row"><strong>Controls</strong>CFTC/SEC mandates, submission windows, jurisdictional data residency rules</div>
+      </div>
+      <div class="agent-integrations"><span class="int-tag">CFTC Portal</span><span class="int-tag">SEC EDGAR</span><span class="int-tag">FCA</span></div>
+    </div>
+    <div class="agent-card">
+      <div>
+        <div style="font-size:1.8rem;margin-bottom:.5rem">💧</div>
+        <div class="agent-role"><span class="role-tag">FORECAST</span><span class="role-tag">MONITOR</span><span class="role-tag">ALERT</span></div>
+        <h3>Liquidity Watch</h3>
+      </div>
+      <div class="agent-detail">
+        <div class="agent-detail-row"><strong>Monitors</strong>Intraday cash positions, funding gaps, credit facilities, and settlement obligations</div>
+        <div class="agent-detail-row"><strong>Decides</strong>Stress scenario triggers, funding source recommendations, liquidity buffer alerts</div>
+        <div class="agent-detail-row"><strong>Controls</strong>LCR/NSFR minimums, internal liquidity buffers, board-approved stress scenarios</div>
+      </div>
+      <div class="agent-integrations"><span class="int-tag">Fed Wire</span><span class="int-tag">CHIPS</span><span class="int-tag">Treasury TMS</span></div>
+    </div>
+    <div class="agent-card">
+      <div>
+        <div style="font-size:1.8rem;margin-bottom:.5rem">🧾</div>
+        <div class="agent-role"><span class="role-tag">VALIDATE</span><span class="role-tag">FLAG</span><span class="role-tag">AUDIT</span></div>
+        <h3>Billing Validation</h3>
+      </div>
+      <div class="agent-detail">
+        <div class="agent-detail-row"><strong>Monitors</strong>Complex billing calculations, invoice feeds, and billing rule configurations</div>
+        <div class="agent-detail-row"><strong>Decides</strong>Validation pass/fail, anomaly flags, escalation to human review</div>
+        <div class="agent-detail-row"><strong>Controls</strong>Billing policy rules, approval thresholds, entity-level billing mandates</div>
+      </div>
+      <div class="agent-integrations"><span class="int-tag">SAP</span><span class="int-tag">Oracle</span><span class="int-tag">NetSuite</span></div>
+    </div>
+    <div class="agent-card">
+      <div>
+        <div style="font-size:1.8rem;margin-bottom:.5rem">🤖</div>
+        <div class="agent-role"><span class="role-tag">DETECT</span><span class="role-tag">ANALYZE</span><span class="role-tag">EXPLAIN</span></div>
+        <h3>JAQ – Junior Accountant</h3>
+      </div>
+      <div class="agent-detail">
+        <div class="agent-detail-row"><strong>Monitors</strong>P&L feeds, variance thresholds, journal entry patterns, and budget vs. actuals</div>
+        <div class="agent-detail-row"><strong>Decides</strong>Anomaly alerts, natural-language explanation generation, escalation routing</div>
+        <div class="agent-detail-row"><strong>Controls</strong>Materiality thresholds, entity-level reporting rules, review authorization levels</div>
+      </div>
+      <div class="agent-integrations"><span class="int-tag">Oracle EPM</span><span class="int-tag">Workiva</span><span class="int-tag">SAP</span><span class="int-tag">Hyperion</span></div>
+    </div></div>
+    <div style="text-align:center;margin-top:3rem">
+      <a href="#contact" class="btn-primary">Schedule AI Use Case Mapping Session</a>
+    </div>
+  </div>
+</section>
+
+
+<section id="contact">
+  <div class="wrap">
+    <div class="cta-section">
+      <h2>Enterprise AI Engineered for <span class="accent">Accountability</span></h2>
+      <p>No SDRs, no sales funnels. We engage directly with CROs, CIOs, and enterprise architects.</p>
+      <div class="cta-btns">
+        <a href="mailto:hello@epicultra.ai" class="btn-primary">Request Executive Briefing</a>
+        <a href="architecture.html" class="btn-secondary">Explore Architecture</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">EPIC<span>Ultra</span></div>
+        <div class="footer-tag">Enterprise AI engineered for accountability.</div>
+      </div>
+      <ul class="footer-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="architecture.html">Architecture</a></li>
-        <li><a href="agents.html" class="cur">AI Agents</a></li>
+        <li><a href="agents.html">AI Agents</a></li>
         <li><a href="governance.html">Governance</a></li>
         <li><a href="usecases.html">Use Cases</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="resources.html">Resources</a></li>
       </ul>
-      <a href="index.html#contact" class="btn btn-primary nav-cta" style="padding:10px 20px;font-size:13px;">Request Briefing</a>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-    </div>
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="index.html">Home</a>
-      <a href="architecture.html">Architecture</a>
-      <a href="agents.html" class="cur">AI Agents</a>
-      <a href="governance.html">Governance</a>
-      <a href="usecases.html">Use Cases</a>
-      <a href="about.html">About</a>
-      <a href="resources.html">Resources</a>
-      <a href="index.html#contact" class="btn btn-primary" style="text-align:center;">Request Briefing</a>
-    </div>
-  </nav>
-
-  <section class="hero">
-    <div class="orbs">
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
-      <div class="orb orb-3"></div>
-    </div>
-    <div class="container">
-      <div class="hero-content reveal">
-        <div class="breadcrumb">
-          <a href="index.html">Home</a>
-          <span class="breadcrumb-sep">/</span>
-          <span class="breadcrumb-cur">AI Agents</span>
-        </div>
-        <span class="tag">Production-Ready</span>
-        <h1>Seven Agents.<br><span class="accent">Every Detail.</span></h1>
-        <p class="hero-sub">Each agent operates within a defined mandate with explicit controls on what it monitors, decides, and executes.</p>
-        <div class="hero-stats">
-          <div class="hero-stat"><div class="hero-stat-val">7+</div><div class="hero-stat-label">Production Deployed</div></div>
-          <div class="hero-stat"><div class="hero-stat-val">100%</div><div class="hero-stat-label">Mandate-Controlled</div></div>
-          <div class="hero-stat"><div class="hero-stat-val">24/7</div><div class="hero-stat-label">Active Monitoring</div></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="agents-section">
-    <div class="container">
-      <div class="agents-grid">
-
-        <!-- Agent 01 -->
-        <div class="agent-card reveal" style="transition-delay:0.04s">
-          <div class="agent-card-inner">
-            <div class="agent-head">
-              <div class="agent-icon-wrap"><span class="agent-icon">📊</span><span class="agent-num">Agent 01</span></div>
-              <div class="agent-name">Margin Analyst</div>
-              <div class="agent-roles"><span class="role-tag">MONITOR</span><span class="role-tag">ANALYZE</span><span class="role-tag">ALERT</span></div>
-            </div>
-            <div>
-              <div class="agent-col-label">Monitors</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Real-time margin requirements</span>
-                <span class="agent-col-item">Collateral levels</span>
-                <span class="agent-col-item">Intraday exposure drift</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Decides</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Margin call triggers</span>
-                <span class="agent-col-item">Collateral substitution recommendations</span>
-                <span class="agent-col-item">Escalation paths</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Controls Respected</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Hard exposure limits</span>
-                <span class="agent-col-item">Minimum collateral thresholds</span>
-                <span class="agent-col-item">Mandate-defined alert levels</span>
-              </div>
-              <div style="margin-top:16px"><div class="agent-col-label">Integrations</div><div class="agent-integrations"><span class="int-tag">CME SPAN</span><span class="int-tag">Bloomberg</span><span class="int-tag">Internal ERP</span></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Agent 02 -->
-        <div class="agent-card reveal" style="transition-delay:0.08s">
-          <div class="agent-card-inner">
-            <div class="agent-head">
-              <div class="agent-icon-wrap"><span class="agent-icon">📡</span><span class="agent-num">Agent 02</span></div>
-              <div class="agent-name">Exposure Monitor</div>
-              <div class="agent-roles"><span class="role-tag">AGGREGATE</span><span class="role-tag">REPORT</span><span class="role-tag">ALERT</span></div>
-            </div>
-            <div>
-              <div class="agent-col-label">Monitors</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Cross-platform gross and net exposures</span>
-                <span class="agent-col-item">Counterparty concentration</span>
-                <span class="agent-col-item">Sector limits</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Decides</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Concentration breach alerts</span>
-                <span class="agent-col-item">Hedging recommendations</span>
-                <span class="agent-col-item">Escalation to risk desks</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Controls Respected</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Counterparty limits</span>
-                <span class="agent-col-item">Sector exposure caps</span>
-                <span class="agent-col-item">Regulatory position limits</span>
-              </div>
-              <div style="margin-top:16px"><div class="agent-col-label">Integrations</div><div class="agent-integrations"><span class="int-tag">ICE</span><span class="int-tag">Murex</span><span class="int-tag">Reuters</span></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Agent 03 -->
-        <div class="agent-card reveal" style="transition-delay:0.12s">
-          <div class="agent-card-inner">
-            <div class="agent-head">
-              <div class="agent-icon-wrap"><span class="agent-icon">📝</span><span class="agent-num">Agent 03</span></div>
-              <div class="agent-name">Journal Entry</div>
-              <div class="agent-roles"><span class="role-tag">EXTRACT</span><span class="role-tag">CLASSIFY</span><span class="role-tag">POST</span></div>
-            </div>
-            <div>
-              <div class="agent-col-label">Monitors</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Bank statement feeds</span>
-                <span class="agent-col-item">Transaction queues</span>
-                <span class="agent-col-item">Unposted item backlogs</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Decides</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">GL account mapping</span>
-                <span class="agent-col-item">Entry classification</span>
-                <span class="agent-col-item">Approval routing for exceptions</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Controls Respected</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">GL mapping policies</span>
-                <span class="agent-col-item">Dual-approval thresholds</span>
-                <span class="agent-col-item">Entity-level posting rules</span>
-              </div>
-              <div style="margin-top:16px"><div class="agent-col-label">Integrations</div><div class="agent-integrations"><span class="int-tag">SAP</span><span class="int-tag">Oracle</span><span class="int-tag">NetSuite</span></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Agent 04 -->
-        <div class="agent-card reveal" style="transition-delay:0.16s">
-          <div class="agent-card-inner">
-            <div class="agent-head">
-              <div class="agent-icon-wrap"><span class="agent-icon">⚖️</span><span class="agent-num">Agent 04</span></div>
-              <div class="agent-name">Reconciliation</div>
-              <div class="agent-roles"><span class="role-tag">VERIFY</span><span class="role-tag">MATCH</span><span class="role-tag">RESOLVE</span></div>
-            </div>
-            <div>
-              <div class="agent-col-label">Monitors</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Internal ledger vs. custodian statements</span>
-                <span class="agent-col-item">Bank feeds</span>
-                <span class="agent-col-item">Clearing house records</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Decides</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Break classification</span>
-                <span class="agent-col-item">Auto-resolution for known patterns</span>
-                <span class="agent-col-item">Escalation for unmatched items</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Controls Respected</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Tolerance thresholds</span>
-                <span class="agent-col-item">Aging limits</span>
-                <span class="agent-col-item">Mandatory human review for high-value breaks</span>
-              </div>
-              <div style="margin-top:16px"><div class="agent-col-label">Integrations</div><div class="agent-integrations"><span class="int-tag">DTC</span><span class="int-tag">SWIFT</span><span class="int-tag">Custodian APIs</span></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Agent 05 -->
-        <div class="agent-card reveal" style="transition-delay:0.20s">
-          <div class="agent-card-inner">
-            <div class="agent-head">
-              <div class="agent-icon-wrap"><span class="agent-icon">⚡</span><span class="agent-num">Agent 05</span></div>
-              <div class="agent-name">Close Accelerator</div>
-              <div class="agent-roles"><span class="role-tag">ORCHESTRATE</span><span class="role-tag">VALIDATE</span><span class="role-tag">CLOSE</span></div>
-            </div>
-            <div>
-              <div class="agent-col-label">Monitors</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Close task completion</span>
-                <span class="agent-col-item">Open item aging</span>
-                <span class="agent-col-item">Inter-company eliminations, accrual status</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Decides</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Task sequencing</span>
-                <span class="agent-col-item">Automated accruals</span>
-                <span class="agent-col-item">Exception routing, close certification</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Controls Respected</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Close calendar mandates</span>
-                <span class="agent-col-item">Materiality thresholds</span>
-                <span class="agent-col-item">Certification authority levels</span>
-              </div>
-              <div style="margin-top:16px"><div class="agent-col-label">Integrations</div><div class="agent-integrations"><span class="int-tag">BlackLine</span><span class="int-tag">Workiva</span><span class="int-tag">Oracle EPM</span></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Agent 06 -->
-        <div class="agent-card reveal" style="transition-delay:0.24s">
-          <div class="agent-card-inner">
-            <div class="agent-head">
-              <div class="agent-icon-wrap"><span class="agent-icon">📋</span><span class="agent-num">Agent 06</span></div>
-              <div class="agent-name">Regulatory Reporting</div>
-              <div class="agent-roles"><span class="role-tag">COMPILE</span><span class="role-tag">VALIDATE</span><span class="role-tag">SUBMIT</span></div>
-            </div>
-            <div>
-              <div class="agent-col-label">Monitors</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Reporting deadlines</span>
-                <span class="agent-col-item">Schema changes</span>
-                <span class="agent-col-item">Data completeness across submissions</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Decides</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Data aggregation logic</span>
-                <span class="agent-col-item">Schema mapping, validation flags</span>
-                <span class="agent-col-item">Pre-submission audit review</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Controls Respected</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">CFTC/SEC mandates</span>
-                <span class="agent-col-item">Submission windows</span>
-                <span class="agent-col-item">Jurisdictional data residency rules</span>
-              </div>
-              <div style="margin-top:16px"><div class="agent-col-label">Integrations</div><div class="agent-integrations"><span class="int-tag">CFTC Portal</span><span class="int-tag">SEC EDGAR</span><span class="int-tag">FCA</span></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Agent 07 -->
-        <div class="agent-card reveal" style="transition-delay:0.28s">
-          <div class="agent-card-inner">
-            <div class="agent-head">
-              <div class="agent-icon-wrap"><span class="agent-icon">💧</span><span class="agent-num">Agent 07</span></div>
-              <div class="agent-name">Liquidity Watch</div>
-              <div class="agent-roles"><span class="role-tag">FORECAST</span><span class="role-tag">MONITOR</span><span class="role-tag">ALERT</span></div>
-            </div>
-            <div>
-              <div class="agent-col-label">Monitors</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Intraday cash positions</span>
-                <span class="agent-col-item">Funding gaps, credit facilities</span>
-                <span class="agent-col-item">Settlement obligations</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Decides</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">Stress scenario triggers</span>
-                <span class="agent-col-item">Funding source recommendations</span>
-                <span class="agent-col-item">Liquidity buffer alerts</span>
-              </div>
-            </div>
-            <div>
-              <div class="agent-col-label">Controls Respected</div>
-              <div class="agent-col-items">
-                <span class="agent-col-item">LCR/NSFR minimums</span>
-                <span class="agent-col-item">Internal liquidity buffers</span>
-                <span class="agent-col-item">Board-approved stress scenarios</span>
-              </div>
-              <div style="margin-top:16px"><div class="agent-col-label">Integrations</div><div class="agent-integrations"><span class="int-tag">Fed Wire</span><span class="int-tag">CHIPS</span><span class="int-tag">Treasury TMS</span></div></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="cta-block" id="contact">
-    <div class="container">
-      <div class="cta-inner reveal">
-        <span class="tag">Get Started</span>
-        <h2>Enterprise AI Engineered for Accountability</h2>
-        <p>No SDRs, no sales funnels. We engage directly with CROs, CIOs, and enterprise architects.</p>
-        <div class="cta-btns">
-          <a href="mailto:hello@epicultra.ai" class="btn btn-primary">Schedule AI Use Case Mapping Session</a>
-          <a href="architecture.html" class="btn btn-ghost">View Architecture →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="container footer-inner">
-      <div>
-        <div class="footer-logo">EPIC<span>Ultra</span></div>
-        <div class="footer-tagline">Enterprise AI engineered for accountability.</div>
-      </div>
       <div class="footer-copy">© 2026 EPICUltra · epicultra.ai</div>
     </div>
-  </footer>
+  </div>
+</footer>
 
-  <script>
-    document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('open'));
-    const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }), { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    window.addEventListener('scroll', () => { document.getElementById('navbar').style.background = window.scrollY > 40 ? 'rgba(2,2,10,0.95)' : 'rgba(2,2,10,0.75)'; });
-  </script>
+<script>
+// ── Apply saved theme immediately (before paint) ──
+(function(){
+  const t = localStorage.getItem('eu-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+
+document.addEventListener('DOMContentLoaded',()=>{
+  // ── Theme toggle ──
+  const toggle = document.getElementById('themeToggle');
+  const applyTheme = (t) => {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('eu-theme', t);
+  };
+  if(toggle){
+    toggle.addEventListener('click',()=>{
+      const current = document.documentElement.getAttribute('data-theme');
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+  }
+
+  // ── Nav hamburger ──
+  const ham = document.getElementById('hamburger');
+  const links = document.getElementById('navLinks');
+  if(ham) ham.addEventListener('click',()=>links.classList.toggle('open'));
+
+  // ── Active nav link ──
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    if(a.getAttribute('href')===path) a.classList.add('active');
+  });
+
+  // ── Use case tabs ──
+  document.querySelectorAll('.uc-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('.uc-tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.uc-panel').forEach(p=>p.classList.remove('active'));
+      tab.classList.add('active');
+      const panel = document.getElementById(tab.dataset.panel);
+      if(panel) panel.classList.add('active');
+    });
+  });
+});
+</script>
+
 </body>
 </html>

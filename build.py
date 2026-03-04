@@ -42,22 +42,66 @@ CSS = """
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --violet:#6c47ff;--violet-dim:#4f30d4;--violet-glow:rgba(108,71,255,0.35);
-  --teal:#00f5c8;--teal-dim:#00c4a1;--teal-glow:rgba(0,245,200,0.25);
+  --teal:#00b894;--teal-dim:#00966e;--teal-glow:rgba(0,184,148,0.25);
   --bg:#050810;--bg2:#080d18;--bg3:#0d1220;
   --surface:#111827;--surface2:#161e30;--surface3:#1c2540;
   --border:rgba(108,71,255,0.2);--border2:rgba(0,245,200,0.15);
   --text:#e4e8f5;--text2:#8892b0;--text3:#4a5268;
+  --nav-bg:rgba(5,8,16,0.85);
   --font:'Sora',sans-serif;--mono:'DM Mono',monospace;
   --r:8px;--r2:14px;--r3:20px;
 }
+
+/* ── Light theme ── */
+[data-theme="light"]{
+  --violet:#5a35e8;--violet-dim:#4527c9;--violet-glow:rgba(90,53,232,0.2);
+  --teal:#00896e;--teal-dim:#006e59;--teal-glow:rgba(0,137,110,0.15);
+  --bg:#f4f6fb;--bg2:#eef0f8;--bg3:#e8ebf5;
+  --surface:#ffffff;--surface2:#f0f2fa;--surface3:#e4e8f5;
+  --border:rgba(90,53,232,0.15);--border2:rgba(0,137,110,0.15);
+  --text:#0f1525;--text2:#4a5580;--text3:#8892b0;
+  --nav-bg:rgba(244,246,251,0.92);
+}
+[data-theme="light"] body::before{opacity:.15}
+[data-theme="light"] .hero-bg{background:radial-gradient(ellipse 70% 60% at 60% 40%,rgba(90,53,232,.08) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 20% 80%,rgba(0,137,110,.06) 0%,transparent 60%)}
+[data-theme="light"] .hero-grid{opacity:.2}
+[data-theme="light"] .manifesto{background:linear-gradient(135deg,#fff 0%,#f4f6fb 100%)}
+[data-theme="light"] .card{box-shadow:0 2px 12px rgba(15,21,37,.06)}
+[data-theme="light"] .card:hover{box-shadow:0 8px 32px rgba(90,53,232,.12)}
+[data-theme="light"] .agent-card{box-shadow:0 2px 12px rgba(15,21,37,.06)}
+[data-theme="light"] .cta-section{background:linear-gradient(135deg,#fff 0%,#f0f2fa 100%)}
+[data-theme="light"] nav{box-shadow:0 1px 20px rgba(15,21,37,.08)}
+[data-theme="light"] .arch-layer.al-1{background:rgba(90,53,232,.1)}
+[data-theme="light"] .arch-layer.al-2{background:rgba(90,53,232,.07)}
+[data-theme="light"] .arch-layer.al-3{background:rgba(0,137,110,.07)}
+[data-theme="light"] .arch-layer.al-4{background:rgba(0,137,110,.1)}
+[data-theme="light"] .arch-layer.al-5{background:rgba(0,137,110,.14)}
+[data-theme="light"] .metric{background:#fff}
+[data-theme="light"] .sec-stat{background:#fff}
+[data-theme="light"] .compliance-item{background:#fff}
+[data-theme="light"] .pillar{background:#fff}
+[data-theme="light"] .resource-card{background:#fff}
+[data-theme="light"] .webinar-card{background:#fff}
+[data-theme="light"] .uc-item{background:#fff}
+[data-theme="light"] .flow-num{background:#f0f2fa}
+[data-theme="light"] .int-tag{background:#f0f2fa}
+
+/* ── Theme toggle button ── */
+.theme-toggle{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:border-color .2s,background .2s,transform .15s;flex-shrink:0}
+.theme-toggle:hover{border-color:var(--violet);transform:rotate(20deg)}
+.theme-toggle .icon-dark{display:block}
+.theme-toggle .icon-light{display:none}
+[data-theme="light"] .theme-toggle .icon-dark{display:none}
+[data-theme="light"] .theme-toggle .icon-light{display:block}
+
 html{scroll-behavior:smooth}
-body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 
 /* ── Noise texture overlay ── */
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4}
 
 /* ── Nav ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,8,16,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
 .nav-logo{font-size:1.15rem;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-.02em}
 .nav-logo span{color:var(--violet)}
 .nav-links{display:flex;gap:2rem;list-style:none}
@@ -306,19 +350,38 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
 
 JS = """
 <script>
-// Nav hamburger
+// ── Apply saved theme immediately (before paint) ──
+(function(){
+  const t = localStorage.getItem('eu-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+
 document.addEventListener('DOMContentLoaded',()=>{
+  // ── Theme toggle ──
+  const toggle = document.getElementById('themeToggle');
+  const applyTheme = (t) => {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('eu-theme', t);
+  };
+  if(toggle){
+    toggle.addEventListener('click',()=>{
+      const current = document.documentElement.getAttribute('data-theme');
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+  }
+
+  // ── Nav hamburger ──
   const ham = document.getElementById('hamburger');
   const links = document.getElementById('navLinks');
   if(ham) ham.addEventListener('click',()=>links.classList.toggle('open'));
 
-  // Active nav link
+  // ── Active nav link ──
   const path = window.location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a').forEach(a=>{
     if(a.getAttribute('href')===path) a.classList.add('active');
   });
 
-  // Use case tabs
+  // ── Use case tabs ──
   document.querySelectorAll('.uc-tab').forEach(tab=>{
     tab.addEventListener('click',()=>{
       document.querySelectorAll('.uc-tab').forEach(t=>t.classList.remove('active'));
@@ -343,7 +406,11 @@ def nav(active_page=""):
     <a href="index.html" class="nav-logo">EPIC<span>Ultra</span></a>
     <ul class="nav-links" id="navLinks">{links_html}</ul>
   </div>
-  <div style="display:flex;align-items:center;gap:1rem">
+  <div style="display:flex;align-items:center;gap:.75rem">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+      <span class="icon-dark">🌙</span>
+      <span class="icon-light">☀️</span>
+    </button>
     <a href="#contact" class="nav-cta">Request Briefing</a>
     <button class="nav-hamburger" id="hamburger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -397,6 +464,7 @@ def page(title, active, body):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title} — EPICUltra</title>
 <meta name="description" content="EPICUltra: Enterprise AI architecture engineered for accountability, governance, and mandate-controlled execution.">
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('eu-theme')||'dark')</script>
 {FONTS}
 {CSS}
 </head>

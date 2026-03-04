@@ -1,308 +1,497 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About — EPICUltra</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --bg: #02020a; --bg2: #07071a;
-      --violet: #6c47ff; --teal: #00f5c8;
-      --violet-dim: rgba(108,71,255,0.18);
-      --glass-bg: rgba(255,255,255,0.04);
-      --glass-border: rgba(255,255,255,0.08);
-      --text: #e8e8f0; --muted: #7a7a9a; --radius: 16px;
-    }
-    html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; line-height: 1.65; overflow-x: hidden; }
-    h1,h2,h3,h4 { font-family: 'Sora', sans-serif; line-height: 1.2; }
-    a { color: inherit; text-decoration: none; }
-    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
-    .tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); border: 1px solid rgba(0,245,200,0.3); padding: 4px 14px; border-radius: 100px; margin-bottom: 20px; }
-    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.25s ease; border: none; }
-    .btn-primary { background: var(--violet); color: #fff; box-shadow: 0 0 24px rgba(108,71,255,0.45); }
-    .btn-primary:hover { background: #7d5bff; box-shadow: 0 0 36px rgba(108,71,255,0.7); transform: translateY(-2px); }
-    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--glass-border); }
-    .btn-ghost:hover { border-color: rgba(108,71,255,0.5); color: var(--violet); transform: translateY(-2px); }
-    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.65s ease, transform 0.65s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
-    .glass-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 32px; backdrop-filter: blur(12px); transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; }
-    .glass-card:hover { border-color: rgba(108,71,255,0.4); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(108,71,255,0.12); }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About — EPICUltra</title>
+<meta name="description" content="EPICUltra: Enterprise AI architecture engineered for accountability, governance, and mandate-controlled execution.">
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('eu-theme')||'dark')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 
-    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 0; background: rgba(2,2,10,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); transition: background 0.3s; }
-    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
-    .nav-logo { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; }
-    .nav-logo span { color: var(--violet); }
-    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
-    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
-    .nav-links a:hover { color: var(--text); }
-    .nav-links a.cur { color: var(--text); position: relative; }
-    .nav-links a.cur::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--violet); }
-    .nav-cta { margin-left: 16px; }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
-    .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
-    .mobile-menu { display: none; flex-direction: column; background: rgba(2,2,10,0.97); border-top: 1px solid var(--glass-border); padding: 24px; gap: 20px; }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a { font-size: 16px; font-weight: 500; color: var(--muted); }
-    .mobile-menu a:hover, .mobile-menu a.cur { color: var(--text); }
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --violet:#6c47ff;--violet-dim:#4f30d4;--violet-glow:rgba(108,71,255,0.35);
+  --teal:#00b894;--teal-dim:#00966e;--teal-glow:rgba(0,184,148,0.25);
+  --bg:#050810;--bg2:#080d18;--bg3:#0d1220;
+  --surface:#111827;--surface2:#161e30;--surface3:#1c2540;
+  --border:rgba(108,71,255,0.2);--border2:rgba(0,245,200,0.15);
+  --text:#e4e8f5;--text2:#8892b0;--text3:#4a5268;
+  --nav-bg:rgba(5,8,16,0.85);
+  --font:'Sora',sans-serif;--mono:'DM Mono',monospace;
+  --r:8px;--r2:14px;--r3:20px;
+}
 
-    .breadcrumb { font-size: 13px; color: var(--muted); margin-bottom: 20px; display: flex; align-items: center; gap: 6px; }
-    .breadcrumb a { color: var(--muted); transition: color 0.2s; }
-    .breadcrumb a:hover { color: var(--text); }
-    .breadcrumb-sep { opacity: 0.4; }
-    .breadcrumb-cur { color: var(--text); }
+/* ── Light theme ── */
+[data-theme="light"]{
+  --violet:#5a35e8;--violet-dim:#4527c9;--violet-glow:rgba(90,53,232,0.2);
+  --teal:#00896e;--teal-dim:#006e59;--teal-glow:rgba(0,137,110,0.15);
+  --bg:#f4f6fb;--bg2:#eef0f8;--bg3:#e8ebf5;
+  --surface:#ffffff;--surface2:#f0f2fa;--surface3:#e4e8f5;
+  --border:rgba(90,53,232,0.15);--border2:rgba(0,137,110,0.15);
+  --text:#0f1525;--text2:#4a5580;--text3:#8892b0;
+  --nav-bg:rgba(244,246,251,0.92);
+}
+[data-theme="light"] body::before{opacity:.15}
+[data-theme="light"] .hero-bg{background:radial-gradient(ellipse 70% 60% at 60% 40%,rgba(90,53,232,.08) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 20% 80%,rgba(0,137,110,.06) 0%,transparent 60%)}
+[data-theme="light"] .hero-grid{opacity:.2}
+[data-theme="light"] .manifesto{background:linear-gradient(135deg,#fff 0%,#f4f6fb 100%)}
+[data-theme="light"] .card{box-shadow:0 2px 12px rgba(15,21,37,.06)}
+[data-theme="light"] .card:hover{box-shadow:0 8px 32px rgba(90,53,232,.12)}
+[data-theme="light"] .agent-card{box-shadow:0 2px 12px rgba(15,21,37,.06)}
+[data-theme="light"] .cta-section{background:linear-gradient(135deg,#fff 0%,#f0f2fa 100%)}
+[data-theme="light"] nav{box-shadow:0 1px 20px rgba(15,21,37,.08)}
+[data-theme="light"] .arch-layer.al-1{background:rgba(90,53,232,.1)}
+[data-theme="light"] .arch-layer.al-2{background:rgba(90,53,232,.07)}
+[data-theme="light"] .arch-layer.al-3{background:rgba(0,137,110,.07)}
+[data-theme="light"] .arch-layer.al-4{background:rgba(0,137,110,.1)}
+[data-theme="light"] .arch-layer.al-5{background:rgba(0,137,110,.14)}
+[data-theme="light"] .metric{background:#fff}
+[data-theme="light"] .sec-stat{background:#fff}
+[data-theme="light"] .compliance-item{background:#fff}
+[data-theme="light"] .pillar{background:#fff}
+[data-theme="light"] .resource-card{background:#fff}
+[data-theme="light"] .webinar-card{background:#fff}
+[data-theme="light"] .uc-item{background:#fff}
+[data-theme="light"] .flow-num{background:#f0f2fa}
+[data-theme="light"] .int-tag{background:#f0f2fa}
 
-    .hero { position: relative; min-height: 70vh; display: flex; align-items: center; padding: 120px 0 80px; overflow: hidden; }
-    .hero-content { position: relative; z-index: 2; max-width: 720px; }
-    .hero h1 { font-size: clamp(42px, 6vw, 76px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 24px; }
-    .hero h1 .accent { color: var(--violet); }
-    .hero-sub { font-size: 18px; color: var(--muted); max-width: 540px; }
-    .orbs { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-    .orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.55; animation: float 12s ease-in-out infinite; }
-    .orb-1 { width: 480px; height: 480px; background: radial-gradient(circle, rgba(108,71,255,0.6) 0%, transparent 70%); top: -100px; right: -60px; animation-duration: 14s; }
-    .orb-2 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,245,200,0.4) 0%, transparent 70%); bottom: 40px; right: 260px; animation-duration: 18s; animation-delay: -6s; }
-    .orb-3 { width: 220px; height: 220px; background: radial-gradient(circle, rgba(108,71,255,0.3) 0%, transparent 70%); top: 45%; left: 60%; animation-duration: 10s; animation-delay: -3s; }
-    @keyframes float { 0%,100% { transform: translateY(0) scale(1); } 33% { transform: translateY(-28px) scale(1.04); } 66% { transform: translateY(18px) scale(0.97); } }
-    .hero::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(108,71,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(108,71,255,0.04) 1px, transparent 1px); background-size: 60px 60px; z-index: 0; mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 40%, transparent 100%); }
+/* ── Theme toggle button ── */
+.theme-toggle{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:border-color .2s,background .2s,transform .15s;flex-shrink:0}
+.theme-toggle:hover{border-color:var(--violet);transform:rotate(20deg)}
+.theme-toggle .icon-dark{display:block}
+.theme-toggle .icon-light{display:none}
+[data-theme="light"] .theme-toggle .icon-dark{display:none}
+[data-theme="light"] .theme-toggle .icon-light{display:block}
 
-    section { padding: 100px 0; }
-    .section-header { text-align: center; max-width: 680px; margin: 0 auto 64px; }
-    .section-header h2 { font-size: clamp(30px, 4vw, 48px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
 
-    /* MANIFESTO QUOTE */
-    .manifesto { background: var(--bg2); }
-    .quote-block {
-      max-width: 860px;
-      margin: 0 auto;
-      text-align: center;
-      position: relative;
-    }
-    .quote-mark { font-family: 'Sora', sans-serif; font-size: 120px; line-height: 0.5; color: var(--violet); opacity: 0.15; display: block; margin-bottom: 16px; }
-    .quote-text { font-family: 'Sora', sans-serif; font-size: clamp(22px, 3.5vw, 36px); font-weight: 600; line-height: 1.35; letter-spacing: -0.02em; color: var(--text); }
-    .quote-accent { color: var(--violet); }
+/* ── Noise texture overlay ── */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4}
 
-    /* TENETS */
-    .tenets { background: var(--bg); }
-    .tenets-list { display: flex; flex-direction: column; gap: 48px; }
-    .tenet { display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: start; border-bottom: 1px solid var(--glass-border); padding-bottom: 48px; }
-    .tenet:last-child { border-bottom: none; padding-bottom: 0; }
-    .tenet-num { font-family: 'Sora', sans-serif; font-size: 64px; font-weight: 800; color: var(--violet-dim); line-height: 1; min-width: 80px; }
-    .tenet-content {}
-    .tenet-title { font-size: clamp(22px, 3vw, 32px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
-    .tenet-body { font-size: 16px; color: var(--muted); line-height: 1.75; max-width: 680px; }
+/* ── Nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
+.nav-logo{font-size:1.15rem;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-.02em}
+.nav-logo span{color:var(--violet)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.82rem;font-weight:500;color:var(--text2);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--teal)}
+.nav-cta{background:var(--violet);color:#fff;padding:.5rem 1.25rem;border-radius:var(--r);font-size:.82rem;font-weight:600;text-decoration:none;letter-spacing:.02em;transition:background .2s,box-shadow .2s}
+.nav-cta:hover{background:var(--violet-dim);box-shadow:0 0 20px var(--violet-glow)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);transition:.3s}
+@media(max-width:900px){
+  .nav-links{display:none;position:fixed;top:64px;left:0;right:0;background:var(--bg2);flex-direction:column;gap:0;border-bottom:1px solid var(--border);padding:1rem 0}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:.75rem 2rem;font-size:.9rem}
+  .nav-hamburger{display:flex}
+}
 
-    /* POSITION STATEMENT */
-    .position { background: var(--bg2); }
-    .position-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
-    .position-item { display: flex; align-items: center; gap: 14px; padding: 20px 24px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; transition: border-color 0.3s; }
-    .position-item:hover { border-color: rgba(108,71,255,0.35); }
-    .position-check { width: 22px; height: 22px; border-radius: 50%; background: rgba(0,245,200,0.1); border: 1px solid rgba(0,245,200,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .position-check::after { content: '✓'; font-size: 11px; font-weight: 700; color: var(--teal); }
-    .position-text { font-size: 14px; font-weight: 500; }
+/* ── Layout ── */
+.wrap{max-width:1160px;margin:0 auto;padding:0 2rem}
+section{padding:6rem 0}
+section:first-of-type{padding-top:9rem}
 
-    /* HOW WE'RE DIFFERENT */
-    .different { background: var(--bg); }
-    .diff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
-    .diff-card { position: relative; }
-    .diff-num { font-family: 'Sora', sans-serif; font-size: 48px; font-weight: 800; color: var(--violet-dim); line-height: 1; margin-bottom: 12px; }
-    .diff-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
-    .diff-desc { font-size: 14px; color: var(--muted); }
+/* ── Badges ── */
+.badge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);border:1px solid var(--border2);border-radius:100px;padding:.35rem .9rem;margin-bottom:1.5rem}
+.badge::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal)}
 
-    .cta-block { background: var(--bg2); position: relative; overflow: hidden; }
-    .cta-block::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(108,71,255,0.15) 0%, transparent 70%); pointer-events: none; }
-    .cta-inner { text-align: center; position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
-    .cta-inner h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 16px; }
-    .cta-inner p { color: var(--muted); font-size: 16px; margin-bottom: 32px; }
-    .cta-btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
+/* ── Hero ── */
+.hero{min-height:100vh;display:flex;align-items:center;padding-top:64px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 60% 40%,rgba(108,71,255,.12) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 20% 80%,rgba(0,245,200,.07) 0%,transparent 60%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.35;pointer-events:none;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%)}
+.hero-content{position:relative;z-index:1;max-width:780px}
+.hero h1{font-size:clamp(2.8rem,6vw,5.2rem);font-weight:800;line-height:1.08;letter-spacing:-.04em;margin-bottom:1.5rem}
+.hero h1 .accent{color:var(--violet)}
+.hero h1 .accent-teal{color:var(--teal)}
+.hero-sub{font-size:1.15rem;color:var(--text2);max-width:560px;margin-bottom:.75rem;line-height:1.7}
+.hero-support{font-size:.92rem;color:var(--text3);max-width:520px;margin-bottom:2.5rem;font-family:var(--mono)}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:4rem}
+.btn-primary{background:var(--violet);color:#fff;padding:.85rem 2rem;border-radius:var(--r);font-size:.9rem;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:background .2s,box-shadow .2s,transform .15s;letter-spacing:.01em}
+.btn-primary:hover{background:var(--violet-dim);box-shadow:0 0 30px var(--violet-glow);transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--text);padding:.85rem 2rem;border-radius:var(--r);font-size:.9rem;font-weight:500;text-decoration:none;border:1px solid var(--border);cursor:pointer;transition:border-color .2s,color .2s,transform .15s}
+.btn-secondary:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-1px)}
+.hero-stats{display:flex;gap:3rem;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;gap:.3rem}
+.stat-val{font-size:2rem;font-weight:800;color:var(--text);letter-spacing:-.04em;line-height:1}
+.stat-val span{color:var(--violet)}
+.stat-label{font-family:var(--mono);font-size:.72rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
 
-    footer { background: var(--bg); border-top: 1px solid var(--glass-border); padding: 40px 0; }
-    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
-    .footer-logo { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 18px; }
-    .footer-logo span { color: var(--violet); }
-    .footer-tagline { font-size: 13px; color: var(--muted); }
-    .footer-copy { font-size: 13px; color: var(--muted); }
+/* ── Section headers ── */
+.section-header{margin-bottom:3.5rem}
+.section-header h2{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:1rem}
+.section-header p{font-size:1.05rem;color:var(--text2);max-width:560px;line-height:1.7}
+.accent{color:var(--violet)}
+.accent-teal{color:var(--teal)}
 
-    @media (max-width: 768px) { .nav-links, .nav-cta { display: none; } .hamburger { display: flex; } .footer-inner { flex-direction: column; text-align: center; } .tenet { grid-template-columns: 1fr; gap: 12px; } .tenet-num { font-size: 36px; min-width: unset; } }
-  </style>
+/* ── Cards ── */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:2rem;transition:border-color .25s,transform .2s,box-shadow .25s}
+.card:hover{border-color:var(--violet);transform:translateY(-3px);box-shadow:0 8px 40px rgba(108,71,255,.15)}
+.card-icon{font-size:1.8rem;margin-bottom:1rem}
+.card h3{font-size:1.05rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.6rem}
+.card p{font-size:.9rem;color:var(--text2);line-height:1.65}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem}
+@media(max-width:900px){.grid-3,.grid-4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.grid-3,.grid-4,.grid-2{grid-template-columns:1fr}}
+
+/* ── Layer blocks ── */
+.layer-block{display:grid;grid-template-columns:280px 1fr;gap:3rem;align-items:start;padding:3rem 0;border-bottom:1px solid var(--border)}
+.layer-block:last-child{border-bottom:none}
+.layer-num{font-family:var(--mono);font-size:.72rem;color:var(--text3);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem}
+.layer-title{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.75rem}
+.layer-desc{font-size:.95rem;color:var(--text2);line-height:1.7;margin-bottom:1.5rem}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:.85rem}
+.feature-list li{display:flex;align-items:flex-start;gap:.75rem;font-size:.9rem;color:var(--text2);line-height:1.5}
+.feature-list li::before{content:'→';color:var(--teal);flex-shrink:0;margin-top:.05em}
+.feature-list strong{color:var(--text)}
+.tag-active,.tag-streaming,.tag-enforced,.tag-live{font-family:var(--mono);font-size:.65rem;font-weight:500;padding:.2rem .55rem;border-radius:4px;margin-left:.5rem;vertical-align:middle;letter-spacing:.06em}
+.tag-active{background:rgba(0,245,200,.12);color:var(--teal);border:1px solid rgba(0,245,200,.2)}
+.tag-streaming{background:rgba(108,71,255,.12);color:var(--violet);border:1px solid rgba(108,71,255,.2)}
+.tag-enforced{background:rgba(255,80,80,.1);color:#ff6b6b;border:1px solid rgba(255,80,80,.2)}
+.tag-live{background:rgba(0,245,200,.08);color:var(--teal-dim);border:1px solid rgba(0,245,200,.15)}
+@media(max-width:800px){.layer-block{grid-template-columns:1fr}}
+
+/* ── Agent cards ── */
+.agent-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:2rem;display:flex;flex-direction:column;gap:1rem;transition:border-color .25s,box-shadow .25s}
+.agent-card:hover{border-color:var(--violet);box-shadow:0 8px 40px rgba(108,71,255,.12)}
+.agent-role{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.25rem}
+.role-tag{font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.08em;color:var(--teal);border:1px solid var(--border2);border-radius:4px;padding:.2rem .55rem}
+.agent-card h3{font-size:1.1rem;font-weight:700;letter-spacing:-.02em}
+.agent-detail{display:flex;flex-direction:column;gap:.5rem}
+.agent-detail-row{font-size:.82rem;color:var(--text2);display:flex;gap:.5rem;line-height:1.5}
+.agent-detail-row strong{color:var(--text3);font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;flex-shrink:0;min-width:70px}
+.agent-integrations{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.int-tag{font-family:var(--mono);font-size:.65rem;color:var(--text3);border:1px solid var(--surface3);border-radius:4px;padding:.2rem .5rem}
+
+/* ── Flow steps ── */
+.flow{display:flex;flex-direction:column;gap:0}
+.flow-step{display:flex;gap:1.25rem;align-items:flex-start;padding:1rem 0;position:relative}
+.flow-step:not(:last-child)::after{content:'';position:absolute;left:15px;top:44px;bottom:-4px;width:1px;background:linear-gradient(var(--border),transparent)}
+.flow-num{width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.72rem;color:var(--violet);flex-shrink:0}
+.flow-text strong{font-size:.9rem;font-weight:600;display:block;margin-bottom:.25rem}
+.flow-text span{font-size:.82rem;color:var(--text2)}
+
+/* ── Metrics grid ── */
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-top:2rem}
+.metric{background:var(--surface);padding:1.25rem 1.5rem}
+.metric-val{font-size:1.35rem;font-weight:700;color:var(--teal);letter-spacing:-.03em;margin-bottom:.3rem}
+.metric-label{font-family:var(--mono);font-size:.7rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:700px){.metrics{grid-template-columns:repeat(2,1fr)}}
+
+/* ── Use case tabs ── */
+.uc-tabs{display:flex;gap:.5rem;margin-bottom:2.5rem;flex-wrap:wrap}
+.uc-tab{font-family:var(--mono);font-size:.75rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:.5rem 1.25rem;border-radius:100px;border:1px solid var(--border);color:var(--text2);background:transparent;cursor:pointer;transition:.2s}
+.uc-tab.active,.uc-tab:hover{background:var(--violet);border-color:var(--violet);color:#fff}
+.uc-panel{display:none}
+.uc-panel.active{display:block}
+.uc-item{border-left:2px solid var(--border);padding:1.25rem 1.5rem;margin-bottom:1rem;background:var(--surface);border-radius:0 var(--r) var(--r) 0;transition:.2s}
+.uc-item:hover{border-left-color:var(--violet)}
+.uc-item h4{font-size:.95rem;font-weight:700;margin-bottom:.4rem}
+.uc-item p{font-size:.88rem;color:var(--text2);line-height:1.6;margin-bottom:.5rem}
+.uc-result{font-family:var(--mono);font-size:.75rem;color:var(--teal);letter-spacing:.04em}
+.uc-agents{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.uc-agent-tag{font-family:var(--mono);font-size:.68rem;color:var(--text3);border:1px solid var(--surface3);border-radius:4px;padding:.2rem .6rem}
+
+/* ── Governance pillars ── */
+.pillar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:2rem;transition:.25s}
+.pillar:hover{border-color:var(--teal);box-shadow:0 4px 30px var(--teal-glow)}
+.pillar-icon{font-size:2rem;margin-bottom:1rem}
+.pillar h3{font-size:1rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.6rem}
+.pillar p{font-size:.88rem;color:var(--text2);line-height:1.65}
+
+/* ── Compliance table ── */
+.compliance-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
+.compliance-item{background:var(--surface);padding:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.compliance-name{font-size:.9rem;font-weight:600}
+.compliance-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;padding:.25rem .65rem;border-radius:4px}
+.status-progress{background:rgba(108,71,255,.12);color:var(--violet);border:1px solid rgba(108,71,255,.2)}
+.status-compliant{background:rgba(0,245,200,.1);color:var(--teal);border:1px solid rgba(0,245,200,.2)}
+.status-supported{background:rgba(255,200,50,.08);color:#ffc832;border:1px solid rgba(255,200,50,.2)}
+.status-roadmap{background:rgba(255,255,255,.04);color:var(--text3);border:1px solid var(--border)}
+@media(max-width:700px){.compliance-grid{grid-template-columns:1fr}}
+
+/* ── Security stats ── */
+.sec-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:3rem}
+.sec-stat{background:var(--surface);padding:1.75rem;text-align:center}
+.sec-stat-val{font-size:1.5rem;font-weight:800;color:var(--violet);letter-spacing:-.04em;margin-bottom:.4rem}
+.sec-stat-label{font-family:var(--mono);font-size:.68rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.3rem}
+.sec-stat-desc{font-size:.8rem;color:var(--text2)}
+@media(max-width:700px){.sec-stats{grid-template-columns:repeat(2,1fr)}}
+
+/* ── About tenets ── */
+.tenet{padding:2.5rem 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:200px 1fr;gap:2.5rem;align-items:start}
+.tenet:last-child{border-bottom:none}
+.tenet-num{font-family:var(--mono);font-size:.72rem;color:var(--violet);letter-spacing:.12em;text-transform:uppercase}
+.tenet-title{font-size:1.2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.75rem}
+.tenet p{font-size:.95rem;color:var(--text2);line-height:1.75}
+@media(max-width:700px){.tenet{grid-template-columns:1fr;gap:1rem}}
+
+/* ── Quote ── */
+.manifesto{background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border:1px solid var(--border);border-left:3px solid var(--violet);border-radius:var(--r2);padding:3rem;margin:3rem 0;position:relative;overflow:hidden}
+.manifesto::before{content:'"';position:absolute;top:-1rem;left:1.5rem;font-size:8rem;color:rgba(108,71,255,.08);font-weight:800;line-height:1;pointer-events:none}
+.manifesto p{font-size:1.35rem;font-weight:600;line-height:1.55;letter-spacing:-.02em;color:var(--text);position:relative}
+
+/* ── Resources ── */
+.resource-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:1.75rem;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;transition:.25s}
+.resource-card:hover{border-color:var(--violet);transform:translateX(4px)}
+.resource-type{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:.35rem}
+.resource-title{font-size:.95rem;font-weight:600;margin-bottom:.3rem}
+.resource-desc{font-size:.83rem;color:var(--text2)}
+.resource-dl{flex-shrink:0;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:.6rem 1.1rem;font-size:.8rem;color:var(--text2);text-decoration:none;cursor:pointer;transition:.2s;white-space:nowrap}
+.resource-dl:hover{border-color:var(--violet);color:var(--violet)}
+.webinar-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;transition:.25s}
+.webinar-card:hover{border-color:var(--teal)}
+.webinar-date{font-family:var(--mono);font-size:.72rem;color:var(--text3)}
+.webinar-title{font-size:.92rem;font-weight:600;margin:.3rem 0}
+.webinar-status{font-family:var(--mono);font-size:.68rem;padding:.25rem .65rem;border-radius:4px;flex-shrink:0}
+.ws-available{background:rgba(0,245,200,.1);color:var(--teal);border:1px solid rgba(0,245,200,.2)}
+.ws-register{background:rgba(108,71,255,.12);color:var(--violet);border:1px solid rgba(108,71,255,.2)}
+
+/* ── CTA section ── */
+.cta-section{background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border:1px solid var(--border);border-radius:var(--r3);padding:5rem 4rem;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(108,71,255,.08) 0%,transparent 70%);pointer-events:none}
+.cta-section h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.04em;margin-bottom:1rem;position:relative}
+.cta-section p{font-size:1rem;color:var(--text2);max-width:480px;margin:0 auto 2.5rem;position:relative;line-height:1.7}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative}
+
+/* ── Position statement ── */
+.position-list{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.position-list li{display:flex;align-items:center;gap:.75rem;font-size:.95rem;color:var(--text2)}
+.position-list li::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0;box-shadow:0 0 8px var(--teal)}
+
+/* ── How different ── */
+.diff-item{padding:1.75rem 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 2fr;gap:2rem}
+.diff-item:last-child{border-bottom:none}
+.diff-title{font-size:1rem;font-weight:700;color:var(--text)}
+.diff-desc{font-size:.92rem;color:var(--text2);line-height:1.7}
+@media(max-width:700px){.diff-item{grid-template-columns:1fr}}
+
+/* ── Architecture stack visual ── */
+.arch-stack{display:flex;flex-direction:column;gap:2px;margin-top:2rem;border-radius:var(--r2);overflow:hidden;border:1px solid var(--border)}
+.arch-layer{padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;font-size:.88rem;font-weight:500;transition:.2s}
+.arch-layer:hover{filter:brightness(1.1)}
+.arch-layer-label{font-family:var(--mono);font-size:.68rem;color:rgba(255,255,255,.5);letter-spacing:.08em}
+.al-1{background:rgba(108,71,255,.25);border-bottom:1px solid rgba(108,71,255,.15)}
+.al-2{background:rgba(108,71,255,.18)}
+.al-3{background:rgba(0,245,200,.12)}
+.al-4{background:rgba(0,245,200,.18)}
+.al-5{background:rgba(0,245,200,.25)}
+
+/* ── Footer ── */
+footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
+.footer-logo{font-size:1rem;font-weight:700;color:var(--text);letter-spacing:-.02em}
+.footer-logo span{color:var(--violet)}
+.footer-tag{font-size:.82rem;color:var(--text3);margin-top:.25rem}
+.footer-links{display:flex;gap:2rem;list-style:none;flex-wrap:wrap}
+.footer-links a{font-size:.8rem;color:var(--text3);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--teal)}
+.footer-copy{font-family:var(--mono);font-size:.7rem;color:var(--text3)}
+
+/* ── Animations ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.animate-up{animation:fadeUp .6s ease both}
+.animate-up-2{animation:fadeUp .6s .15s ease both}
+.animate-up-3{animation:fadeUp .6s .3s ease both}
+.animate-up-4{animation:fadeUp .6s .45s ease both}
+
+/* ── Misc ── */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:2rem 0}
+.mono{font-family:var(--mono)}
+.text2{color:var(--text2)}
+.mt-1{margin-top:1rem}.mt-2{margin-top:2rem}.mt-3{margin-top:3rem}
+.mb-1{margin-bottom:1rem}.mb-2{margin-bottom:2rem}
+
+/* ── Hero architecture animation ── */
+.hero-arch{margin-top:3rem;border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;background:var(--surface)}
+.hero-arch-layer{display:flex;align-items:center;gap:1rem;padding:.85rem 1.5rem;border-bottom:1px solid var(--border);transition:.3s;cursor:default}
+.hero-arch-layer:last-child{border-bottom:none}
+.hero-arch-layer:hover{background:var(--surface2)}
+.hal-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.hal-label{font-size:.85rem;font-weight:500;flex:1}
+.hal-tag{font-family:var(--mono);font-size:.65rem;color:var(--text3);letter-spacing:.06em}
+</style>
+
 </head>
 <body>
 
-  <nav id="navbar">
-    <div class="container nav-inner">
-      <a href="index.html" class="nav-logo">EPIC<span>Ultra</span></a>
-      <ul class="nav-links">
+<nav>
+  <div style="display:flex;align-items:center;gap:3rem">
+    <a href="index.html" class="nav-logo">EPIC<span>Ultra</span></a>
+    <ul class="nav-links" id="navLinks"><li><a href="index.html" >Home</a></li><li><a href="architecture.html" >Architecture</a></li><li><a href="agents.html" >AI Agents</a></li><li><a href="governance.html" >Governance</a></li><li><a href="usecases.html" >Use Cases</a></li><li><a href="about.html" class="active">About</a></li><li><a href="resources.html" >Resources</a></li></ul>
+  </div>
+  <div style="display:flex;align-items:center;gap:.75rem">
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+      <span class="icon-dark">🌙</span>
+      <span class="icon-light">☀️</span>
+    </button>
+    <a href="#contact" class="nav-cta">Request Briefing</a>
+    <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero" style="min-height:45vh">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="wrap" style="width:100%">
+    <div class="hero-content">
+      <div class="badge animate-up">Philosophy</div>
+      <h1 class="animate-up-2">Not Corporate Fluff.<br><span class="accent">A Point of View.</span></h1>
+      <p class="hero-sub animate-up-3">EPICUltra exists because most enterprise AI is built for demos, not for financial operations where the cost of being wrong is measured in positions, not user experience.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="manifesto">
+      <p>"Enterprise AI engineered for accountability — not experimentation, not aspiration. Accountability."</p>
+    </div>
+
+    <div class="badge" style="margin-top:3rem">Three Tenets</div>
+    <div style="margin-top:2rem">
+      <div class="tenet">
+        <div><div class="tenet-num">Tenet 01</div></div>
+        <div><div class="tenet-title">AI must be <span class="accent">architecture-first</span></div><p>The AI tools flooding enterprise markets are retrofitted — intelligence layered on top of systems that weren't designed for it. The result is governance as an afterthought. EPICUltra was designed the other way. Every architectural decision starts with: how do we prove what this AI did, and why?</p></div>
+      </div>
+      <div class="tenet">
+        <div><div class="tenet-num">Tenet 02</div></div>
+        <div><div class="tenet-title">Governance is <span class="accent">non-negotiable</span></div><p>In financial operations, an AI system without complete traceability is a liability. When a regulator asks why a position was held or a journal entry was posted — you need an answer that withstands scrutiny. EPICUltra can provide it. Every decision is logged with model state, data context, and policy check result at the moment of execution. Not reconstructed. Captured.</p></div>
+      </div>
+      <div class="tenet">
+        <div><div class="tenet-num">Tenet 03</div></div>
+        <div><div class="tenet-title">Execution over <span class="accent-teal">experimentation</span></div><p>The enterprise AI landscape is littered with pilots that never reached production. EPICUltra is not a pilot program. It's production architecture. Built to operate in environments where the stakes are real and the margin for error is not.</p></div>
+      </div>
+    </div>
+
+    <div style="margin-top:4rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
+      <div>
+        <div class="badge">Position Statement</div>
+        <ul class="position-list" style="margin-top:1.5rem">
+          <li>Architecture-first design</li>
+          <li>Governance as infrastructure</li>
+          <li>100% decision traceability</li>
+          <li>Production from day one</li>
+          <li>No black-box AI in financial operations</li>
+          <li>Mandate controls are non-negotiable</li>
+        </ul>
+      </div>
+      <div>
+        <div class="badge">How We're Different</div>
+        <div style="margin-top:1.5rem">
+          <div class="diff-item">
+            <div class="diff-title">Governance as Foundation</div>
+            <div class="diff-desc">Most AI platforms add governance after building the core. EPICUltra's mandate engine is designed first — everything else is built on top of it.</div>
+          </div>
+          <div class="diff-item">
+            <div class="diff-title">No Hallucination By Design</div>
+            <div class="diff-desc">Standard RAG can retrieve unverified data. EPICUltra's context layer is scoped to reconciled, policy-tagged data only.</div>
+          </div>
+          <div class="diff-item">
+            <div class="diff-title">True Isolation</div>
+            <div class="diff-desc">Multi-tenant AI platforms create cross-client risk. Every EPICUltra deployment is its own isolated environment.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:4rem">
+      <div class="badge">Why HOC + MidDel</div>
+      <div class="grid-3" style="margin-top:2rem">
+        <div class="card"><div class="card-icon">🏛️</div><h3>Deep Domain Expertise</h3><p>Decades of front-to-back energy trading lifecycle experience embedded into every workflow and agent mandate.</p></div>
+        <div class="card"><div class="card-icon">⚙️</div><h3>Enterprise Engineering Discipline</h3><p>Proven delivery of scalable data platforms in regulated environments, built for production from day one.</p></div>
+        <div class="card"><div class="card-icon">🤖</div><h3>Structured AI Deployment</h3><p>AI mapped to defined risk classes, controlled execution boundaries, and monitored model lifecycles.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="contact">
+  <div class="wrap">
+    <div class="cta-section">
+      <h2>Enterprise AI Engineered for <span class="accent">Accountability</span></h2>
+      <p>No SDRs, no sales funnels. We engage directly with CROs, CIOs, and enterprise architects.</p>
+      <div class="cta-btns">
+        <a href="mailto:hello@epicultra.ai" class="btn-primary">Request Executive Briefing</a>
+        <a href="architecture.html" class="btn-secondary">Explore Architecture</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">EPIC<span>Ultra</span></div>
+        <div class="footer-tag">Enterprise AI engineered for accountability.</div>
+      </div>
+      <ul class="footer-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="architecture.html">Architecture</a></li>
         <li><a href="agents.html">AI Agents</a></li>
         <li><a href="governance.html">Governance</a></li>
         <li><a href="usecases.html">Use Cases</a></li>
-        <li><a href="about.html" class="cur">About</a></li>
+        <li><a href="about.html">About</a></li>
         <li><a href="resources.html">Resources</a></li>
       </ul>
-      <a href="index.html#contact" class="btn btn-primary nav-cta" style="padding:10px 20px;font-size:13px;">Request Briefing</a>
-      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
-    </div>
-    <div class="mobile-menu" id="mobileMenu">
-      <a href="index.html">Home</a>
-      <a href="architecture.html">Architecture</a>
-      <a href="agents.html">AI Agents</a>
-      <a href="governance.html">Governance</a>
-      <a href="usecases.html">Use Cases</a>
-      <a href="about.html" class="cur">About</a>
-      <a href="resources.html">Resources</a>
-      <a href="index.html#contact" class="btn btn-primary" style="text-align:center;">Request Briefing</a>
-    </div>
-  </nav>
-
-  <section class="hero">
-    <div class="orbs">
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
-      <div class="orb orb-3"></div>
-    </div>
-    <div class="container">
-      <div class="hero-content reveal">
-        <div class="breadcrumb">
-          <a href="index.html">Home</a>
-          <span class="breadcrumb-sep">/</span>
-          <span class="breadcrumb-cur">About</span>
-        </div>
-        <span class="tag">Philosophy</span>
-        <h1>Not Corporate Fluff.<br><span class="accent">A Point of View.</span></h1>
-        <p class="hero-sub">EPICUltra exists because most enterprise AI is built for demos, not for financial operations where the cost of being wrong is measured in positions, not user experience.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- MANIFESTO QUOTE -->
-  <section class="manifesto">
-    <div class="container">
-      <div class="quote-block reveal">
-        <span class="quote-mark">"</span>
-        <p class="quote-text">Enterprise AI engineered for <span class="quote-accent">accountability</span> — not experimentation, not aspiration. <span class="quote-accent">Accountability.</span></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- TENETS -->
-  <section class="tenets">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="tag">Three Tenets</span>
-        <h2>How We Think About AI in Financial Operations</h2>
-      </div>
-      <div class="tenets-list">
-
-        <div class="tenet reveal" style="transition-delay:0.05s">
-          <div class="tenet-num">01</div>
-          <div class="tenet-content">
-            <h3 class="tenet-title">AI Must Be Architecture-First</h3>
-            <p class="tenet-body">The AI tools flooding enterprise markets are retrofitted — intelligence layered on top of systems that weren't designed for it. The result is governance as an afterthought. EPICUltra was designed the other way. Every architectural decision starts with: how do we prove what this AI did, and why?</p>
-          </div>
-        </div>
-
-        <div class="tenet reveal" style="transition-delay:0.10s">
-          <div class="tenet-num">02</div>
-          <div class="tenet-content">
-            <h3 class="tenet-title">Governance Is Non-Negotiable</h3>
-            <p class="tenet-body">In financial operations, an AI system without complete traceability is a liability. When a regulator asks why a position was held or a journal entry was posted — you need an answer that withstands scrutiny. EPICUltra can provide it. Every decision is logged with model state, data context, and policy check result at the moment of execution. Not reconstructed. Captured.</p>
-          </div>
-        </div>
-
-        <div class="tenet reveal" style="transition-delay:0.15s">
-          <div class="tenet-num">03</div>
-          <div class="tenet-content">
-            <h3 class="tenet-title">Execution Over Experimentation</h3>
-            <p class="tenet-body">The enterprise AI landscape is littered with pilots that never reached production. EPICUltra is not a pilot program. It's production architecture. Built to operate in environments where the stakes are real and the margin for error is not.</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- POSITION STATEMENT -->
-  <section class="position">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="tag">Position Statement</span>
-        <h2>Where We Stand</h2>
-      </div>
-      <div class="position-grid">
-        <div class="position-item reveal" style="transition-delay:0.04s"><span class="position-check"></span><span class="position-text">Architecture-first design</span></div>
-        <div class="position-item reveal" style="transition-delay:0.08s"><span class="position-check"></span><span class="position-text">Governance as infrastructure</span></div>
-        <div class="position-item reveal" style="transition-delay:0.12s"><span class="position-check"></span><span class="position-text">100% decision traceability</span></div>
-        <div class="position-item reveal" style="transition-delay:0.16s"><span class="position-check"></span><span class="position-text">Production from day one</span></div>
-        <div class="position-item reveal" style="transition-delay:0.20s"><span class="position-check"></span><span class="position-text">No black-box AI in financial operations</span></div>
-        <div class="position-item reveal" style="transition-delay:0.24s"><span class="position-check"></span><span class="position-text">Mandate controls are non-negotiable</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW WE'RE DIFFERENT -->
-  <section class="different">
-    <div class="container">
-      <div class="section-header reveal">
-        <span class="tag">Differentiation</span>
-        <h2>How We're Different</h2>
-      </div>
-      <div class="diff-grid">
-
-        <div class="glass-card diff-card reveal" style="transition-delay:0.05s">
-          <div class="diff-num">01</div>
-          <h3 class="diff-title">Governance as Foundation</h3>
-          <p class="diff-desc">Most AI platforms add governance after building the core. EPICUltra's mandate engine is designed first — everything else is built on top of it.</p>
-        </div>
-
-        <div class="glass-card diff-card reveal" style="transition-delay:0.12s">
-          <div class="diff-num">02</div>
-          <h3 class="diff-title">No Hallucination By Design</h3>
-          <p class="diff-desc">Standard RAG can retrieve unverified data. EPICUltra's context layer is scoped to reconciled, policy-tagged data only.</p>
-        </div>
-
-        <div class="glass-card diff-card reveal" style="transition-delay:0.19s">
-          <div class="diff-num">03</div>
-          <h3 class="diff-title">True Isolation</h3>
-          <p class="diff-desc">Multi-tenant AI platforms create cross-client risk. Every EPICUltra deployment is its own isolated environment.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="cta-block" id="contact">
-    <div class="container">
-      <div class="cta-inner reveal">
-        <span class="tag">Get Started</span>
-        <h2>Enterprise AI Engineered for Accountability</h2>
-        <p>No SDRs, no sales funnels. We engage directly with CROs, CIOs, and enterprise architects.</p>
-        <div class="cta-btns">
-          <a href="mailto:hello@epicultra.ai" class="btn btn-primary">Request Executive Briefing</a>
-          <a href="architecture.html" class="btn btn-ghost">Explore Architecture →</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="container footer-inner">
-      <div>
-        <div class="footer-logo">EPIC<span>Ultra</span></div>
-        <div class="footer-tagline">Enterprise AI engineered for accountability.</div>
-      </div>
       <div class="footer-copy">© 2026 EPICUltra · epicultra.ai</div>
     </div>
-  </footer>
+  </div>
+</footer>
 
-  <script>
-    document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('open'));
-    const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    window.addEventListener('scroll', () => { document.getElementById('navbar').style.background = window.scrollY > 40 ? 'rgba(2,2,10,0.95)' : 'rgba(2,2,10,0.75)'; });
-  </script>
+<script>
+// ── Apply saved theme immediately (before paint) ──
+(function(){
+  const t = localStorage.getItem('eu-theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+})();
+
+document.addEventListener('DOMContentLoaded',()=>{
+  // ── Theme toggle ──
+  const toggle = document.getElementById('themeToggle');
+  const applyTheme = (t) => {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('eu-theme', t);
+  };
+  if(toggle){
+    toggle.addEventListener('click',()=>{
+      const current = document.documentElement.getAttribute('data-theme');
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+  }
+
+  // ── Nav hamburger ──
+  const ham = document.getElementById('hamburger');
+  const links = document.getElementById('navLinks');
+  if(ham) ham.addEventListener('click',()=>links.classList.toggle('open'));
+
+  // ── Active nav link ──
+  const path = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    if(a.getAttribute('href')===path) a.classList.add('active');
+  });
+
+  // ── Use case tabs ──
+  document.querySelectorAll('.uc-tab').forEach(tab=>{
+    tab.addEventListener('click',()=>{
+      document.querySelectorAll('.uc-tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.uc-panel').forEach(p=>p.classList.remove('active'));
+      tab.classList.add('active');
+      const panel = document.getElementById(tab.dataset.panel);
+      if(panel) panel.classList.add('active');
+    });
+  });
+});
+</script>
+
 </body>
 </html>
