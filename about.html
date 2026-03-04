@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — EPICUltra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #02020a; --bg2: #07071a;
+      --violet: #6c47ff; --teal: #00f5c8;
+      --violet-dim: rgba(108,71,255,0.18);
+      --glass-bg: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+      --text: #e8e8f0; --muted: #7a7a9a; --radius: 16px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; line-height: 1.65; overflow-x: hidden; }
+    h1,h2,h3,h4 { font-family: 'Sora', sans-serif; line-height: 1.2; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); border: 1px solid rgba(0,245,200,0.3); padding: 4px 14px; border-radius: 100px; margin-bottom: 20px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.25s ease; border: none; }
+    .btn-primary { background: var(--violet); color: #fff; box-shadow: 0 0 24px rgba(108,71,255,0.45); }
+    .btn-primary:hover { background: #7d5bff; box-shadow: 0 0 36px rgba(108,71,255,0.7); transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--glass-border); }
+    .btn-ghost:hover { border-color: rgba(108,71,255,0.5); color: var(--violet); transform: translateY(-2px); }
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .glass-card { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 32px; backdrop-filter: blur(12px); transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s; }
+    .glass-card:hover { border-color: rgba(108,71,255,0.4); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(108,71,255,0.12); }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 0; background: rgba(2,2,10,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); transition: background 0.3s; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; }
+    .nav-logo span { color: var(--violet); }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.cur { color: var(--text); position: relative; }
+    .nav-links a.cur::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--violet); }
+    .nav-cta { margin-left: 16px; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
+    .mobile-menu { display: none; flex-direction: column; background: rgba(2,2,10,0.97); border-top: 1px solid var(--glass-border); padding: 24px; gap: 20px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 16px; font-weight: 500; color: var(--muted); }
+    .mobile-menu a:hover, .mobile-menu a.cur { color: var(--text); }
+
+    .breadcrumb { font-size: 13px; color: var(--muted); margin-bottom: 20px; display: flex; align-items: center; gap: 6px; }
+    .breadcrumb a { color: var(--muted); transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb-sep { opacity: 0.4; }
+    .breadcrumb-cur { color: var(--text); }
+
+    .hero { position: relative; min-height: 70vh; display: flex; align-items: center; padding: 120px 0 80px; overflow: hidden; }
+    .hero-content { position: relative; z-index: 2; max-width: 720px; }
+    .hero h1 { font-size: clamp(42px, 6vw, 76px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 24px; }
+    .hero h1 .accent { color: var(--violet); }
+    .hero-sub { font-size: 18px; color: var(--muted); max-width: 540px; }
+    .orbs { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.55; animation: float 12s ease-in-out infinite; }
+    .orb-1 { width: 480px; height: 480px; background: radial-gradient(circle, rgba(108,71,255,0.6) 0%, transparent 70%); top: -100px; right: -60px; animation-duration: 14s; }
+    .orb-2 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,245,200,0.4) 0%, transparent 70%); bottom: 40px; right: 260px; animation-duration: 18s; animation-delay: -6s; }
+    .orb-3 { width: 220px; height: 220px; background: radial-gradient(circle, rgba(108,71,255,0.3) 0%, transparent 70%); top: 45%; left: 60%; animation-duration: 10s; animation-delay: -3s; }
+    @keyframes float { 0%,100% { transform: translateY(0) scale(1); } 33% { transform: translateY(-28px) scale(1.04); } 66% { transform: translateY(18px) scale(0.97); } }
+    .hero::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(108,71,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(108,71,255,0.04) 1px, transparent 1px); background-size: 60px 60px; z-index: 0; mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 40%, transparent 100%); }
+
+    section { padding: 100px 0; }
+    .section-header { text-align: center; max-width: 680px; margin: 0 auto 64px; }
+    .section-header h2 { font-size: clamp(30px, 4vw, 48px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; }
+
+    /* MANIFESTO QUOTE */
+    .manifesto { background: var(--bg2); }
+    .quote-block {
+      max-width: 860px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+    .quote-mark { font-family: 'Sora', sans-serif; font-size: 120px; line-height: 0.5; color: var(--violet); opacity: 0.15; display: block; margin-bottom: 16px; }
+    .quote-text { font-family: 'Sora', sans-serif; font-size: clamp(22px, 3.5vw, 36px); font-weight: 600; line-height: 1.35; letter-spacing: -0.02em; color: var(--text); }
+    .quote-accent { color: var(--violet); }
+
+    /* TENETS */
+    .tenets { background: var(--bg); }
+    .tenets-list { display: flex; flex-direction: column; gap: 48px; }
+    .tenet { display: grid; grid-template-columns: auto 1fr; gap: 40px; align-items: start; border-bottom: 1px solid var(--glass-border); padding-bottom: 48px; }
+    .tenet:last-child { border-bottom: none; padding-bottom: 0; }
+    .tenet-num { font-family: 'Sora', sans-serif; font-size: 64px; font-weight: 800; color: var(--violet-dim); line-height: 1; min-width: 80px; }
+    .tenet-content {}
+    .tenet-title { font-size: clamp(22px, 3vw, 32px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 16px; }
+    .tenet-body { font-size: 16px; color: var(--muted); line-height: 1.75; max-width: 680px; }
+
+    /* POSITION STATEMENT */
+    .position { background: var(--bg2); }
+    .position-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .position-item { display: flex; align-items: center; gap: 14px; padding: 20px 24px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 12px; transition: border-color 0.3s; }
+    .position-item:hover { border-color: rgba(108,71,255,0.35); }
+    .position-check { width: 22px; height: 22px; border-radius: 50%; background: rgba(0,245,200,0.1); border: 1px solid rgba(0,245,200,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .position-check::after { content: '✓'; font-size: 11px; font-weight: 700; color: var(--teal); }
+    .position-text { font-size: 14px; font-weight: 500; }
+
+    /* HOW WE'RE DIFFERENT */
+    .different { background: var(--bg); }
+    .diff-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .diff-card { position: relative; }
+    .diff-num { font-family: 'Sora', sans-serif; font-size: 48px; font-weight: 800; color: var(--violet-dim); line-height: 1; margin-bottom: 12px; }
+    .diff-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+    .diff-desc { font-size: 14px; color: var(--muted); }
+
+    .cta-block { background: var(--bg2); position: relative; overflow: hidden; }
+    .cta-block::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(108,71,255,0.15) 0%, transparent 70%); pointer-events: none; }
+    .cta-inner { text-align: center; position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+    .cta-inner h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 16px; }
+    .cta-inner p { color: var(--muted); font-size: 16px; margin-bottom: 32px; }
+    .cta-btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
+
+    footer { background: var(--bg); border-top: 1px solid var(--glass-border); padding: 40px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-logo { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 18px; }
+    .footer-logo span { color: var(--violet); }
+    .footer-tagline { font-size: 13px; color: var(--muted); }
+    .footer-copy { font-size: 13px; color: var(--muted); }
+
+    @media (max-width: 768px) { .nav-links, .nav-cta { display: none; } .hamburger { display: flex; } .footer-inner { flex-direction: column; text-align: center; } .tenet { grid-template-columns: 1fr; gap: 12px; } .tenet-num { font-size: 36px; min-width: unset; } }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">EPIC<span>Ultra</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="agents.html">AI Agents</a></li>
+        <li><a href="governance.html">Governance</a></li>
+        <li><a href="usecases.html">Use Cases</a></li>
+        <li><a href="about.html" class="cur">About</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+      <a href="index.html#contact" class="btn btn-primary nav-cta" style="padding:10px 20px;font-size:13px;">Request Briefing</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="agents.html">AI Agents</a>
+      <a href="governance.html">Governance</a>
+      <a href="usecases.html">Use Cases</a>
+      <a href="about.html" class="cur">About</a>
+      <a href="resources.html">Resources</a>
+      <a href="index.html#contact" class="btn btn-primary" style="text-align:center;">Request Briefing</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+    <div class="container">
+      <div class="hero-content reveal">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-cur">About</span>
+        </div>
+        <span class="tag">Philosophy</span>
+        <h1>Not Corporate Fluff.<br><span class="accent">A Point of View.</span></h1>
+        <p class="hero-sub">EPICUltra exists because most enterprise AI is built for demos, not for financial operations where the cost of being wrong is measured in positions, not user experience.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MANIFESTO QUOTE -->
+  <section class="manifesto">
+    <div class="container">
+      <div class="quote-block reveal">
+        <span class="quote-mark">"</span>
+        <p class="quote-text">Enterprise AI engineered for <span class="quote-accent">accountability</span> — not experimentation, not aspiration. <span class="quote-accent">Accountability.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TENETS -->
+  <section class="tenets">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="tag">Three Tenets</span>
+        <h2>How We Think About AI in Financial Operations</h2>
+      </div>
+      <div class="tenets-list">
+
+        <div class="tenet reveal" style="transition-delay:0.05s">
+          <div class="tenet-num">01</div>
+          <div class="tenet-content">
+            <h3 class="tenet-title">AI Must Be Architecture-First</h3>
+            <p class="tenet-body">The AI tools flooding enterprise markets are retrofitted — intelligence layered on top of systems that weren't designed for it. The result is governance as an afterthought. EPICUltra was designed the other way. Every architectural decision starts with: how do we prove what this AI did, and why?</p>
+          </div>
+        </div>
+
+        <div class="tenet reveal" style="transition-delay:0.10s">
+          <div class="tenet-num">02</div>
+          <div class="tenet-content">
+            <h3 class="tenet-title">Governance Is Non-Negotiable</h3>
+            <p class="tenet-body">In financial operations, an AI system without complete traceability is a liability. When a regulator asks why a position was held or a journal entry was posted — you need an answer that withstands scrutiny. EPICUltra can provide it. Every decision is logged with model state, data context, and policy check result at the moment of execution. Not reconstructed. Captured.</p>
+          </div>
+        </div>
+
+        <div class="tenet reveal" style="transition-delay:0.15s">
+          <div class="tenet-num">03</div>
+          <div class="tenet-content">
+            <h3 class="tenet-title">Execution Over Experimentation</h3>
+            <p class="tenet-body">The enterprise AI landscape is littered with pilots that never reached production. EPICUltra is not a pilot program. It's production architecture. Built to operate in environments where the stakes are real and the margin for error is not.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- POSITION STATEMENT -->
+  <section class="position">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="tag">Position Statement</span>
+        <h2>Where We Stand</h2>
+      </div>
+      <div class="position-grid">
+        <div class="position-item reveal" style="transition-delay:0.04s"><span class="position-check"></span><span class="position-text">Architecture-first design</span></div>
+        <div class="position-item reveal" style="transition-delay:0.08s"><span class="position-check"></span><span class="position-text">Governance as infrastructure</span></div>
+        <div class="position-item reveal" style="transition-delay:0.12s"><span class="position-check"></span><span class="position-text">100% decision traceability</span></div>
+        <div class="position-item reveal" style="transition-delay:0.16s"><span class="position-check"></span><span class="position-text">Production from day one</span></div>
+        <div class="position-item reveal" style="transition-delay:0.20s"><span class="position-check"></span><span class="position-text">No black-box AI in financial operations</span></div>
+        <div class="position-item reveal" style="transition-delay:0.24s"><span class="position-check"></span><span class="position-text">Mandate controls are non-negotiable</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE'RE DIFFERENT -->
+  <section class="different">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="tag">Differentiation</span>
+        <h2>How We're Different</h2>
+      </div>
+      <div class="diff-grid">
+
+        <div class="glass-card diff-card reveal" style="transition-delay:0.05s">
+          <div class="diff-num">01</div>
+          <h3 class="diff-title">Governance as Foundation</h3>
+          <p class="diff-desc">Most AI platforms add governance after building the core. EPICUltra's mandate engine is designed first — everything else is built on top of it.</p>
+        </div>
+
+        <div class="glass-card diff-card reveal" style="transition-delay:0.12s">
+          <div class="diff-num">02</div>
+          <h3 class="diff-title">No Hallucination By Design</h3>
+          <p class="diff-desc">Standard RAG can retrieve unverified data. EPICUltra's context layer is scoped to reconciled, policy-tagged data only.</p>
+        </div>
+
+        <div class="glass-card diff-card reveal" style="transition-delay:0.19s">
+          <div class="diff-num">03</div>
+          <h3 class="diff-title">True Isolation</h3>
+          <p class="diff-desc">Multi-tenant AI platforms create cross-client risk. Every EPICUltra deployment is its own isolated environment.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-block" id="contact">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <span class="tag">Get Started</span>
+        <h2>Enterprise AI Engineered for Accountability</h2>
+        <p>No SDRs, no sales funnels. We engage directly with CROs, CIOs, and enterprise architects.</p>
+        <div class="cta-btns">
+          <a href="mailto:hello@epicultra.ai" class="btn btn-primary">Request Executive Briefing</a>
+          <a href="architecture.html" class="btn btn-ghost">Explore Architecture →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <div class="footer-logo">EPIC<span>Ultra</span></div>
+        <div class="footer-tagline">Enterprise AI engineered for accountability.</div>
+      </div>
+      <div class="footer-copy">© 2026 EPICUltra · epicultra.ai</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('open'));
+    const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    window.addEventListener('scroll', () => { document.getElementById('navbar').style.background = window.scrollY > 40 ? 'rgba(2,2,10,0.95)' : 'rgba(2,2,10,0.75)'; });
+  </script>
+</body>
+</html>

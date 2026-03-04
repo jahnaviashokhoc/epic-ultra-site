@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Use Cases — EPICUltra</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #02020a; --bg2: #07071a;
+      --violet: #6c47ff; --teal: #00f5c8;
+      --violet-dim: rgba(108,71,255,0.18);
+      --glass-bg: rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+      --text: #e8e8f0; --muted: #7a7a9a; --radius: 16px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Space Grotesk', sans-serif; line-height: 1.65; overflow-x: hidden; }
+    h1,h2,h3,h4 { font-family: 'Sora', sans-serif; line-height: 1.2; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+    .tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--teal); border: 1px solid rgba(0,245,200,0.3); padding: 4px 14px; border-radius: 100px; margin-bottom: 20px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px; border-radius: 10px; font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.25s ease; border: none; }
+    .btn-primary { background: var(--violet); color: #fff; box-shadow: 0 0 24px rgba(108,71,255,0.45); }
+    .btn-primary:hover { background: #7d5bff; box-shadow: 0 0 36px rgba(108,71,255,0.7); transform: translateY(-2px); }
+    .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--glass-border); }
+    .btn-ghost:hover { border-color: rgba(108,71,255,0.5); color: var(--violet); transform: translateY(-2px); }
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 0; background: rgba(2,2,10,0.75); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); transition: background 0.3s; }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 20px; letter-spacing: -0.03em; }
+    .nav-logo span { color: var(--violet); }
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.cur { color: var(--text); position: relative; }
+    .nav-links a.cur::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px; background: var(--violet); }
+    .nav-cta { margin-left: 16px; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; }
+    .mobile-menu { display: none; flex-direction: column; background: rgba(2,2,10,0.97); border-top: 1px solid var(--glass-border); padding: 24px; gap: 20px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 16px; font-weight: 500; color: var(--muted); }
+    .mobile-menu a:hover, .mobile-menu a.cur { color: var(--text); }
+
+    .breadcrumb { font-size: 13px; color: var(--muted); margin-bottom: 20px; display: flex; align-items: center; gap: 6px; }
+    .breadcrumb a { color: var(--muted); transition: color 0.2s; }
+    .breadcrumb a:hover { color: var(--text); }
+    .breadcrumb-sep { opacity: 0.4; }
+    .breadcrumb-cur { color: var(--text); }
+
+    .hero { position: relative; min-height: 70vh; display: flex; align-items: center; padding: 120px 0 80px; overflow: hidden; }
+    .hero-content { position: relative; z-index: 2; max-width: 720px; }
+    .hero h1 { font-size: clamp(42px, 6vw, 76px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.05; margin-bottom: 24px; }
+    .hero h1 .accent { color: var(--violet); }
+    .hero-sub { font-size: 18px; color: var(--muted); max-width: 520px; }
+    .orbs { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.55; animation: float 12s ease-in-out infinite; }
+    .orb-1 { width: 480px; height: 480px; background: radial-gradient(circle, rgba(108,71,255,0.6) 0%, transparent 70%); top: -100px; right: -60px; animation-duration: 14s; }
+    .orb-2 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,245,200,0.4) 0%, transparent 70%); bottom: 40px; right: 260px; animation-duration: 18s; animation-delay: -6s; }
+    .orb-3 { width: 220px; height: 220px; background: radial-gradient(circle, rgba(108,71,255,0.3) 0%, transparent 70%); top: 45%; left: 60%; animation-duration: 10s; animation-delay: -3s; }
+    @keyframes float { 0%,100% { transform: translateY(0) scale(1); } 33% { transform: translateY(-28px) scale(1.04); } 66% { transform: translateY(18px) scale(0.97); } }
+    .hero::after { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(108,71,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(108,71,255,0.04) 1px, transparent 1px); background-size: 60px 60px; z-index: 0; mask-image: radial-gradient(ellipse 80% 80% at 50% 0%, black 40%, transparent 100%); }
+
+    section { padding: 100px 0; }
+
+    /* INDUSTRY SECTIONS */
+    .industry-section { padding: 80px 0; border-top: 1px solid var(--glass-border); }
+    .industry-section.alt { background: var(--bg2); }
+    .industry-header { margin-bottom: 48px; }
+    .industry-label { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--violet); margin-bottom: 8px; }
+    .industry-title { font-size: clamp(28px, 3.5vw, 44px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 20px; }
+    .agent-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .agent-pill { font-size: 12px; font-weight: 600; color: var(--teal); border: 1px solid rgba(0,245,200,0.25); padding: 4px 12px; border-radius: 100px; }
+    .usecase-grid { display: flex; flex-direction: column; gap: 20px; }
+    .usecase-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .usecase-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--violet), var(--teal)); opacity: 0; transition: opacity 0.3s; }
+    .usecase-card:hover { border-color: rgba(108,71,255,0.35); box-shadow: 0 8px 32px rgba(108,71,255,0.1); }
+    .usecase-card:hover::before { opacity: 1; }
+    .usecase-num { font-family: 'Sora', sans-serif; font-size: 36px; font-weight: 800; color: var(--violet-dim); line-height: 1; flex-shrink: 0; min-width: 48px; }
+    .usecase-body { flex: 1; }
+    .usecase-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .usecase-desc { color: var(--muted); font-size: 14px; margin-bottom: 16px; }
+    .usecase-outcome { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--teal); background: rgba(0,245,200,0.06); border: 1px solid rgba(0,245,200,0.2); padding: 6px 14px; border-radius: 100px; }
+    .usecase-outcome::before { content: '→'; }
+
+    .cta-block { background: var(--bg2); position: relative; overflow: hidden; }
+    .cta-block::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(108,71,255,0.15) 0%, transparent 70%); pointer-events: none; }
+    .cta-inner { text-align: center; position: relative; z-index: 1; max-width: 600px; margin: 0 auto; }
+    .cta-inner h2 { font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 16px; }
+    .cta-inner p { color: var(--muted); font-size: 16px; margin-bottom: 32px; }
+    .cta-btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 14px; }
+
+    footer { background: var(--bg); border-top: 1px solid var(--glass-border); padding: 40px 0; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-logo { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 18px; }
+    .footer-logo span { color: var(--violet); }
+    .footer-tagline { font-size: 13px; color: var(--muted); }
+    .footer-copy { font-size: 13px; color: var(--muted); }
+
+    @media (max-width: 768px) { .nav-links, .nav-cta { display: none; } .hamburger { display: flex; } .footer-inner { flex-direction: column; text-align: center; } .usecase-card { flex-direction: column; gap: 12px; } .usecase-num { font-size: 24px; } }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar">
+    <div class="container nav-inner">
+      <a href="index.html" class="nav-logo">EPIC<span>Ultra</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="agents.html">AI Agents</a></li>
+        <li><a href="governance.html">Governance</a></li>
+        <li><a href="usecases.html" class="cur">Use Cases</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+      <a href="index.html#contact" class="btn btn-primary nav-cta" style="padding:10px 20px;font-size:13px;">Request Briefing</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html">Home</a>
+      <a href="architecture.html">Architecture</a>
+      <a href="agents.html">AI Agents</a>
+      <a href="governance.html">Governance</a>
+      <a href="usecases.html" class="cur">Use Cases</a>
+      <a href="about.html">About</a>
+      <a href="resources.html">Resources</a>
+      <a href="index.html#contact" class="btn btn-primary" style="text-align:center;">Request Briefing</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="orbs">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+    </div>
+    <div class="container">
+      <div class="hero-content reveal">
+        <div class="breadcrumb">
+          <a href="index.html">Home</a>
+          <span class="breadcrumb-sep">/</span>
+          <span class="breadcrumb-cur">Use Cases</span>
+        </div>
+        <span class="tag">Operational Use Cases</span>
+        <h1>Where EPICUltra<br><span class="accent">Delivers Results</span></h1>
+        <p class="hero-sub">Organized by function. Each use case reflects a real operational problem EPICUltra solves — production-tested, not theoretical.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENERGY TRADING -->
+  <div class="industry-section" id="energy">
+    <div class="container">
+      <div class="industry-header reveal">
+        <div class="industry-label">Industry</div>
+        <h2 class="industry-title">Energy Trading</h2>
+        <div class="agent-pills">
+          <span class="agent-pill">Margin Analyst</span>
+          <span class="agent-pill">Exposure Monitor</span>
+          <span class="agent-pill">Liquidity Watch</span>
+          <span class="agent-pill">Risk Monitor</span>
+        </div>
+      </div>
+      <div class="usecase-grid">
+        <div class="usecase-card reveal" style="transition-delay:0.05s">
+          <div class="usecase-num">01</div>
+          <div class="usecase-body">
+            <h3 class="usecase-title">Margin Automation</h3>
+            <p class="usecase-desc">Monitors real-time margin requirements, calculates calls automatically, routes collateral within mandate thresholds.</p>
+            <span class="usecase-outcome">Reduced margin call processing time by 70%+</span>
+          </div>
+        </div>
+        <div class="usecase-card reveal" style="transition-delay:0.10s">
+          <div class="usecase-num">02</div>
+          <div class="usecase-body">
+            <h3 class="usecase-title">Exposure Monitoring</h3>
+            <p class="usecase-desc">Continuous cross-platform aggregation of gross and net exposures. Alerts fire before concentration limits breach.</p>
+            <span class="usecase-outcome">Real-time exposure visibility across all trading books</span>
+          </div>
+        </div>
+        <div class="usecase-card reveal" style="transition-delay:0.15s">
+          <div class="usecase-num">03</div>
+          <div class="usecase-body">
+            <h3 class="usecase-title">Risk Visibility</h3>
+            <p class="usecase-desc">Board-level and desk-level risk dashboards from reconciled data, not end-of-day snapshots. Scenario simulations run against live positions.</p>
+            <span class="usecase-outcome">Intraday risk reporting replacing T+1 manual processes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINANCIAL OPERATIONS -->
+  <div class="industry-section alt" id="finops">
+    <div class="container">
+      <div class="industry-header reveal">
+        <div class="industry-label">Industry</div>
+        <h2 class="industry-title">Financial Operations</h2>
+        <div class="agent-pills">
+          <span class="agent-pill">Journal Entry</span>
+          <span class="agent-pill">Reconciliation</span>
+          <span class="agent-pill">Close Accelerator</span>
+          <span class="agent-pill">Regulatory Reporting</span>
+        </div>
+      </div>
+      <div class="usecase-grid">
+        <div class="usecase-card reveal" style="transition-delay:0.05s">
+          <div class="usecase-num">01</div>
+          <div class="usecase-body">
+            <h3 class="usecase-title">Continuous Close</h3>
+            <p class="usecase-desc">Accruals post automatically, inter-company eliminations run daily, close certification triggers when data is ready — not when the calendar says so.</p>
+            <span class="usecase-outcome">Month-end close cycle reduced from 10 days to under 3</span>
+          </div>
+        </div>
+        <div class="usecase-card reveal" style="transition-delay:0.10s">
+          <div class="usecase-num">02</div>
+          <div class="usecase-body">
+            <h3 class="usecase-title">Journal Automation</h3>
+            <p class="usecase-desc">Bank data extracted, classified, mapped to GL, and posted automatically. Exceptions routed for human review with context pre-populated.</p>
+            <span class="usecase-outcome">80% reduction in manual journal processing time</span>
+          </div>
+        </div>
+        <div class="usecase-card reveal" style="transition-delay:0.15s">
+          <div class="usecase-num">03</div>
+          <div class="usecase-body">
+            <h3 class="usecase-title">Reconciliation Intelligence</h3>
+            <p class="usecase-desc">Matches internal ledgers against custodian statements, classifies breaks, auto-resolves known patterns.</p>
+            <span class="usecase-outcome">90%+ straight-through reconciliation rate on standard items</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENTERPRISE RISK -->
+  <div class="industry-section" id="risk">
+    <div class="container">
+      <div class="industry-header reveal">
+        <div class="industry-label">Industry</div>
+        <h2 class="industry-title">Enterprise Risk</h2>
+        <div class="agent-pills">
+          <span class="agent-pill">Exposure Monitor</span>
+          <span class="agent-pill">Liquidity Watch</span>
+          <span class="agent-pill">Regulatory Reporting</span>
+          <span class="agent-pill">Margin Analyst</span>
+        </div>
+      </div>
+      <div class="usecase-grid">
+        <div class="usecase-card reveal" style="transition-delay:0.05s">
+          <div class="usecase-num">01</div>
+          <div class="usecase-body">
+            <h3 class="usecase-title">Cross-Platform Exposure View</h3>
+            <p class="usecase-desc">Aggregated exposure across all platforms, asset classes, and legal entities. Updated continuously from reconciled data.</p>
+            <span class="usecase-outcome">Single source of truth, updated every 15 minutes</span>
+          </div>
+        </div>
+        <div class="usecase-card reveal" style="transition-delay:0.10s">
+          <div class="usecase-num">02</div>
+          <div class="usecase-body">
+            <h3 class="usecase-title">Scenario Simulation</h3>
+            <p class="usecase-desc">Board-defined stress scenarios run automatically against live positions. Shows concentration vulnerability before markets move.</p>
+            <span class="usecase-outcome">Continuous stress testing replacing quarterly manual exercises</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="cta-block" id="contact">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <span class="tag">Get Started</span>
+        <h2>Enterprise AI Engineered for Accountability</h2>
+        <p>No SDRs, no sales funnels. We engage directly with CROs, CIOs, and enterprise architects.</p>
+        <div class="cta-btns">
+          <a href="mailto:hello@epicultra.ai" class="btn btn-primary">See Live Use Case Walkthrough</a>
+          <a href="agents.html" class="btn btn-ghost">View All Agents →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <div class="footer-logo">EPIC<span>Ultra</span></div>
+        <div class="footer-tagline">Enterprise AI engineered for accountability.</div>
+      </div>
+      <div class="footer-copy">© 2026 EPICUltra · epicultra.ai</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('hamburger').addEventListener('click', () => document.getElementById('mobileMenu').classList.toggle('open'));
+    const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }), { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    window.addEventListener('scroll', () => { document.getElementById('navbar').style.background = window.scrollY > 40 ? 'rgba(2,2,10,0.95)' : 'rgba(2,2,10,0.75)'; });
+  </script>
+</body>
+</html>
