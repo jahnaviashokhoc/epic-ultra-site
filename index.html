@@ -101,12 +101,12 @@ section:first-of-type{padding-top:9rem}
 .hero{min-height:100vh;display:flex;align-items:center;padding-top:64px;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 60% 40%,rgba(108,71,255,.12) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 20% 80%,rgba(0,245,200,.07) 0%,transparent 60%);pointer-events:none}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.35;pointer-events:none;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%)}
-.hero-content{position:relative;z-index:1;max-width:780px}
-.hero h1{font-size:clamp(2.8rem,6vw,5.2rem);font-weight:800;line-height:1.08;letter-spacing:-.04em;margin-bottom:1.5rem}
+.hero-content{position:relative;z-index:1;max-width:1000px}
+.hero h1{font-size:clamp(3rem,6.5vw,5.8rem);font-weight:800;line-height:1.06;letter-spacing:-.04em;margin-bottom:3rem}
 .hero h1 .accent{color:var(--violet)}
 .hero h1 .accent-teal{color:var(--teal)}
-.hero-sub{font-size:1.15rem;color:var(--text2);max-width:560px;margin-bottom:.75rem;line-height:1.7}
-.hero-support{font-size:.92rem;color:var(--text3);max-width:520px;margin-bottom:2.5rem;font-family:var(--mono)}
+.hero-sub{font-size:1.2rem;color:var(--text2);max-width:760px;margin-bottom:.75rem;line-height:1.7}
+.hero-support{font-size:.95rem;color:var(--text3);max-width:720px;margin-bottom:2.5rem;font-family:var(--mono)}
 .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:4rem}
 .btn-primary{background:var(--violet);color:#fff;padding:.85rem 2rem;border-radius:var(--r);font-size:.9rem;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:background .2s,box-shadow .2s,transform .15s;letter-spacing:.01em}
 .btn-primary:hover{background:var(--violet-dim);box-shadow:0 0 30px var(--violet-glow);transform:translateY(-1px)}
@@ -120,8 +120,8 @@ section:first-of-type{padding-top:9rem}
 
 /* ── Section headers ── */
 .section-header{margin-bottom:3.5rem}
-.section-header h2{font-size:clamp(2rem,4vw,3rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:1rem}
-.section-header p{font-size:1.05rem;color:var(--text2);max-width:560px;line-height:1.7}
+.section-header h2{font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:1rem}
+.section-header p{font-size:1.1rem;color:var(--text2);max-width:760px;line-height:1.7}
 .accent{color:var(--violet)}
 .accent-teal{color:var(--teal)}
 
@@ -315,6 +315,80 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
 .hal-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .hal-label{font-size:.85rem;font-weight:500;flex:1}
 .hal-tag{font-family:var(--mono);font-size:.65rem;color:var(--text3);letter-spacing:.06em}
+
+/* ── Compact agent cards ── */
+.agc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:1.75rem;display:flex;flex-direction:column;gap:.7rem;transition:border-color .25s,transform .2s,box-shadow .25s;position:relative;overflow:hidden}
+.agc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--violet),rgba(108,71,255,0))}
+.agc:hover{border-color:var(--violet);transform:translateY(-3px);box-shadow:0 8px 32px rgba(108,71,255,.14)}
+.agc-num{position:absolute;top:1.25rem;right:1.5rem;font-family:var(--mono);font-size:.68rem;color:var(--text3);letter-spacing:.06em}
+.agc-icon{font-size:2rem}
+.agc-name{font-size:1rem;font-weight:700;letter-spacing:-.02em}
+.agc-roles{display:flex;gap:.35rem;flex-wrap:wrap}
+.agc-role{font-family:var(--mono);font-size:.6rem;font-weight:500;letter-spacing:.08em;color:var(--teal);border:1px solid rgba(0,184,148,.2);border-radius:3px;padding:.15rem .5rem}
+.agc-desc{font-size:.875rem;color:var(--text2);line-height:1.6;flex:1}
+.agc-ints{display:flex;flex-wrap:wrap;gap:.3rem;padding-top:.25rem;border-top:1px solid var(--border)}
+.agc-int{font-family:var(--mono);font-size:.6rem;color:var(--text3);border:1px solid var(--surface3);border-radius:3px;padding:.15rem .45rem;background:var(--surface2)}
+/* ── Mandate bar ── */
+.mandate-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin-bottom:3.5rem}
+.mb-item{background:var(--surface2);padding:1.5rem;text-align:center}
+.mb-icon{font-size:1.5rem;margin-bottom:.5rem}
+.mb-title{font-size:.85rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.25rem}
+.mb-desc{font-family:var(--mono);font-size:.68rem;color:var(--text3);letter-spacing:.04em}
+@media(max-width:700px){.mandate-bar{grid-template-columns:repeat(2,1fr)}}
+
+/* ── Layer timeline (Four Layers section) ── */
+.lt-wrap{position:relative;margin-top:2.5rem}
+.lt-line{position:absolute;left:27px;top:28px;bottom:28px;width:2px;background:linear-gradient(180deg,var(--violet),var(--teal));opacity:.25;pointer-events:none}
+.lt-item{display:grid;grid-template-columns:56px 1fr;gap:2rem;padding:2rem 0;position:relative;align-items:start}
+.lt-item:not(:last-child)::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--border)}
+.lt-num{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0;position:relative;z-index:1;letter-spacing:.02em}
+.lt-n1{background:linear-gradient(135deg,#5a35e8,#6c47ff);box-shadow:0 0 24px rgba(108,71,255,.4)}
+.lt-n2{background:linear-gradient(135deg,#6c47ff,#8060ff)}
+.lt-n3{background:linear-gradient(135deg,#5050cc,#6060dd)}
+.lt-n4{background:linear-gradient(135deg,#00966e,#00b894)}
+.lt-n5{background:linear-gradient(135deg,#00b894,#00c8a0);box-shadow:0 0 24px rgba(0,184,148,.35)}
+.lt-icon{font-size:1.5rem;margin-bottom:.5rem}
+.lt-title{font-size:1.2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.35rem}
+.lt-desc{font-size:.93rem;color:var(--text2);line-height:1.7;margin-bottom:.8rem}
+.lt-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.lt-tag{font-family:var(--mono);font-size:.64rem;color:var(--teal);border:1px solid rgba(0,184,148,.2);border-radius:4px;padding:.2rem .6rem;background:rgba(0,184,148,.04)}
+@media(max-width:700px){.lt-item{grid-template-columns:1fr}.lt-line{display:none}.lt-num{width:44px;height:44px}}
+
+/* ── Principles numbered list ── */
+.principle{display:grid;grid-template-columns:90px 1fr;gap:2rem;padding:2.25rem 0;border-bottom:1px solid var(--border);align-items:start;transition:border-color .2s}
+.principle:last-child{border-bottom:none}
+.principle:hover{border-bottom-color:rgba(108,71,255,.3)}
+.principle-num{font-size:4rem;font-weight:800;letter-spacing:-.06em;line-height:1;font-family:var(--mono);color:var(--surface3)}
+[data-theme="light"] .principle-num{color:var(--border)}
+.principle-icon{font-size:1.4rem;margin-bottom:.5rem}
+.principle-title{font-size:1.08rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.5rem}
+.principle-text{font-size:.95rem;color:var(--text2);line-height:1.75}
+@media(max-width:600px){.principle{grid-template-columns:1fr}}
+
+/* ── Stats strip ── */
+.stat-strip{background:linear-gradient(90deg,rgba(108,71,255,.06) 0%,rgba(0,184,148,.06) 100%);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:3rem 0}
+.stat-strip-inner{display:grid;grid-template-columns:repeat(4,1fr)}
+.strip-stat{padding:0 2rem;border-right:1px solid var(--border);text-align:center}
+.strip-stat:last-child{border-right:none}
+.strip-val{font-size:3rem;font-weight:800;letter-spacing:-.05em;line-height:1;margin-bottom:.4rem;background:linear-gradient(135deg,var(--violet),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.strip-label{font-family:var(--mono);font-size:.7rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:700px){.stat-strip-inner{grid-template-columns:repeat(2,1fr)}.strip-stat{padding:1rem;border-right:none;border-bottom:1px solid var(--border)}.strip-stat:nth-child(3),.strip-stat:last-child{border-bottom:none}}
+
+/* ── Industry cards ── */
+.industry-card{border:1px solid var(--border);border-radius:var(--r2);padding:2rem;background:var(--surface);position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s}
+.industry-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.industry-card.ic-v::before{background:linear-gradient(90deg,var(--violet),rgba(108,71,255,.2))}
+.industry-card.ic-t::before{background:linear-gradient(90deg,var(--teal),rgba(0,184,148,.2))}
+.industry-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(108,71,255,.12)}
+.ic-num{position:absolute;bottom:-1.5rem;right:1.5rem;font-size:6rem;font-weight:800;font-family:var(--mono);color:rgba(255,255,255,.025);letter-spacing:-.05em;line-height:1;pointer-events:none;user-select:none}
+[data-theme="light"] .ic-num{color:rgba(0,0,0,.04)}
+.ic-label{font-size:1.1rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.75rem}
+.ic-desc{font-size:.9rem;color:var(--text2);margin-bottom:1.25rem;line-height:1.65}
+.ic-list{list-style:none;display:flex;flex-direction:column;gap:.45rem}
+.ic-list li{font-size:.83rem;color:var(--text3);display:flex;align-items:center;gap:.6rem}
+.ic-list li::before{content:'';width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.ic-list.iv li::before{background:var(--violet)}
+.ic-list.it li::before{background:var(--teal)}
 </style>
 
 </head>
@@ -343,7 +417,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
   <div class="wrap" style="width:100%">
     <div class="hero-content">
       <div class="badge animate-up">AI-Native Enterprise Architecture</div>
-      <h1 class="animate-up-2">Enterprise AI<br>Needs <span class="accent">Architecture</span> —<br>Not Just <span class="accent-teal">Models</span></h1>
+      <h1 class="animate-up-2">Enterprise AI Needs<br><span class="accent">Architecture.</span><br><span class="accent-teal">Not Just Models</span></h1>
       <p class="hero-sub animate-up-3">EPICUltra provides the risk-grade foundation required to deploy AI safely across complex enterprise workflows.</p>
       <p class="hero-support animate-up-3">Deploy AI with confidence across trading, risk, and finance workflows without compromising control, compliance, or operational integrity.</p>
       <div class="hero-btns animate-up-4">
@@ -368,38 +442,49 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
     </div>
     <div class="grid-3">
       <div class="card">
-        <div class="card-icon">⚡</div>
+        <div class="card-icon">⚖️</div>
         <h3>No Governance Layer</h3>
         <p>Off-the-shelf AI lacks mandate controls, role-based limits, and financial guardrails — creating unacceptable risk at every decision point.</p>
       </div>
       <div class="card">
-        <div class="card-icon">🔒</div>
+        <div class="card-icon">👁️</div>
         <h3>Black-Box Decisions</h3>
         <p>When AI journals an entry or flags a position, you need a full audit trail. Opaque models cannot survive regulatory scrutiny.</p>
       </div>
       <div class="card">
-        <div class="card-icon">⚠️</div>
+        <div class="card-icon">🌀</div>
         <h3>Hallucination at Scale</h3>
         <p>Unstructured retrieval causes confabulation. In margin calculations and risk reports, one wrong number creates systemic exposure.</p>
       </div>
       <div class="card">
-        <div class="card-icon">🗄️</div>
+        <div class="card-icon">🧩</div>
         <h3>Fragmented Systems</h3>
         <p>Fragmented ETRM, ERP, and settlement systems create inconsistent data across operational platforms with no single source of truth.</p>
       </div>
       <div class="card">
-        <div class="card-icon">📈</div>
+        <div class="card-icon">💥</div>
         <h3>Amplified Errors</h3>
         <p>Market volatility increases exposure sensitivity. Operational automation deployed without controls amplifies errors at scale.</p>
       </div>
       <div class="card" style="background:linear-gradient(135deg,var(--surface2),var(--surface));border-color:var(--border2)">
-        <div class="card-icon">🏗️</div>
+        <div class="card-icon">🎯</div>
         <h3>The Solution</h3>
         <p>Modern enterprises need more than AI tools. They need <strong style="color:var(--teal)">AI architecture built for controlled execution.</strong></p>
       </div>
     </div>
   </div>
 </section>
+
+<div class="stat-strip">
+  <div class="wrap">
+    <div class="stat-strip-inner">
+      <div class="strip-stat"><div class="strip-val">9+</div><div class="strip-label">Production Agents</div></div>
+      <div class="strip-stat"><div class="strip-val">100%</div><div class="strip-label">Decision Traceability</div></div>
+      <div class="strip-stat"><div class="strip-val">&lt;15ms</div><div class="strip-label">Execution Latency</div></div>
+      <div class="strip-stat"><div class="strip-val">7yr</div><div class="strip-label">Audit Log Retention</div></div>
+    </div>
+  </div>
+</div>
 
 <section style="padding:5rem 0;background:var(--bg2)">
   <div class="wrap">
@@ -408,34 +493,55 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
       <h2>Four Layers. <span class="accent">Zero Compromise.</span></h2>
       <p>A purpose-built stack where governance, traceability, and mandate enforcement are structural — not add-ons.</p>
     </div>
-    <div class="arch-stack">
-      <div class="arch-layer al-1">
-        <span class="hal-dot" style="background:#6c47ff"></span>
-        <span class="hal-label">Risk-Grade Data Engineering</span>
-        <span class="hal-tag">Reconciled · Audit-ready · Single source of truth</span>
+    <div class="lt-wrap">
+      <div class="lt-line"></div>
+      <div class="lt-item">
+        <div class="lt-num lt-n1">01</div>
+        <div>
+          <div class="lt-icon">⚙️</div>
+          <div class="lt-title">Risk-Grade Data Engineering</div>
+          <div class="lt-desc">Clean, curated data pipelines integrate ETRM, ERP, and market data sources into reconciled datasets with full lineage traceability. AI models operate on trusted enterprise data — not fragmented system extracts.</div>
+          <div class="lt-tags"><span class="lt-tag">Reconciled</span><span class="lt-tag">Audit-ready</span><span class="lt-tag">Single source of truth</span><span class="lt-tag">Medallion architecture</span></div>
+        </div>
       </div>
-      <div class="arch-layer al-2">
-        <span class="hal-dot" style="background:#8b6aff"></span>
-        <span class="hal-label">Context-Governed Intelligence</span>
-        <span class="hal-tag">Structured retrieval · Hallucination reduction</span>
+      <div class="lt-item">
+        <div class="lt-num lt-n2">02</div>
+        <div>
+          <div class="lt-icon">🎯</div>
+          <div class="lt-title">Context-Governed Intelligence</div>
+          <div class="lt-desc">Structured retrieval anchors AI outputs in validated enterprise context. Dramatically reduces hallucinations and ensures decisions remain grounded in authoritative data sources only.</div>
+          <div class="lt-tags"><span class="lt-tag">Structured retrieval</span><span class="lt-tag">Hallucination reduction</span><span class="lt-tag">Explainable outputs</span></div>
+        </div>
       </div>
-      <div class="arch-layer al-3">
-        <span class="hal-dot" style="background:#00c4a1"></span>
-        <span class="hal-label">Total Decision Traceability</span>
-        <span class="hal-tag">Model logging · Policy enforcement logs</span>
+      <div class="lt-item">
+        <div class="lt-num lt-n3">03</div>
+        <div>
+          <div class="lt-icon">📜</div>
+          <div class="lt-title">Total Decision Traceability</div>
+          <div class="lt-desc">Every AI recommendation and action is recorded with complete transparency — reasoning pathways, source data context, model versions, and policy constraints. A fully auditable record for risk committees and regulators.</div>
+          <div class="lt-tags"><span class="lt-tag">Model logging</span><span class="lt-tag">Policy enforcement logs</span><span class="lt-tag">Regulator access</span><span class="lt-tag">Full replay</span></div>
+        </div>
       </div>
-      <div class="arch-layer al-4">
-        <span class="hal-dot" style="background:#00f5c8"></span>
-        <span class="hal-label">Mandate-Defined Agent Execution</span>
-        <span class="hal-tag">Role-based limits · Financial guardrails</span>
+      <div class="lt-item">
+        <div class="lt-num lt-n4">04</div>
+        <div>
+          <div class="lt-icon">🔒</div>
+          <div class="lt-title">Mandate-Defined Agent Execution</div>
+          <div class="lt-desc">Agents operate within clearly defined authority boundaries. Each agent is limited to specific roles, decision scopes, and execution environments — preventing uncontrolled automation at every level.</div>
+          <div class="lt-tags"><span class="lt-tag">Role-based limits</span><span class="lt-tag">Financial guardrails</span><span class="lt-tag">Isolated environments</span></div>
+        </div>
       </div>
-      <div class="arch-layer al-5">
-        <span class="hal-dot" style="background:#00f5c8;box-shadow:0 0 8px #00f5c8"></span>
-        <span class="hal-label">Isolated &amp; Resilient Architecture</span>
-        <span class="hal-tag">Versioned containers · Kill-switch controls · Rollback</span>
+      <div class="lt-item">
+        <div class="lt-num lt-n5">05</div>
+        <div>
+          <div class="lt-icon">🏗️</div>
+          <div class="lt-title">Isolated &amp; Resilient Architecture</div>
+          <div class="lt-desc">AI agents run within independently versioned container environments with rollback capabilities and kill-switch controls. Ensures operational containment and resilience across every deployment.</div>
+          <div class="lt-tags"><span class="lt-tag">Versioned containers</span><span class="lt-tag">Kill-switch controls</span><span class="lt-tag">Rollback</span><span class="lt-tag">Zero cross-contamination</span></div>
+        </div>
       </div>
     </div>
-    <div style="text-align:center;margin-top:2.5rem">
+    <div style="text-align:center;margin-top:3rem">
       <a href="architecture.html" class="btn-primary">View Full Architecture →</a>
     </div>
   </div>
@@ -447,26 +553,38 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
     <div class="section-header">
       <h2>Risk-Grade AI, <span class="accent">By Design</span></h2>
     </div>
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-icon">🛡️</div>
-        <h3>Governance First</h3>
-        <p>Every agent operates within defined mandates. No action executes outside its authorized boundary — ever.</p>
+    <div>
+      <div class="principle">
+        <div class="principle-num">01</div>
+        <div>
+          <div class="principle-icon">🛡️</div>
+          <div class="principle-title">Governance First</div>
+          <div class="principle-text">Every agent operates within defined mandates. No action executes outside its authorized boundary — ever. Governance is not a feature layer added after the fact; it is the foundation everything else is built on top of.</div>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-icon">🔍</div>
-        <h3>Full Explainability</h3>
-        <p>Every output includes a complete reasoning chain, data context, and model lineage — audit-ready at any moment.</p>
+      <div class="principle">
+        <div class="principle-num">02</div>
+        <div>
+          <div class="principle-icon">🔍</div>
+          <div class="principle-title">Full Explainability</div>
+          <div class="principle-text">Every output includes a complete reasoning chain, data context, and model lineage — audit-ready at any moment. When regulators ask why a decision was made, you have a complete, immutable answer.</div>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-icon">⚡</div>
-        <h3>Execution, Not Experimentation</h3>
-        <p>EPICUltra is not a pilot. It's production architecture engineered for enterprise accountability from day one.</p>
+      <div class="principle">
+        <div class="principle-num">03</div>
+        <div>
+          <div class="principle-icon">⚡</div>
+          <div class="principle-title">Execution, Not Experimentation</div>
+          <div class="principle-text">EPICUltra is not a pilot program. It's production architecture engineered for enterprise accountability from day one — built to operate in environments where the stakes are real and the margin for error is not.</div>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-icon">🔒</div>
-        <h3>True Isolation</h3>
-        <p>Deployment isolation ensures zero cross-contamination between agents, clients, or operational contexts.</p>
+      <div class="principle">
+        <div class="principle-num">04</div>
+        <div>
+          <div class="principle-icon">🔒</div>
+          <div class="principle-title">True Isolation</div>
+          <div class="principle-text">Deployment isolation ensures zero cross-contamination between agents, clients, or operational contexts. Every EPICUltra deployment is its own isolated environment with dedicated compute and no shared memory.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -502,34 +620,37 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
       <h2>Built for <span class="accent">High-Stakes</span> Financial Operations</h2>
     </div>
     <div class="grid-3">
-      <div class="card">
-        <h3 style="color:var(--violet);margin-bottom:1rem">⚡ Energy Trading</h3>
-        <p style="margin-bottom:1rem">Real-time exposure management and margin automation for commodity and derivatives trading desks.</p>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem">
-          <li style="font-size:.83rem;color:var(--text2)">→ Intraday exposure monitoring</li>
-          <li style="font-size:.83rem;color:var(--text2)">→ Margin automation</li>
-          <li style="font-size:.83rem;color:var(--text2)">→ Limit breach detection</li>
-          <li style="font-size:.83rem;color:var(--text2)">→ Scenario simulation</li>
+      <div class="industry-card ic-v">
+        <div class="ic-num">01</div>
+        <div class="ic-label">⚡ Energy Trading</div>
+        <div class="ic-desc">Real-time exposure management and margin automation for commodity and derivatives trading desks.</div>
+        <ul class="ic-list iv">
+          <li>Intraday exposure monitoring</li>
+          <li>Margin automation</li>
+          <li>Limit breach detection</li>
+          <li>Scenario simulation</li>
         </ul>
       </div>
-      <div class="card">
-        <h3 style="color:var(--teal);margin-bottom:1rem">🏦 Financial Operations</h3>
-        <p style="margin-bottom:1rem">Continuous close, journal automation, and reconciliation intelligence for enterprise finance teams.</p>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem">
-          <li style="font-size:.83rem;color:var(--text2)">→ Journal automation</li>
-          <li style="font-size:.83rem;color:var(--text2)">→ Close acceleration</li>
-          <li style="font-size:.83rem;color:var(--text2)">→ Reconciliation intelligence</li>
-          <li style="font-size:.83rem;color:var(--text2)">→ Variance detection</li>
+      <div class="industry-card ic-t">
+        <div class="ic-num">02</div>
+        <div class="ic-label">🏦 Financial Operations</div>
+        <div class="ic-desc">Continuous close, journal automation, and reconciliation intelligence for enterprise finance teams.</div>
+        <ul class="ic-list it">
+          <li>Journal automation</li>
+          <li>Close acceleration</li>
+          <li>Reconciliation intelligence</li>
+          <li>Variance detection</li>
         </ul>
       </div>
-      <div class="card">
-        <h3 style="color:var(--violet);margin-bottom:1rem">🛡️ Enterprise Risk</h3>
-        <p style="margin-bottom:1rem">Cross-platform exposure aggregation and live risk monitoring for CROs and risk management teams.</p>
-        <ul style="list-style:none;display:flex;flex-direction:column;gap:.4rem">
-          <li style="font-size:.83rem;color:var(--text2)">→ Anomaly detection</li>
-          <li style="font-size:.83rem;color:var(--text2)">→ Counterparty exposure analysis</li>
-          <li style="font-size:.83rem;color:var(--text2)">→ Liquidity monitoring</li>
-          <li style="font-size:.83rem;color:var(--text2)">→ Policy enforcement</li>
+      <div class="industry-card ic-v">
+        <div class="ic-num">03</div>
+        <div class="ic-label">🛡️ Enterprise Risk</div>
+        <div class="ic-desc">Cross-platform exposure aggregation and live risk monitoring for CROs and risk management teams.</div>
+        <ul class="ic-list iv">
+          <li>Anomaly detection</li>
+          <li>Counterparty exposure analysis</li>
+          <li>Liquidity monitoring</li>
+          <li>Policy enforcement</li>
         </ul>
       </div>
     </div>
