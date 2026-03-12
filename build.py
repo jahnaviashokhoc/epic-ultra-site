@@ -234,7 +234,7 @@ section:first-of-type{padding-top:9rem}
 
 /* ── Compliance table ── */
 .compliance-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden}
-.compliance-item{background:var(--surface);padding:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.compliance-item{background:var(--surface);padding:1.5rem}
 .compliance-name{font-size:.9rem;font-weight:600}
 .compliance-status{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;padding:.25rem .65rem;border-radius:4px}
 .status-progress{background:rgba(108,71,255,.12);color:var(--violet);border:1px solid rgba(108,71,255,.2)}
@@ -265,7 +265,7 @@ section:first-of-type{padding-top:9rem}
 .manifesto p{font-size:1.35rem;font-weight:600;line-height:1.55;letter-spacing:-.02em;color:var(--text);position:relative}
 
 /* ── Resources ── */
-.resource-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:1.75rem;display:flex;justify-content:space-between;align-items:center;gap:1.5rem;transition:.25s}
+.resource-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:1.75rem;transition:.25s}
 .resource-card:hover{border-color:var(--violet);transform:translateX(4px)}
 .resource-type{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:.35rem}
 .resource-title{font-size:.95rem;font-weight:600;margin-bottom:.3rem}
@@ -291,6 +291,10 @@ section:first-of-type{padding-top:9rem}
 .position-list{list-style:none;display:flex;flex-direction:column;gap:.6rem}
 .position-list li{display:flex;align-items:center;gap:.75rem;font-size:.95rem;color:var(--text2)}
 .position-list li::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--teal);flex-shrink:0;box-shadow:0 0 8px var(--teal)}
+
+/* ── About split grid ── */
+.about-split{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+@media(max-width:700px){.about-split{grid-template-columns:1fr;gap:2.5rem}}
 
 /* ── How different ── */
 .diff-item{padding:1.75rem 0;border-bottom:1px solid var(--border);display:grid;grid-template-columns:1fr 2fr;gap:2rem}
@@ -345,6 +349,21 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
 .hal-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .hal-label{font-size:.85rem;font-weight:500;flex:1}
 .hal-tag{font-family:var(--mono);font-size:.65rem;color:var(--text3);letter-spacing:.06em}
+
+/* ── Feature highlight cards (teal bold) ── */
+.feat-item{background:rgba(0,184,148,.04);border:1px solid rgba(0,184,148,.15);border-left:3px solid var(--teal);border-radius:var(--r);padding:1rem 1.25rem}
+.feat-item strong{color:var(--teal);font-weight:700;font-size:.9rem;display:block;margin-bottom:.3rem}
+.feat-item span{font-size:.85rem;color:var(--text2);line-height:1.6;display:block}
+[data-theme="light"] .feat-item{background:rgba(0,137,110,.04);border-color:rgba(0,137,110,.2)}
+
+/* ── Horizontal flow steps ── */
+.flow-h{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;margin:2rem 0}
+.flow-h-step{background:var(--surface2);padding:1.25rem 1.5rem;position:relative}
+.flow-h-step:not(:last-child)::after{content:'→';position:absolute;right:-.55rem;top:1.25rem;color:var(--text3);font-size:.85rem;z-index:1;background:var(--surface2);padding:.1rem 0}
+.flow-h-num{font-family:var(--mono);font-size:.64rem;color:var(--teal);letter-spacing:.08em;text-transform:uppercase;margin-bottom:.4rem}
+.flow-h-step strong{font-size:.88rem;font-weight:600;display:block;margin-bottom:.3rem}
+.flow-h-step span{font-size:.78rem;color:var(--text2);line-height:1.5}
+@media(max-width:700px){.flow-h{grid-template-columns:1fr 1fr}}
 
 /* ── Compact agent cards ── */
 .agc{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:1.75rem;display:flex;flex-direction:column;gap:.7rem;transition:border-color .25s,transform .2s,box-shadow .25s;position:relative;overflow:hidden}
@@ -853,95 +872,82 @@ arch_body = """
 
 <section>
   <div class="wrap">
-    <div class="layer-block">
+    <div class="layer-block" style="grid-template-columns:1fr">
       <div>
         <div class="layer-num">Layer 01 — Foundation</div>
         <div class="layer-title">Risk-Grade Data <span class="accent">Engineering</span></div>
-        <div class="layer-desc">The foundation of trustworthy AI is trustworthy data. EPICUltra establishes a reconciled, audit-ready data layer before any intelligence layer touches it.</div>
-        <div class="flow">
-          <div class="flow-step"><div class="flow-num">1</div><div class="flow-text"><strong>Raw Ingestion</strong><span>Bank feeds · Trading systems · ERP</span></div></div>
-          <div class="flow-step"><div class="flow-num">2</div><div class="flow-text"><strong>Reconciliation Engine</strong><span>Balance checks · Discrepancy flags · Lineage</span></div></div>
-          <div class="flow-step"><div class="flow-num">3</div><div class="flow-text"><strong>Canonical Store</strong><span>Single version of truth · Versioned snapshots</span></div></div>
-          <div class="flow-step"><div class="flow-num">4</div><div class="flow-text"><strong>Verified Data</strong><span>Audit-ready · Agent-accessible · Policy-tagged</span></div></div>
-        </div>
+        <div class="layer-desc" style="max-width:700px">The foundation of trustworthy AI is trustworthy data. EPICUltra establishes a reconciled, audit-ready data layer before any intelligence layer touches it. AI models operate on trusted enterprise data — not fragmented system extracts.</div>
       </div>
-      <div>
-        <ul class="feature-list">
-          <li><div>⚖️ <strong>Reconciled Data Layer</strong> — Positions, balances, and transactions verified before processing. <span class="tag-active">ACTIVE</span></div></li>
-          <li><div>◎ <strong>Single Version of Truth</strong> — Canonical stores eliminate version conflicts across all functions. <span class="tag-active">ACTIVE</span></div></li>
-          <li><div>📋 <strong>Audit-Ready Ingestion</strong> — Every data point timestamped, sourced, and versioned at ingestion. <span class="tag-streaming">STREAMING</span></div></li>
-          <li><div>⟳ <strong>Medallion Architecture</strong> — Bronze → Silver → Gold with enforced quality gates at each stage. <span class="tag-active">ACTIVE</span></div></li>
-        </ul>
+      <div class="flow-h">
+        <div class="flow-h-step"><div class="flow-h-num">01</div><strong>Raw Ingestion</strong><span>Bank feeds · Trading systems · ERP</span></div>
+        <div class="flow-h-step"><div class="flow-h-num">02</div><strong>Reconciliation Engine</strong><span>Balance checks · Discrepancy flags · Lineage</span></div>
+        <div class="flow-h-step"><div class="flow-h-num">03</div><strong>Canonical Store</strong><span>Single version of truth · Versioned snapshots</span></div>
+        <div class="flow-h-step"><div class="flow-h-num">04</div><strong>Verified Data</strong><span>Audit-ready · Agent-accessible · Policy-tagged</span></div>
+      </div>
+      <div class="grid-4" style="gap:.75rem">
+        <div class="feat-item"><strong>⚖️ Reconciled Data Layer</strong><span>Positions, balances, and transactions verified before any processing occurs.</span></div>
+        <div class="feat-item"><strong>◎ Single Version of Truth</strong><span>Canonical stores eliminate version conflicts across all operational functions.</span></div>
+        <div class="feat-item"><strong>📋 Audit-Ready Ingestion</strong><span>Every data point timestamped, sourced, and versioned at ingestion.</span></div>
+        <div class="feat-item"><strong>⟳ Medallion Architecture</strong><span>Bronze → Silver → Gold with enforced quality gates at each stage.</span></div>
       </div>
     </div>
 
-    <div class="layer-block">
+    <div class="layer-block" style="grid-template-columns:1fr">
       <div>
         <div class="layer-num">Layer 02 — Intelligence</div>
         <div class="layer-title">Context-Governed <span class="accent">Intelligence</span></div>
-        <div class="layer-desc">Structured retrieval replaces unconstrained generation. Every response grounded in verified, policy-tagged context — making hallucination structurally impossible in critical paths.</div>
-        <div class="metrics">
-          <div class="metric"><div class="metric-val">99.2%</div><div class="metric-label">Retrieval Precision</div></div>
-          <div class="metric"><div class="metric-val">100%</div><div class="metric-label">Context Grounding</div></div>
-          <div class="metric"><div class="metric-val">0</div><div class="metric-label">Hallucination Incidents (30d)</div></div>
-          <div class="metric"><div class="metric-val">12ms</div><div class="metric-label">Avg Response Latency</div></div>
-          <div class="metric"><div class="metric-val">FULL</div><div class="metric-label">Explainability Score</div></div>
-          <div class="metric"><div class="metric-val">14</div><div class="metric-label">Policy Overrides Blocked Today</div></div>
-        </div>
+        <div class="layer-desc" style="max-width:700px">Structured retrieval replaces unconstrained generation. Every response grounded in verified, policy-tagged context — making hallucination structurally impossible in critical paths.</div>
       </div>
-      <div>
-        <ul class="feature-list">
-          <li><div>🎯 <strong>Structured Retrieval</strong> — Context injected via verified, policy-scoped retrieval pipelines only. <span class="tag-active">ACTIVE</span></div></li>
-          <li><div>🛡️ <strong>Hallucination Reduction</strong> — Guardrails at the context layer anchor every output to reconciled data. <span class="tag-enforced">ENFORCED</span></div></li>
-          <li><div>💬 <strong>Explainable Outputs</strong> — Data source, reasoning chain, and confidence level in every output. <span class="tag-live">LIVE</span></div></li>
-        </ul>
+      <div class="metrics">
+        <div class="metric"><div class="metric-val">99.2%</div><div class="metric-label">Retrieval Precision</div></div>
+        <div class="metric"><div class="metric-val">100%</div><div class="metric-label">Context Grounding</div></div>
+        <div class="metric"><div class="metric-val">0</div><div class="metric-label">Hallucination Incidents (30d)</div></div>
+        <div class="metric"><div class="metric-val">12ms</div><div class="metric-label">Avg Response Latency</div></div>
+        <div class="metric"><div class="metric-val">FULL</div><div class="metric-label">Explainability Score</div></div>
+        <div class="metric"><div class="metric-val">14</div><div class="metric-label">Policy Overrides Blocked Today</div></div>
+      </div>
+      <div class="grid-3" style="gap:.75rem;margin-top:1.5rem">
+        <div class="feat-item"><strong>🎯 Structured Retrieval</strong><span>Context injected via verified, policy-scoped retrieval pipelines only.</span></div>
+        <div class="feat-item"><strong>🛡️ Hallucination Reduction</strong><span>Guardrails at the context layer anchor every output to reconciled enterprise data.</span></div>
+        <div class="feat-item"><strong>💬 Explainable Outputs</strong><span>Data source, reasoning chain, and confidence level included in every output.</span></div>
       </div>
     </div>
 
-    <div class="layer-block">
+    <div class="layer-block" style="grid-template-columns:1fr">
       <div>
         <div class="layer-num">Layer 03 — Accountability</div>
         <div class="layer-title">Total Decision <span class="accent-teal">Traceability</span></div>
-        <div class="layer-desc">When regulators ask why a decision was made, you have a complete answer. Every AI action logged with model version, data context, and policy state at the moment of execution.</div>
-        <div class="flow">
-          <div class="flow-step"><div class="flow-num">1</div><div class="flow-text"><strong>Agent Decision Event</strong><span>Action triggered by market or schedule</span></div></div>
-          <div class="flow-step"><div class="flow-num">2</div><div class="flow-text"><strong>Trace Logger</strong><span>Model version · Data state · Policy check</span></div></div>
-          <div class="flow-step"><div class="flow-num">3</div><div class="flow-text"><strong>Immutable Audit Store</strong><span>Tamper-evident · Encrypted · Regulator access</span></div></div>
-          <div class="flow-step"><div class="flow-num">4</div><div class="flow-text"><strong>Audit Dashboard</strong><span>CRO / CIO / Regulator · Full replay capability</span></div></div>
-        </div>
+        <div class="layer-desc" style="max-width:700px">When regulators ask why a decision was made, you have a complete answer. Every AI action logged with model version, data context, and policy state at the moment of execution.</div>
       </div>
-      <div>
-        <ul class="feature-list">
-          <li><div>📁 <strong>Model Logging</strong> — Version, parameters, and decision weights — immutable, tamper-evident records. <span class="tag-streaming">STREAMING</span></div></li>
-          <li><div>🗃️ <strong>Data Context Capture</strong> — Exact data snapshot for each decision preserved alongside the output. <span class="tag-active">ACTIVE</span></div></li>
-          <li><div>📜 <strong>Policy Enforcement Logs</strong> — Every mandate check and guardrail trigger recorded with actor and outcome. <span class="tag-active">ACTIVE</span></div></li>
-        </ul>
+      <div class="flow-h">
+        <div class="flow-h-step"><div class="flow-h-num">01</div><strong>Agent Decision Event</strong><span>Action triggered by market or schedule</span></div>
+        <div class="flow-h-step"><div class="flow-h-num">02</div><strong>Trace Logger</strong><span>Model version · Data state · Policy check</span></div>
+        <div class="flow-h-step"><div class="flow-h-num">03</div><strong>Immutable Audit Store</strong><span>Tamper-evident · Encrypted · Regulator access</span></div>
+        <div class="flow-h-step"><div class="flow-h-num">04</div><strong>Audit Dashboard</strong><span>CRO / CIO / Regulator · Full replay</span></div>
+      </div>
+      <div class="grid-3" style="gap:.75rem">
+        <div class="feat-item"><strong>📁 Model Logging</strong><span>Version, parameters, and decision weights — immutable, tamper-evident records preserved at every action.</span></div>
+        <div class="feat-item"><strong>🗃️ Data Context Capture</strong><span>Exact data snapshot for each decision preserved alongside the output.</span></div>
+        <div class="feat-item"><strong>📜 Policy Enforcement Logs</strong><span>Every mandate check and guardrail trigger recorded with actor and outcome.</span></div>
       </div>
     </div>
 
-    <div class="layer-block">
+    <div class="layer-block" style="grid-template-columns:1fr">
       <div>
         <div class="layer-num">Layer 04 — Execution</div>
         <div class="layer-title">Mandate-Defined <span class="accent">Agent Execution</span></div>
-        <div class="layer-desc">Each agent operates within a precise mandate: defined roles, authorized actions, financial limits, and isolated environments. No agent exceeds its mandate — by architecture, not just policy.</div>
-        <div style="margin-top:1.5rem">
-          <div class="grid-2" style="gap:1rem">
-            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;font-size:.82rem"><span style="color:var(--teal);font-family:var(--mono);font-size:.68rem;display:block;margin-bottom:.3rem">🛡️ SOC-READY</span>SOC 2 Type II alignment from day one</div>
-            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;font-size:.82rem"><span style="color:var(--teal);font-family:var(--mono);font-size:.68rem;display:block;margin-bottom:.3rem">🔐 AES-256</span>End-to-end encryption at rest and transit</div>
-            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;font-size:.82rem"><span style="color:var(--teal);font-family:var(--mono);font-size:.68rem;display:block;margin-bottom:.3rem">📋 RBAC</span>Role-based access at every layer</div>
-            <div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--r);padding:1rem;font-size:.82rem"><span style="color:var(--teal);font-family:var(--mono);font-size:.68rem;display:block;margin-bottom:.3rem">📊 AUDIT LOG</span>7-year immutable retention</div>
-          </div>
-        </div>
+        <div class="layer-desc" style="max-width:700px">Each agent operates within a precise mandate: defined roles, authorized actions, financial limits, and isolated environments. No agent exceeds its mandate — by architecture, not just policy.</div>
       </div>
-      <div>
-        <ul class="feature-list">
-          <li><div>👤 <strong>Role-Based Limits</strong> — Specific role with defined action scope. Cross-role actions blocked at runtime. <span class="tag-enforced">ENFORCED</span></div></li>
-          <li><div>💰 <strong>Financial Guardrails</strong> — Hard limits on position sizes, journal values, and exposure thresholds. <span class="tag-active">ACTIVE</span></div></li>
-          <li><div>🔒 <strong>Isolated Environments</strong> — No shared memory, no cross-contamination, no lateral movement. <span class="tag-active">ACTIVE</span></div></li>
-        </ul>
-        <div style="margin-top:2rem">
-          <a href="#contact" class="btn-primary">Download Architecture PDF</a>
-        </div>
+      <div class="grid-3" style="gap:.75rem">
+        <div class="feat-item"><strong>👤 Role-Based Limits</strong><span>Specific role with defined action scope. Cross-role actions blocked at runtime — no exceptions.</span></div>
+        <div class="feat-item"><strong>💰 Financial Guardrails</strong><span>Hard limits on position sizes, journal values, and exposure thresholds enforced at every execution.</span></div>
+        <div class="feat-item"><strong>🔒 Isolated Environments</strong><span>No shared memory, no cross-contamination, no lateral movement between agents or clients.</span></div>
+      </div>
+      <div class="flow-h" style="margin-top:1.5rem">
+        <div class="flow-h-step"><div style="font-size:1.4rem;margin-bottom:.4rem">🛡️</div><strong>SOC-Ready</strong><span>SOC 2 Type II alignment from day one</span></div>
+        <div class="flow-h-step"><div style="font-size:1.4rem;margin-bottom:.4rem">🔐</div><strong>AES-256</strong><span>End-to-end encryption at rest and in transit</span></div>
+        <div class="flow-h-step"><div style="font-size:1.4rem;margin-bottom:.4rem">📋</div><strong>RBAC</strong><span>Role-based access control at every layer</span></div>
+        <div class="flow-h-step"><div style="font-size:1.4rem;margin-bottom:.4rem">📊</div><strong>Audit Log</strong><span>7-year immutable retention</span></div>
       </div>
     </div>
   </div>
@@ -953,38 +959,28 @@ arch_body = """
 # ══════════════════════════════════════════════════════════════════════════════
 agents_data = [
     ("📊","01","Margin Analyst","MONITOR · ANALYZE · ALERT",
-     "Real-time margin analysis with threshold alerts and mandate-controlled escalation.",
-     "CME SPAN · Bloomberg · Internal ERP"),
+     "Real-time margin analysis with threshold alerts and mandate-controlled escalation."),
     ("📡","02","Exposure Monitor","AGGREGATE · REPORT · ALERT",
-     "Continuous cross-platform exposure aggregation and real-time risk visibility.",
-     "ICE · Murex · Reuters"),
+     "Continuous cross-platform exposure aggregation and real-time risk visibility."),
     ("📝","03","Journal Entry","EXTRACT · CLASSIFY · POST",
-     "Intelligent GL automation from bank data. 80% straight-through processing rate.",
-     "SAP · Oracle · NetSuite"),
+     "Intelligent GL automation from bank data. 80% straight-through processing rate."),
     ("⚖️","04","Reconciliation","VERIFY · MATCH · RESOLVE",
-     "Automated ledger matching with 90%+ straight-through reconciliation rate.",
-     "DTC · SWIFT · Custodian APIs"),
+     "Automated ledger matching with 90%+ straight-through reconciliation rate."),
     ("⚡","05","Close Accelerator","ORCHESTRATE · VALIDATE · CLOSE",
-     "Month-end close reduced from 10 days to under 3.",
-     "BlackLine · Workiva · Oracle EPM"),
+     "Month-end close reduced from 10 days to under 3."),
     ("📋","06","Regulatory Reporting","COMPILE · VALIDATE · SUBMIT",
-     "Automated regulatory submissions across CFTC, SEC, and FCA — fully auditable.",
-     "CFTC Portal · SEC EDGAR · FCA"),
+     "Automated regulatory submissions across CFTC, SEC, and FCA — fully auditable."),
     ("💧","07","Liquidity Watch","FORECAST · MONITOR · ALERT",
-     "Real-time liquidity monitoring with scenario-based stress forecasting.",
-     "Fed Wire · CHIPS · Treasury TMS"),
+     "Real-time liquidity monitoring with scenario-based stress forecasting."),
     ("🧾","08","Billing Validation","VALIDATE · FLAG · AUDIT",
-     "AI-driven billing calculation validation with full audit traceability.",
-     "SAP · Oracle · NetSuite"),
+     "AI-driven billing calculation validation with full audit traceability."),
     ("🤖","09","JAQ – Junior Accountant","DETECT · ANALYZE · EXPLAIN",
-     "AI detection of P&L anomalies with natural-language explanations for finance teams.",
-     "Oracle EPM · Workiva · SAP · Hyperion"),
+     "AI detection of P&L anomalies with natural-language explanations for finance teams."),
 ]
 
 agents_cards = ""
-for icon, num, name, role, desc, integrations in agents_data:
+for icon, num, name, role, desc in agents_data:
     role_tags = "".join(f'<span class="agc-role">{r.strip()}</span>' for r in role.split("·"))
-    int_tags  = "".join(f'<span class="agc-int">{i.strip()}</span>'  for i in integrations.split("·"))
     agents_cards += f"""
     <div class="agc">
       <div class="agc-num">{num}</div>
@@ -992,7 +988,6 @@ for icon, num, name, role, desc, integrations in agents_data:
       <div class="agc-name">{name}</div>
       <div class="agc-roles">{role_tags}</div>
       <div class="agc-desc">{desc}</div>
-      <div class="agc-ints">{int_tags}</div>
     </div>"""
 
 agents_body = f"""
@@ -1085,12 +1080,12 @@ gov_body = """
       <div class="badge">Compliance Frameworks</div>
       <div class="section-header"><h2>Regulatory <span class="accent-teal">Coverage</span></h2></div>
       <div class="compliance-grid">
-        <div class="compliance-item"><span class="compliance-name">SOC 2 Type II</span><span class="compliance-status status-progress">IN PROGRESS</span></div>
-        <div class="compliance-item"><span class="compliance-name">ISO 27001</span><span class="compliance-status status-roadmap">ROADMAP</span></div>
-        <div class="compliance-item"><span class="compliance-name">CFTC Compliance</span><span class="compliance-status status-supported">SUPPORTED</span></div>
-        <div class="compliance-item"><span class="compliance-name">GDPR</span><span class="compliance-status status-compliant">COMPLIANT</span></div>
-        <div class="compliance-item"><span class="compliance-name">Basel III / IV</span><span class="compliance-status status-supported">SUPPORTED</span></div>
-        <div class="compliance-item"><span class="compliance-name">Internal Audit</span><span class="compliance-status status-compliant">FULL ACCESS</span></div>
+        <div class="compliance-item"><span class="compliance-name">SOC 2 Type II</span></div>
+        <div class="compliance-item"><span class="compliance-name">ISO 27001</span></div>
+        <div class="compliance-item"><span class="compliance-name">CFTC Compliance</span></div>
+        <div class="compliance-item"><span class="compliance-name">GDPR</span></div>
+        <div class="compliance-item"><span class="compliance-name">Basel III / IV</span></div>
+        <div class="compliance-item"><span class="compliance-name">Internal Audit</span></div>
       </div>
       <div style="text-align:center;margin-top:2.5rem">
         <a href="#contact" class="btn-primary">Request Security &amp; Governance Overview</a>
@@ -1213,7 +1208,7 @@ about_body = """
       </div>
     </div>
 
-    <div style="margin-top:4rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start">
+    <div class="about-split" style="margin-top:4rem">
       <div>
         <div class="badge">Position Statement</div>
         <ul class="position-list" style="margin-top:1.5rem">
@@ -1244,14 +1239,6 @@ about_body = """
       </div>
     </div>
 
-    <div style="margin-top:4rem">
-      <div class="badge">Why HOC + MidDel</div>
-      <div class="grid-3" style="margin-top:2rem">
-        <div class="card"><div class="card-icon">🏛️</div><h3>Deep Domain Expertise</h3><p>Decades of front-to-back energy trading lifecycle experience embedded into every workflow and agent mandate.</p></div>
-        <div class="card"><div class="card-icon">⚙️</div><h3>Enterprise Engineering Discipline</h3><p>Proven delivery of scalable data platforms in regulated environments, built for production from day one.</p></div>
-        <div class="card"><div class="card-icon">🤖</div><h3>Structured AI Deployment</h3><p>AI mapped to defined risk classes, controlled execution boundaries, and monitored model lifecycles.</p></div>
-      </div>
-    </div>
   </div>
 </section>
 """
@@ -1277,13 +1264,13 @@ resources_body = """
     <div class="badge">Downloads</div>
     <div class="section-header"><h2>Research &amp; <span class="accent">Documentation</span></h2></div>
     <div style="display:flex;flex-direction:column;gap:1rem;margin-bottom:4rem">
-      <div class="resource-card"><div><div class="resource-type">Whitepaper</div><div class="resource-title">AI Governance Brief for Financial Operations</div><div class="resource-desc">18 pages — A framework for evaluating AI governance in trading, risk, and finance.</div></div><a href="#contact" class="resource-dl">Request →</a></div>
-      <div class="resource-card"><div><div class="resource-type">Whitepaper</div><div class="resource-title">The Governance Imperative for AI in Trading</div><div class="resource-desc">A strategic framework for CROs evaluating AI deployment risk.</div></div><a href="#contact" class="resource-dl">Request →</a></div>
-      <div class="resource-card"><div><div class="resource-type">Technical Overview</div><div class="resource-title">EPICUltra Architecture Overview</div><div class="resource-desc">32 pages — Detailed technical documentation of the four-layer architecture.</div></div><a href="#contact" class="resource-dl">Request →</a></div>
-      <div class="resource-card"><div><div class="resource-type">Security Brief</div><div class="resource-title">Security &amp; Compliance Posture</div><div class="resource-desc">24 pages — SOC 2 alignment, data privacy posture, access control framework.</div></div><a href="#contact" class="resource-dl">Request →</a></div>
-      <div class="resource-card"><div><div class="resource-type">Case Study</div><div class="resource-title">Energy Trading: Margin Automation</div><div class="resource-desc">12 pages — How a mid-market trading desk reduced margin processing time by 70%.</div></div><a href="#contact" class="resource-dl">Request →</a></div>
-      <div class="resource-card"><div><div class="resource-type">Case Study</div><div class="resource-title">Finance Team: Continuous Close</div><div class="resource-desc">10 pages — From 10-day close to under 3, with 90% straight-through journal processing.</div></div><a href="#contact" class="resource-dl">Request →</a></div>
-      <div class="resource-card"><div><div class="resource-type">Research Paper</div><div class="resource-title">The Hallucination Problem in Financial AI</div><div class="resource-desc">14 pages — Why standard LLM retrieval fails in financial operations.</div></div><a href="#contact" class="resource-dl">Request →</a></div>
+      <div class="resource-card"><div><div class="resource-type">Whitepaper</div><div class="resource-title">AI Governance Brief for Financial Operations</div><div class="resource-desc">18 pages — A framework for evaluating AI governance in trading, risk, and finance.</div></div></div>
+      <div class="resource-card"><div><div class="resource-type">Whitepaper</div><div class="resource-title">The Governance Imperative for AI in Trading</div><div class="resource-desc">A strategic framework for CROs evaluating AI deployment risk.</div></div></div>
+      <div class="resource-card"><div><div class="resource-type">Technical Overview</div><div class="resource-title">EPICUltra Architecture Overview</div><div class="resource-desc">32 pages — Detailed technical documentation of the four-layer architecture.</div></div></div>
+      <div class="resource-card"><div><div class="resource-type">Security Brief</div><div class="resource-title">Security &amp; Compliance Posture</div><div class="resource-desc">24 pages — SOC 2 alignment, data privacy posture, access control framework.</div></div></div>
+      <div class="resource-card"><div><div class="resource-type">Case Study</div><div class="resource-title">Energy Trading: Margin Automation</div><div class="resource-desc">12 pages — How a mid-market trading desk reduced margin processing time by 70%.</div></div></div>
+      <div class="resource-card"><div><div class="resource-type">Case Study</div><div class="resource-title">Finance Team: Continuous Close</div><div class="resource-desc">10 pages — From 10-day close to under 3, with 90% straight-through journal processing.</div></div></div>
+      <div class="resource-card"><div><div class="resource-type">Research Paper</div><div class="resource-title">The Hallucination Problem in Financial AI</div><div class="resource-desc">14 pages — Why standard LLM retrieval fails in financial operations.</div></div></div>
     </div>
 
     <div class="badge">Webinars</div>
