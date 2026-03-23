@@ -415,7 +415,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
 /* ── Layer timeline (Five Layers section) ── */
 .lt-wrap{position:relative;margin-top:2.5rem}
 .lt-line{position:absolute;left:37px;top:36px;bottom:36px;width:2px;background:linear-gradient(180deg,var(--violet),var(--teal));opacity:.25;pointer-events:none}
-.lt-item{display:grid;grid-template-columns:auto 1fr;gap:2.5rem;padding:2rem 0;position:relative;align-items:start}
+.lt-item{display:grid;grid-template-columns:auto 1fr;gap:2.5rem;padding:2rem 1.25rem;position:relative;align-items:start;border-radius:var(--r2);transition:background .25s,box-shadow .25s;cursor:default}
+.lt-item:hover{background:rgba(108,71,255,.06);box-shadow:inset 0 0 0 1px rgba(108,71,255,.2),0 4px 32px rgba(108,71,255,.08)}
 .lt-item:not(:last-child)::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--border)}
 .lt-left{display:flex;align-items:center;gap:1rem;flex-shrink:0}
 .lt-num{width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:1rem;font-weight:700;color:#fff;flex-shrink:0;position:relative;z-index:1;letter-spacing:.02em}
@@ -515,6 +516,12 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
 .hscroll-track{display:flex;gap:1.25rem;padding:.25rem 0 1rem}
 .hscroll-track>.card{width:290px;flex-shrink:0;scroll-snap-align:start}
 .hscroll-hint{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-top:.5rem}
+/* ── Auto-scroll (marquee) ── */
+@keyframes marquee-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.hscroll-auto{overflow:hidden;cursor:default;scroll-snap-type:none;padding-bottom:0}
+.hscroll-auto .hscroll-track{width:max-content;animation:marquee-left 28s linear infinite;padding-bottom:1rem}
+.hscroll-auto .hscroll-track:hover{animation-play-state:paused}
+.hscroll-auto .hscroll-track>.card{scroll-snap-align:none}
 
 /* ── Diagonal divider ── */
 .diag-down{height:60px;background:var(--bg2);clip-path:polygon(0 0,100% 0,100% 100%,0 0);margin-bottom:-1px}
@@ -573,7 +580,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
       <h2>AI in <span class="accent">High-Risk</span> Environments</h2>
       <p class="word-reveal">Energy trading organizations operate in a world of accelerating volatility, fragmented systems, and exponential data growth. AI promises automation — but deployed without architecture, it amplifies weaknesses.</p>
     </div>
-    <div class="hscroll">
+    <div class="hscroll hscroll-auto">
       <div class="hscroll-track">
       <div class="card">
         <div class="card-icon">⚖️</div>
@@ -605,8 +612,38 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
         <h3>The Solution</h3>
         <p>Modern enterprises need more than AI tools. They need <strong style="color:var(--teal)">AI architecture built for controlled execution.</strong></p>
       </div>
+      <!-- duplicate set for seamless loop -->
+      <div class="card" aria-hidden="true">
+        <div class="card-icon">⚖️</div>
+        <h3>No Governance Layer</h3>
+        <p>Off-the-shelf AI lacks mandate controls, role-based limits, and financial guardrails — creating unacceptable risk at every decision point.</p>
+      </div>
+      <div class="card" aria-hidden="true">
+        <div class="card-icon">👁️</div>
+        <h3>Black-Box Decisions</h3>
+        <p>When AI journals an entry or flags a position, you need a full audit trail. Opaque models cannot survive regulatory scrutiny.</p>
+      </div>
+      <div class="card" aria-hidden="true">
+        <div class="card-icon">🌀</div>
+        <h3>Hallucination at Scale</h3>
+        <p>Unstructured retrieval causes confabulation. In margin calculations and risk reports, one wrong number creates systemic exposure.</p>
+      </div>
+      <div class="card" aria-hidden="true">
+        <div class="card-icon">🧩</div>
+        <h3>Fragmented Systems</h3>
+        <p>Fragmented ETRM, ERP, and settlement systems create inconsistent data across operational platforms with no single source of truth.</p>
+      </div>
+      <div class="card" aria-hidden="true">
+        <div class="card-icon">💥</div>
+        <h3>Amplified Errors</h3>
+        <p>Market volatility increases exposure sensitivity. Operational automation deployed without controls amplifies errors at scale.</p>
+      </div>
+      <div class="card" aria-hidden="true" style="background:linear-gradient(135deg,var(--surface2),var(--surface));border-color:var(--border2)">
+        <div class="card-icon">🎯</div>
+        <h3>The Solution</h3>
+        <p>Modern enterprises need more than AI tools. They need <strong style="color:var(--teal)">AI architecture built for controlled execution.</strong></p>
+      </div>
       </div></div>
-    <p class="hscroll-hint">← drag to explore →</p>
   </div>
 </section>
 
@@ -792,7 +829,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
   <div class="wrap">
     <div class="badge">Industries Served</div>
     <div class="section-header">
-      <h2>Built for <span class="accent">High-Stakes</span> Financial Operations</h2>
+      <h2>Built for <span class="accent">High-Stakes</span> Enterprise Domains</h2>
     </div>
     <div class="bento">
       <div class="bc bc-4 bc-tall">
@@ -946,7 +983,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 
   // ── Scroll reveal ──
-  const REVEAL = '.card,.agc,.lt-item,.principle,.industry-card,.pillar,.flip-card,.feat-item,.uc-item,.resource-card,.webinar-card,.tenet,.diff-item,.sec-stat,.compliance-item,.mb-item,.section-header';
+  const REVEAL = '.card,.agc,.principle,.industry-card,.pillar,.flip-card,.feat-item,.uc-item,.resource-card,.webinar-card,.tenet,.diff-item,.sec-stat,.compliance-item,.mb-item,.section-header';
   const revealEls = document.querySelectorAll(REVEAL);
   revealEls.forEach(el=>{
     el.style.opacity='0';
@@ -954,7 +991,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     el.style.transition='opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1)';
   });
   // stagger siblings in grid/list containers
-  document.querySelectorAll('.grid-3,.grid-2,.grid-4,.lt-wrap,.mandate-bar,.compliance-grid,.sec-stats,.about-split,.bento,.hscroll-track').forEach(container=>{
+  document.querySelectorAll('.grid-3,.grid-2,.grid-4,.mandate-bar,.compliance-grid,.sec-stats,.about-split,.bento').forEach(container=>{
     Array.from(container.children).forEach((child,i)=>{
       if(child.style.opacity==='0') child.style.transitionDelay=`${i*0.13}s`;
     });
@@ -1006,6 +1043,22 @@ document.addEventListener('DOMContentLoaded',()=>{
   },{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
   revealEls.forEach(el=>revealObs.observe(el));
 
+  // ── Layer timeline pull-in (Five Layers) ──
+  document.querySelectorAll('.lt-item').forEach((el,i)=>{
+    el.style.opacity='0';
+    el.style.transform='translateX(-40px)';
+    el.style.transition='opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1)';
+    const ltObs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(!e.isIntersecting) return;
+        e.target.style.opacity='1';
+        e.target.style.transform='translateX(0)';
+        ltObs.unobserve(e.target);
+      });
+    },{threshold:0.15,rootMargin:'0px 0px -20px 0px'});
+    ltObs.observe(el);
+  });
+
   // standalone counter observer for elements not inside reveal parents
   const countObs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
@@ -1041,7 +1094,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 
   // ── Horizontal scroll drag ──
-  document.querySelectorAll('.hscroll').forEach(el=>{
+  document.querySelectorAll('.hscroll:not(.hscroll-auto)').forEach(el=>{
     let down=false,startX,scrollLeft;
     el.addEventListener('mousedown',e=>{down=true;el.classList.add('hs-grab');startX=e.pageX-el.offsetLeft;scrollLeft=el.scrollLeft;});
     el.addEventListener('mouseleave',()=>{down=false;el.classList.remove('hs-grab');});
@@ -1068,7 +1121,7 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   // ── Cyclical tile highlight ──
   const TILE_Q=':scope>.card,:scope>.agc,:scope>.pillar,:scope>.industry-card,:scope>.mb-item,:scope>.feat-item,:scope>.compliance-item,:scope>.sec-stat,:scope>.lt-item';
-  document.querySelectorAll('.grid-3,.grid-2,.grid-4,.mandate-bar,.compliance-grid,.sec-stats,.lt-wrap,.hscroll-track').forEach((grid,gi)=>{
+  document.querySelectorAll('.grid-3,.grid-2,.grid-4,.mandate-bar,.compliance-grid,.sec-stats').forEach((grid,gi)=>{
     const tiles=Array.from(grid.querySelectorAll(TILE_Q));
     if(tiles.length<2) return;
     let started=false,idx=0;
