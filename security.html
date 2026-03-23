@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Security &amp; Compliance — EPICUltra</title>
+<meta name="description" content="EPICUltra security and compliance framework: RBAC, audit logging, agent versioning, environment segregation, and more.">
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('eu-theme')||'dark')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --violet:#6c47ff;--violet-dim:#4f30d4;--violet-glow:rgba(108,71,255,0.35);
+  --teal:#00b894;--teal-dim:#00966e;--teal-glow:rgba(0,184,148,0.25);
+  --bg:#050810;--bg2:#080d18;--bg3:#0d1220;
+  --surface:#111827;--surface2:#161e30;--surface3:#1c2540;
+  --border:rgba(108,71,255,0.2);--border2:rgba(0,245,200,0.15);
+  --text:#e4e8f5;--text2:#8892b0;--text3:#4a5268;
+  --nav-bg:rgba(5,8,16,0.85);
+  --font:'Sora',sans-serif;--mono:'DM Mono',monospace;
+  --r:8px;--r2:14px;--r3:20px;
+}
+
+/* ── Light theme ── */
+[data-theme="light"]{
+  --violet:#5a35e8;--violet-dim:#4527c9;--violet-glow:rgba(90,53,232,0.2);
+  --teal:#00896e;--teal-dim:#006e59;--teal-glow:rgba(0,137,110,0.15);
+  --bg:#f4f6fb;--bg2:#eef0f8;--bg3:#e8ebf5;
+  --surface:#ffffff;--surface2:#f0f2fa;--surface3:#e4e8f5;
+  --border:rgba(90,53,232,0.15);--border2:rgba(0,137,110,0.15);
+  --text:#0f1525;--text2:#4a5580;--text3:#8892b0;
+  --nav-bg:rgba(244,246,251,0.92);
+}
+[data-theme="light"] body{background:var(--bg)}
+[data-theme="light"] .card{box-shadow:0 2px 12px rgba(15,21,37,.06)}
+[data-theme="light"] .card:hover{box-shadow:0 8px 32px rgba(90,53,232,.12)}
+
+/* ── Theme toggle button ── */
+.theme-toggle{width:40px;height:40px;border-radius:50%;border:1px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:border-color .2s,background .2s,transform .15s;flex-shrink:0}
+.theme-toggle:hover{border-color:var(--violet);transform:rotate(20deg)}
+.theme-toggle .icon-dark{display:block}
+.theme-toggle .icon-light{display:none}
+[data-theme="light"] .theme-toggle .icon-dark{display:none}
+[data-theme="light"] .theme-toggle .icon-light{display:block}
+
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+
+/* ── Noise texture overlay ── */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.4}
+
+/* ── Nav ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between;background:var(--nav-bg);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
+.nav-logo{font-size:1.15rem;font-weight:700;color:var(--text);text-decoration:none;letter-spacing:-.02em}
+.nav-logo span{color:var(--violet)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.82rem;font-weight:500;color:var(--text2);text-decoration:none;letter-spacing:.04em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--teal)}
+.nav-cta{background:var(--violet);color:#fff;padding:.5rem 1.25rem;border-radius:var(--r);font-size:.82rem;font-weight:600;text-decoration:none;letter-spacing:.02em;transition:background .2s,box-shadow .2s}
+.nav-cta:hover{background:var(--violet-dim);box-shadow:0 0 20px var(--violet-glow)}
+.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px}
+.nav-hamburger span{display:block;width:22px;height:2px;background:var(--text);transition:.3s}
+@media(max-width:900px){
+  .nav-links{display:none;position:fixed;top:64px;left:0;right:0;background:var(--bg2);flex-direction:column;gap:0;border-bottom:1px solid var(--border);padding:1rem 0}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:.75rem 2rem;font-size:.9rem}
+  .nav-hamburger{display:flex}
+}
+
+/* ── Layout ── */
+.wrap{max-width:1160px;margin:0 auto;padding:0 2rem}
+section{padding:6rem 0}
+section:first-of-type{padding-top:9rem}
+
+/* ── Badges ── */
+.badge{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.72rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);border:1px solid var(--border2);border-radius:100px;padding:.35rem .9rem;margin-bottom:1.5rem}
+.badge::before{content:'';display:block;width:6px;height:6px;border-radius:50%;background:var(--teal);box-shadow:0 0 8px var(--teal)}
+@keyframes badgeDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.7)}}
+.badge::before{animation:badgeDot 2.8s ease-in-out infinite}
+
+/* ── Buttons ── */
+.btn-primary{background:var(--violet);color:#fff;padding:.85rem 2rem;border-radius:var(--r);font-size:.9rem;font-weight:600;text-decoration:none;border:none;cursor:pointer;transition:background .2s,box-shadow .2s,transform .15s;letter-spacing:.01em;display:inline-block}
+.btn-primary:hover{background:var(--violet-dim);box-shadow:0 0 30px var(--violet-glow);transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--text);padding:.85rem 2rem;border-radius:var(--r);font-size:.9rem;font-weight:500;text-decoration:none;border:1px solid var(--border);cursor:pointer;transition:border-color .2s,color .2s,transform .15s;display:inline-block}
+.btn-secondary:hover{border-color:var(--teal);color:var(--teal);transform:translateY(-1px)}
+
+/* ── Section header ── */
+.section-header{margin-bottom:3.5rem}
+.section-header h2{font-size:clamp(2.2rem,4.5vw,3.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:1rem}
+.section-header p{font-size:1.1rem;color:var(--text2);max-width:760px;line-height:1.7}
+.accent{color:var(--violet)}
+.accent-teal{color:var(--teal)}
+
+/* ── Hero ── */
+.page-hero{padding-top:9rem;padding-bottom:5rem;position:relative;overflow:hidden}
+.page-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(108,71,255,.1) 0%,transparent 70%);pointer-events:none}
+.page-hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.2;pointer-events:none;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,black 20%,transparent 80%)}
+.page-hero-inner{position:relative;z-index:1}
+.page-hero h1{font-size:clamp(2.8rem,5.5vw,4.8rem);font-weight:800;letter-spacing:-.04em;line-height:1.08;margin-bottom:1.5rem}
+.page-hero-sub{font-size:1.1rem;color:var(--text2);max-width:680px;line-height:1.75}
+
+/* ── Feature cards ── */
+.sec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.75rem}
+@media(max-width:800px){.sec-grid{grid-template-columns:1fr}}
+.sec-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r2);padding:2rem;transition:border-color .25s,transform .2s,box-shadow .25s}
+.sec-card:hover{border-color:var(--violet);transform:translateY(-3px);box-shadow:0 8px 40px rgba(108,71,255,.12)}
+.sec-card-icon{font-size:2rem;margin-bottom:1rem;line-height:1}
+.sec-card-title{font-size:1.05rem;font-weight:700;letter-spacing:-.02em;margin-bottom:1rem}
+.sec-card-points{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.sec-card-points li{font-size:.88rem;color:var(--text2);line-height:1.65;display:flex;align-items:flex-start;gap:.6rem}
+.sec-card-points li::before{content:'→';color:var(--teal);flex-shrink:0;margin-top:.05em;font-family:var(--mono)}
+
+/* ── Service cards (PES/QES) ── */
+.service-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.75rem;margin-top:1.75rem}
+@media(max-width:800px){.service-grid{grid-template-columns:1fr}}
+.service-card{background:linear-gradient(135deg,var(--surface2),var(--surface));border:1px solid var(--border2);border-radius:var(--r2);padding:2.25rem;transition:border-color .25s,box-shadow .25s}
+.service-card:hover{border-color:var(--teal);box-shadow:0 8px 40px var(--teal-glow)}
+.service-card-label{font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);margin-bottom:.75rem}
+.service-card-title{font-size:1.2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:1rem}
+.service-card-points{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.service-card-points li{font-size:.9rem;color:var(--text2);line-height:1.65;display:flex;align-items:flex-start;gap:.6rem}
+.service-card-points li::before{content:'→';color:var(--teal);flex-shrink:0;margin-top:.05em;font-family:var(--mono)}
+
+/* ── Divider ── */
+.section-divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0}
+
+/* ── CTA ── */
+.cta-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);padding:4rem;text-align:center}
+.cta-section h2{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-.04em;margin-bottom:1rem}
+.cta-section p{color:var(--text2);font-size:1rem;margin-bottom:2rem;max-width:560px;margin-left:auto;margin-right:auto}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+[data-theme="light"] .cta-section{background:var(--surface2)}
+
+/* ── Footer ── */
+footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
+.footer-logo{font-size:1rem;font-weight:700;color:var(--text);letter-spacing:-.02em}
+.footer-logo span{color:var(--violet)}
+.footer-tag{font-size:.82rem;color:var(--text3);margin-top:.25rem}
+.footer-links{display:flex;gap:2rem;list-style:none;flex-wrap:wrap}
+.footer-links a{font-size:.8rem;color:var(--text3);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--teal)}
+.footer-copy{font-family:var(--mono);font-size:.7rem;color:var(--text3)}
+
+/* ── Scroll reveal ── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:none}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">EPIC<span>Ultra</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="architecture.html">Architecture</a></li>
+    <li><a href="agents.html">AI Agents</a></li>
+    <li><a href="governance.html">Governance</a></li>
+    <li><a href="usecases.html">Use Cases</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="resources.html">Resources</a></li>
+  </ul>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle light/dark mode">
+    <span class="icon-dark">🌙</span>
+    <span class="icon-light">☀️</span>
+  </button>
+  <a href="mailto:hello@epicultra.ai" class="nav-cta">Request Demo</a>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-grid"></div>
+  <div class="wrap page-hero-inner">
+    <div class="badge">Framework</div>
+    <h1 class="page-hero h1">Security &amp; <span class="accent">Compliance</span></h1>
+    <p class="page-hero-sub">The EPICUltra framework enforces security end-to-end — from data access and agent execution to audit trails and kill-switch controls. Every layer is built for regulated enterprise environments where accountability is non-negotiable.</p>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── Core Security Features ── -->
+<section style="padding:5rem 0">
+  <div class="wrap">
+    <div class="badge">Access &amp; Identity</div>
+    <div class="section-header">
+      <h2>Control Who Sees <span class="accent">What, Always</span></h2>
+      <p>Identity-propagated access, row-level security, and role-based controls enforced at every layer — no shared elevated tokens, no exceptions.</p>
+    </div>
+    <div class="sec-grid">
+
+      <div class="sec-card reveal">
+        <div class="sec-card-icon">🔑</div>
+        <div class="sec-card-title">RBAC — Role-Based Access Control</div>
+        <ul class="sec-card-points">
+          <li>EPIC Ultra enforces data-level security end-to-end through the Policy/Entitlements Service (PES), which resolves effective access as the intersection of agent-declared dataset scopes and user entitlements.</li>
+          <li>All business-data queries execute on behalf of the requesting user via identity propagation — shared elevated tokens are prohibited.</li>
+          <li>Unity Catalog (Databricks) provides baseline catalog/schema/table privileges, with row-level and column-level security enforced via row filters and column masks.</li>
+        </ul>
+      </div>
+
+      <div class="sec-card reveal">
+        <div class="sec-card-icon">📋</div>
+        <div class="sec-card-title">Audit Logging</div>
+        <ul class="sec-card-points">
+          <li>Every agent execution produces auditable records capturing agent_id, agent_version, user_id, datasets touched, tool calls performed, and LLM token usage.</li>
+          <li>All operations — authentication events, dataset access, ingestion runs, reference table changes, and tool invocations — are correlated by a request-scoped correlation_id/trace_id propagated across all services.</li>
+          <li>Audit entries are retained per compliance policy and accessible only to authorized roles.</li>
+        </ul>
+      </div>
+
+      <div class="sec-card reveal">
+        <div class="sec-card-icon">🔄</div>
+        <div class="sec-card-title">Agent Versioning</div>
+        <ul class="sec-card-points">
+          <li>Each agent is independently versioned and stored with its configuration in PostgreSQL.</li>
+          <li>When a new agent version is deployed, routing automatically points to the new version while the old version is sunset gracefully.</li>
+          <li>The agents.md manifest declares each agent's allowed datasets, tool allowlists, and version metadata, ensuring traceability and rollback capability.</li>
+        </ul>
+      </div>
+
+      <div class="sec-card reveal">
+        <div class="sec-card-icon">🏗️</div>
+        <div class="sec-card-title">Environment Segregation</div>
+        <ul class="sec-card-points">
+          <li>Agent runtimes are deployed into private network segments with no public IP and egress-deny-by-default policies, with only allowlisted internal endpoints reachable.</li>
+          <li>Each agent runs in an independent container with isolated resource limits, health checks, and network policies enforcing least-privilege communication.</li>
+          <li>All denied outbound attempts are logged with correlation identifiers for security observability.</li>
+        </ul>
+      </div>
+
+      <div class="sec-card reveal">
+        <div class="sec-card-icon">🔒</div>
+        <div class="sec-card-title">Secure Microservices</div>
+        <ul class="sec-card-points">
+          <li>EPIC Ultra employs a microservices architecture with clear separation of concerns across orchestration, AI processing, and UI layers, with TLS encryption enforced for all inter-service communication.</li>
+          <li>Agents access business data exclusively through the Query Execution Service (QES) — never directly to Databricks — with server-side query validation.</li>
+          <li>Secrets are stored only in an approved secret manager, and telemetry avoids sensitive payload capture using hashed identifiers.</li>
+        </ul>
+      </div>
+
+      <div class="sec-card reveal">
+        <div class="sec-card-icon">🔍</div>
+        <div class="sec-card-title">Data Lineage</div>
+        <ul class="sec-card-points">
+          <li>EPIC Ultra tracks data from ingestion to AI consumption, capturing source system, load timestamps, job_id, and target Unity Catalog identifiers for all data ingested from external sources such as ETRM systems.</li>
+          <li>Ingested tables are registered in Unity Catalog with classification tags and ownership for downstream policy enforcement.</li>
+          <li>At the agent layer, every execution logs the specific datasets accessed, queries executed via QES, and tool calls performed — providing end-to-end visibility into how external data flows through the platform and is utilized by AI agents.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── AI Transparency & Control ── -->
+<section style="padding:5rem 0;background:var(--bg2)">
+  <div class="wrap">
+    <div class="badge">AI Transparency</div>
+    <div class="section-header">
+      <h2>Explainability &amp; <span class="accent">Runtime Control</span></h2>
+      <p>Every AI decision is traceable, every agent is measurable, and every deployment has an off switch.</p>
+    </div>
+    <div class="sec-grid">
+
+      <div class="sec-card reveal">
+        <div class="sec-card-icon">🧠</div>
+        <div class="sec-card-title">Reasoning / Chain of Thought</div>
+        <ul class="sec-card-points">
+          <li>EPIC Ultra AI agents capture structured rationale and reasoning steps for each decision made during workflow execution, providing transparency into how the agent arrived at its conclusions.</li>
+          <li>This chain of thought includes references to the datasets, rules, and tool invocations used in the decision-making process.</li>
+          <li>These explanations are stored in a security-safe manner suitable for audit and compliance review, without persisting sensitive raw prompts or responses.</li>
+        </ul>
+      </div>
+
+      <div class="sec-card reveal">
+        <div class="sec-card-icon">📊</div>
+        <div class="sec-card-title">Agent Evaluation</div>
+        <ul class="sec-card-points">
+          <li>EPIC Ultra tracks agent performance metrics over time including execution latency, success/failure rates, LLM token consumption, and step counts.</li>
+          <li>These metrics enable comparison of agent versions to measure improvements in accuracy, efficiency, and reliability as agents evolve.</li>
+          <li>This continuous evaluation framework supports data-driven decisions on when to promote new agent versions or roll back underperforming ones.</li>
+        </ul>
+      </div>
+
+      <div class="sec-card reveal" style="grid-column:1/-1">
+        <div class="sec-card-icon">⚡</div>
+        <div class="sec-card-title">Kill Switch Trigger</div>
+        <ul class="sec-card-points" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.7rem 2rem">
+          <li>EPIC Ultra provides a kill switch mechanism that allows administrators to immediately halt a running agent or disable an agent version across the platform, preventing further execution in case of anomalous behavior, security concerns, or erroneous outputs.</li>
+          <li>The kill switch leverages the agent container strategy to instantly reroute or terminate agent workloads with zero impact to the core system or other agents.</li>
+          <li>All kill switch activations are logged with the triggering user, reason, and timestamp for audit and compliance purposes.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ── Core Services ── -->
+<section style="padding:5rem 0">
+  <div class="wrap">
+    <div class="badge">Core Services</div>
+    <div class="section-header">
+      <h2>The Control-Plane <span class="accent">Services</span></h2>
+      <p>PES and QES are the security backbone of the platform — every authorization decision and every data access flows through them.</p>
+    </div>
+    <div class="service-grid">
+
+      <div class="service-card reveal">
+        <div class="service-card-label">Policy &amp; Entitlements Service</div>
+        <div class="service-card-title">PES</div>
+        <ul class="service-card-points">
+          <li>PES is a security-critical control-plane service that manages and enforces dataset and tool access policies across the platform.</li>
+          <li>It resolves effective permissions for each request by computing the intersection of the agent's declared scope and the user's entitlements.</li>
+          <li>Every authorization decision — granted or denied — is logged with correlation identifiers for audit and compliance.</li>
+        </ul>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-card-label">Query Execution Service</div>
+        <div class="service-card-title">QES</div>
+        <ul class="service-card-points">
+          <li>QES is the sole gateway for all business data access, executing Databricks queries and RAG retrieval on behalf of the requesting user using identity propagation.</li>
+          <li>It validates and constrains all queries to read-only statements against allowlisted tables, enforces row limits, and blocks risky constructs such as DDL/DML operations.</li>
+          <li>This ensures that neither agents nor services can bypass data-level security or directly access Databricks with elevated credentials.</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section style="padding:3rem 0 5rem">
+  <div class="wrap">
+    <div class="cta-section">
+      <h2>Built for <span class="accent">Regulated Environments</span></h2>
+      <p>No workarounds, no shared credentials, no black-box execution. Every action governed and traced from end to end.</p>
+      <div class="cta-btns">
+        <a href="mailto:hello@epicultra.ai" class="btn-primary">Request Demo</a>
+        <a href="governance.html" class="btn-secondary">Explore Governance →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo">EPIC<span>Ultra</span></div>
+        <div class="footer-tag">Enterprise AI engineered for accountability.</div>
+      </div>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="architecture.html">Architecture</a></li>
+        <li><a href="agents.html">AI Agents</a></li>
+        <li><a href="governance.html">Governance</a></li>
+        <li><a href="usecases.html">Use Cases</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="security.html">Security &amp; Compliance</a></li>
+      </ul>
+      <div class="footer-copy">© 2026 EPICUltra · epicultra.ai</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── Apply saved theme immediately ──
+(function(){
+  const t=localStorage.getItem('eu-theme')||'dark';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+
+// ── Theme toggle ──
+const toggle = document.getElementById('themeToggle');
+const applyTheme = (t) => {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('eu-theme', t);
+};
+if(toggle){
+  toggle.addEventListener('click',()=>{
+    const current = document.documentElement.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+}
+
+// ── Nav hamburger ──
+const ham = document.getElementById('hamburger');
+const links = document.getElementById('navLinks');
+if(ham) ham.addEventListener('click',()=>links.classList.toggle('open'));
+
+// ── Active nav link ──
+const path = window.location.pathname.split('/').pop() || 'index.html';
+document.querySelectorAll('.nav-links a').forEach(a=>{
+  if(a.getAttribute('href')===path) a.classList.add('active');
+});
+
+// ── Scroll reveal ──
+const revealEls = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    e.target.classList.add('visible');
+    revealObs.unobserve(e.target);
+  });
+},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+
+// stagger siblings in grid
+document.querySelectorAll('.sec-grid,.service-grid').forEach(container=>{
+  Array.from(container.children).forEach((child,i)=>{
+    child.style.transitionDelay=`${i*0.1}s`;
+  });
+});
+
+revealEls.forEach(el=>revealObs.observe(el));
+</script>
+</body>
+</html>
