@@ -415,7 +415,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
 /* ── Layer timeline (Five Layers section) ── */
 .lt-wrap{position:relative;margin-top:2.5rem}
 .lt-line{position:absolute;left:37px;top:36px;bottom:36px;width:2px;background:linear-gradient(180deg,var(--violet),var(--teal));opacity:.25;pointer-events:none}
-.lt-item{display:grid;grid-template-columns:auto 1fr;gap:2.5rem;padding:2rem 0;position:relative;align-items:start}
+.lt-item{display:grid;grid-template-columns:auto 1fr;gap:2.5rem;padding:2rem 1.25rem;position:relative;align-items:start;border-radius:var(--r2);transition:background .25s,box-shadow .25s;cursor:default}
+.lt-item:hover{background:rgba(108,71,255,.06);box-shadow:inset 0 0 0 1px rgba(108,71,255,.2),0 4px 32px rgba(108,71,255,.08)}
 .lt-item:not(:last-child)::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--border)}
 .lt-left{display:flex;align-items:center;gap:1rem;flex-shrink:0}
 .lt-num{width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:1rem;font-weight:700;color:#fff;flex-shrink:0;position:relative;z-index:1;letter-spacing:.02em}
@@ -442,14 +443,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
 .principle-text{font-size:.95rem;color:var(--text2);line-height:1.75}
 @media(max-width:600px){.principle{grid-template-columns:1fr}}
 
-/* ── Stats strip ── */
-.stat-strip{background:linear-gradient(90deg,rgba(108,71,255,.06) 0%,rgba(0,184,148,.06) 100%);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:3rem 0}
+/* ── Stats strip inner grid ── */
 .stat-strip-inner{display:grid;grid-template-columns:repeat(4,1fr)}
-.strip-stat{padding:0 2rem;border-right:1px solid var(--border);text-align:center}
-.strip-stat:last-child{border-right:none}
-.strip-val{font-size:3rem;font-weight:800;letter-spacing:-.05em;line-height:1;margin-bottom:.4rem;background:linear-gradient(135deg,var(--violet),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.strip-label{font-family:var(--mono);font-size:.7rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
-@media(max-width:700px){.stat-strip-inner{grid-template-columns:repeat(2,1fr)}.strip-stat{padding:1rem;border-right:none;border-bottom:1px solid var(--border)}.strip-stat:nth-child(3),.strip-stat:last-child{border-bottom:none}}
 
 /* ── Industry cards ── */
 .industry-card{border:1px solid var(--border);border-radius:var(--r2);padding:2rem;background:var(--surface);position:relative;overflow:hidden;transition:transform .25s,box-shadow .25s,border-color .25s}
@@ -467,13 +462,8 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
 .ic-list.iv li::before{background:var(--violet)}
 .ic-list.it li::before{background:var(--teal)}
 
-/* ── Marquee ── */
-.marquee-section{overflow:hidden;padding:.85rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(255,255,255,.015)}
-.marquee-inner{display:flex;width:max-content;animation:marqueeScroll 45s linear infinite}
-.marquee-inner:hover{animation-play-state:paused}
+/* ── Marquee (base keyframe kept here) ── */
 @keyframes marqueeScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.m-item{display:inline-flex;align-items:center;gap:.5rem;padding:0 2rem;font-family:var(--mono);font-size:.65rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);white-space:nowrap}
-.m-dot{width:3px;height:3px;border-radius:50%;background:var(--violet);flex-shrink:0}
 
 /* ── Typewriter cursor ── */
 .tw-cursor{display:inline-block;width:2px;height:0.9em;background:var(--teal);margin-left:2px;vertical-align:text-bottom;animation:pulse .7s step-end infinite}
@@ -515,10 +505,88 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
 .hscroll-track{display:flex;gap:1.25rem;padding:.25rem 0 1rem}
 .hscroll-track>.card{width:290px;flex-shrink:0;scroll-snap-align:start}
 .hscroll-hint{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-top:.5rem}
+/* ── Auto-scroll (marquee) ── */
+@keyframes marquee-left{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.hscroll-auto{overflow:hidden;cursor:default;scroll-snap-type:none;padding-bottom:0}
+.hscroll-auto .hscroll-track{width:max-content;animation:marquee-left 28s linear infinite;padding-bottom:1rem}
+.hscroll-auto .hscroll-track:hover{animation-play-state:paused}
+.hscroll-auto .hscroll-track>.card{scroll-snap-align:none}
 
 /* ── Diagonal divider ── */
 .diag-down{height:60px;background:var(--bg2);clip-path:polygon(0 0,100% 0,100% 100%,0 0);margin-bottom:-1px}
 .diag-up{height:60px;background:var(--bg2);clip-path:polygon(0 0,100% 0,0 100%);margin-top:-1px}
+
+/* ── Hero canvas ── */
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.6}
+[data-theme="light"] #hero-canvas{opacity:.25}
+
+/* ── Nav scroll progress bar ── */
+#nav-progress{position:absolute;bottom:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--violet),var(--teal));pointer-events:none;transition:width .08s linear}
+
+/* ── CTA pulse ── */
+@keyframes ctaPulse{0%,100%{box-shadow:0 0 0 0 rgba(108,71,255,.5),0 0 30px var(--violet-glow)}60%{box-shadow:0 0 0 10px rgba(108,71,255,0),0 0 30px var(--violet-glow)}}
+.btn-pulse{animation:ctaPulse 2.8s ease-out infinite}
+
+/* ── Card shimmer on hover ── */
+@keyframes shimmerSwipe{0%{transform:translateX(-100%) skewX(-15deg)}100%{transform:translateX(200%) skewX(-15deg)}}
+.card{overflow:hidden}
+.card::after,.bc::after,.industry-card::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(108,71,255,.07) 50%,rgba(0,245,200,.04) 55%,transparent 65%);transform:translateX(-100%) skewX(-15deg);pointer-events:none;transition:none}
+.card:hover::after,.bc:hover::after,.industry-card:hover::after{animation:shimmerSwipe .65s ease forwards}
+
+/* ── Icon micro-bounce on card hover ── */
+.card:hover .card-icon,.bc:hover .bc-icon{animation:iconBounce .4s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes iconBounce{0%{transform:scale(1)}50%{transform:scale(1.3) rotate(-8deg)}100%{transform:scale(1.1)}}
+
+/* ── Marquee upgrades ── */
+.marquee-section{overflow:hidden;padding:1rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(255,255,255,.02);-webkit-mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent);mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent)}
+.marquee-inner{display:flex;width:max-content;animation:marqueeScroll 30s linear infinite}
+.marquee-inner:hover{animation-play-state:paused}
+.m-item{display:inline-flex;align-items:center;gap:.55rem;padding:0 1.75rem;font-family:var(--mono);font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--text2);white-space:nowrap}
+.m-dot{width:4px;height:4px;border-radius:50%;background:var(--violet);flex-shrink:0;box-shadow:0 0 6px var(--violet)}
+
+/* ── Stat-strip glassmorphism ── */
+.stat-strip{background:rgba(255,255,255,.03);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);padding:3rem 0;position:relative;overflow:hidden}
+.stat-strip::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(108,71,255,.06) 0%,rgba(0,184,148,.04) 100%);pointer-events:none}
+[data-theme="light"] .stat-strip{background:rgba(255,255,255,.7);border-color:rgba(0,0,0,.06)}
+.strip-stat{padding:0 2rem;border-right:1px solid rgba(255,255,255,.07);text-align:center;position:relative}
+.strip-stat:last-child{border-right:none}
+.strip-val{font-size:3rem;font-weight:800;letter-spacing:-.05em;line-height:1;margin-bottom:.4rem;background:linear-gradient(135deg,var(--violet),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.strip-label{font-family:var(--mono);font-size:.7rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+@media(max-width:700px){.stat-strip-inner{grid-template-columns:repeat(2,1fr)}.strip-stat{padding:1rem;border-right:none;border-bottom:1px solid rgba(255,255,255,.07)}.strip-stat:nth-child(3),.strip-stat:last-child{border-bottom:none}}
+
+/* ── Results glassmorphism section ── */
+.results-section{padding:5rem 0}
+.res-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-top:3rem}
+@media(max-width:900px){.res-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.res-grid{grid-template-columns:1fr}}
+.res-card{background:rgba(255,255,255,.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.08);border-radius:var(--r2);padding:2.5rem 1.75rem;text-align:center;transition:border-color .25s,box-shadow .25s,transform .2s;position:relative;overflow:hidden}
+.res-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(108,71,255,.08),transparent 70%);pointer-events:none}
+.res-card:hover{border-color:var(--violet);transform:translateY(-4px);box-shadow:0 16px 48px rgba(108,71,255,.18)}
+[data-theme="light"] .res-card{background:rgba(255,255,255,.8);border-color:rgba(90,53,232,.12)}
+.res-icon{font-size:2rem;margin-bottom:1rem;line-height:1}
+.res-val{font-size:2.8rem;font-weight:800;letter-spacing:-.06em;line-height:1;margin-bottom:.5rem;background:linear-gradient(135deg,var(--violet),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.res-label{font-family:var(--mono);font-size:.68rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.4rem}
+.res-desc{font-size:.82rem;color:var(--text2);line-height:1.5}
+
+/* ── Footer gradient CTA banner ── */
+.footer-banner{position:relative;overflow:hidden;padding:6rem 0;text-align:center}
+.footer-banner-bg{position:absolute;inset:0;background:linear-gradient(135deg,rgba(108,71,255,.18) 0%,rgba(0,184,148,.1) 50%,rgba(108,71,255,.12) 100%);pointer-events:none}
+.footer-banner-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:50px 50px;opacity:.2}
+.footer-banner-inner{position:relative;z-index:1}
+.footer-banner h2{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;letter-spacing:-.04em;margin-bottom:1rem}
+.footer-banner p{font-size:1.05rem;color:var(--text2);max-width:560px;margin:0 auto 2.5rem;line-height:1.7}
+.footer-banner-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* ── Split image sections ── */
+.split-sec{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:900px){.split-sec{grid-template-columns:1fr;gap:2.5rem}.split-img-first{order:-1}}
+.split-img{border-radius:var(--r2);overflow:hidden;position:relative;aspect-ratio:16/9;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(108,71,255,.2)}
+.split-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease;filter:brightness(.8) saturate(.9)}
+.split-img:hover img{transform:scale(1.03)}
+.split-img::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(108,71,255,.15) 0%,rgba(0,184,148,.08) 100%);mix-blend-mode:overlay;pointer-events:none}
+[data-theme="light"] .split-img img{filter:brightness(.9) saturate(.95)}
+.split-text h2{font-size:clamp(1.7rem,3vw,2.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:1.2rem}
+.split-text p{font-size:.95rem;color:var(--text2);line-height:1.75;margin-bottom:1.5rem}
 </style>
 
 </head>
@@ -539,10 +607,12 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
       <span></span><span></span><span></span>
     </button>
   </div>
+  <div id="nav-progress"></div>
 </nav>
 
 <section class="hero">
   <div class="hero-bg"></div>
+  <canvas id="hero-canvas"></canvas>
   <div class="hero-grid"></div>
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
@@ -554,13 +624,13 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
       <p class="hero-sub animate-up-3 tw-hero" data-text="EPICUltra provides the risk-grade foundation required to deploy AI safely across complex enterprise workflows."></p>
       <p class="hero-support animate-up-3">Deploy AI with confidence across trading, risk, and finance workflows without compromising control, compliance, or operational integrity.</p>
       <div class="hero-btns animate-up-4">
-        <a href="#contact" class="btn-primary">Request Demo</a>
+        <a href="#contact" class="btn-primary btn-pulse">Request Demo</a>
         <a href="architecture.html" class="btn-secondary">Explore the Architecture →</a>
       </div>
       <div class="hero-stats animate-up-4">
-        <div class="stat"><div class="stat-val">7<span>+</span></div><div class="stat-label">Production Agents</div></div>
-        <div class="stat"><div class="stat-val">100<span>%</span></div><div class="stat-label">Decision Traceability</div></div>
-        <div class="stat"><div class="stat-val">&lt;15<span>ms</span></div><div class="stat-label">Execution Latency</div></div>
+        <div class="stat"><div class="stat-val" data-count="7" data-suffix="+">7+</div><div class="stat-label">Production Agents</div></div>
+        <div class="stat"><div class="stat-val" data-count="100" data-suffix="%">100%</div><div class="stat-label">Decision Traceability</div></div>
+        <div class="stat"><div class="stat-val" data-count="15" data-prefix="&lt;" data-suffix="ms">&lt;15ms</div><div class="stat-label">Execution Latency</div></div>
       </div>
     </div>
   </div>
@@ -573,7 +643,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
       <h2>AI in <span class="accent">High-Risk</span> Environments</h2>
       <p class="word-reveal">Energy trading organizations operate in a world of accelerating volatility, fragmented systems, and exponential data growth. AI promises automation — but deployed without architecture, it amplifies weaknesses.</p>
     </div>
-    <div class="hscroll">
+    <div class="hscroll hscroll-auto">
       <div class="hscroll-track">
       <div class="card">
         <div class="card-icon">⚖️</div>
@@ -605,8 +675,54 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
         <h3>The Solution</h3>
         <p>Modern enterprises need more than AI tools. They need <strong style="color:var(--teal)">AI architecture built for controlled execution.</strong></p>
       </div>
+      <!-- duplicate set for seamless loop -->
+      <div class="card" aria-hidden="true">
+        <div class="card-icon">⚖️</div>
+        <h3>No Governance Layer</h3>
+        <p>Off-the-shelf AI lacks mandate controls, role-based limits, and financial guardrails — creating unacceptable risk at every decision point.</p>
+      </div>
+      <div class="card" aria-hidden="true">
+        <div class="card-icon">👁️</div>
+        <h3>Black-Box Decisions</h3>
+        <p>When AI journals an entry or flags a position, you need a full audit trail. Opaque models cannot survive regulatory scrutiny.</p>
+      </div>
+      <div class="card" aria-hidden="true">
+        <div class="card-icon">🌀</div>
+        <h3>Hallucination at Scale</h3>
+        <p>Unstructured retrieval causes confabulation. In margin calculations and risk reports, one wrong number creates systemic exposure.</p>
+      </div>
+      <div class="card" aria-hidden="true">
+        <div class="card-icon">🧩</div>
+        <h3>Fragmented Systems</h3>
+        <p>Fragmented ETRM, ERP, and settlement systems create inconsistent data across operational platforms with no single source of truth.</p>
+      </div>
+      <div class="card" aria-hidden="true">
+        <div class="card-icon">💥</div>
+        <h3>Amplified Errors</h3>
+        <p>Market volatility increases exposure sensitivity. Operational automation deployed without controls amplifies errors at scale.</p>
+      </div>
+      <div class="card" aria-hidden="true" style="background:linear-gradient(135deg,var(--surface2),var(--surface));border-color:var(--border2)">
+        <div class="card-icon">🎯</div>
+        <h3>The Solution</h3>
+        <p>Modern enterprises need more than AI tools. They need <strong style="color:var(--teal)">AI architecture built for controlled execution.</strong></p>
+      </div>
       </div></div>
-    <p class="hscroll-hint">← drag to explore →</p>
+  </div>
+</section>
+
+<section style="padding:5rem 0">
+  <div class="wrap">
+    <div class="split-sec">
+      <div class="split-text">
+        <div class="badge">Live Operations</div>
+        <h2>Real-Time Intelligence for <span class="accent">Energy Trading</span></h2>
+        <p>EPICUltra agents run continuous monitoring across physical and financial positions — executing risk checks, margin calculations, and settlement workflows with sub-15ms latency, governed and traceable at every step.</p>
+        <a href="usecases.html" class="btn-secondary">See Use Cases →</a>
+      </div>
+      <div class="split-img">
+        <img src="images/AI Images (3).jpg" alt="Real-time energy trading operations" loading="lazy">
+      </div>
+    </div>
   </div>
 </section>
 
@@ -620,6 +736,42 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
     </div>
   </div>
 </div>
+
+<section class="results-section">
+  <div class="wrap">
+    <div class="badge">Platform Results</div>
+    <div class="section-header">
+      <h2>Numbers That <span class="accent">Don't Lie</span></h2>
+      <p>Production metrics from live EPICUltra deployments — not benchmarks, not estimates.</p>
+    </div>
+    <div class="res-grid">
+      <div class="res-card reveal">
+        <div class="res-icon">🎯</div>
+        <div class="res-val" data-count="99.2" data-suffix="%">99.2%</div>
+        <div class="res-label">Retrieval Precision</div>
+        <div class="res-desc">Structured RAG anchored to reconciled enterprise data only</div>
+      </div>
+      <div class="res-card reveal">
+        <div class="res-icon">🔍</div>
+        <div class="res-val" data-count="100" data-suffix="%">100%</div>
+        <div class="res-label">Decision Traceability</div>
+        <div class="res-desc">Every AI action logged with full reasoning chain and model state</div>
+      </div>
+      <div class="res-card reveal">
+        <div class="res-icon">⚡</div>
+        <div class="res-val" data-count="15" data-prefix="&lt;" data-suffix="ms">&lt;15ms</div>
+        <div class="res-label">Execution Latency</div>
+        <div class="res-desc">Agent response time across real-time trading and settlement workflows</div>
+      </div>
+      <div class="res-card reveal">
+        <div class="res-icon">🛡️</div>
+        <div class="res-val" data-count="0" data-suffix="">0</div>
+        <div class="res-label">Hallucinations in Prod</div>
+        <div class="res-desc">Policy-scoped retrieval eliminates confabulation at the architectural level</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <div class="marquee-section">
   <div class="marquee-inner">
@@ -792,7 +944,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
   <div class="wrap">
     <div class="badge">Industries Served</div>
     <div class="section-header">
-      <h2>Built for <span class="accent">High-Stakes</span> Financial Operations</h2>
+      <h2>Built for <span class="accent">High-Stakes</span> Enterprise Domains</h2>
     </div>
     <div class="bento">
       <div class="bc bc-4 bc-tall">
@@ -868,18 +1020,18 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
 </section>
 
 
-<section id="contact">
-  <div class="wrap">
-    <div class="cta-section">
-      <h2>Enterprise AI Engineered for <span class="accent">Accountability</span></h2>
-      <p>No SDRs, no sales funnels. We engage directly with CROs, CIOs, and enterprise architects.</p>
-      <div class="cta-btns">
-        <a href="mailto:hello@epicultra.ai" class="btn-primary">Request Demo</a>
-        <a href="architecture.html" class="btn-secondary">Explore Architecture</a>
-      </div>
+<div class="footer-banner" id="contact">
+  <div class="footer-banner-bg"></div>
+  <div class="wrap footer-banner-inner">
+    <div class="badge" style="margin-bottom:1.5rem">Ready to Deploy</div>
+    <h2>Enterprise AI Engineered for <span class="accent">Accountability</span></h2>
+    <p>No SDRs, no sales funnels. We engage directly with CROs, CIOs, and enterprise architects who need AI that answers to them.</p>
+    <div class="footer-banner-btns">
+      <a href="mailto:hello@epicultra.ai" class="btn-primary btn-pulse">Request Demo</a>
+      <a href="architecture.html" class="btn-secondary">Explore Architecture →</a>
     </div>
   </div>
-</section>
+</div>
 
 <footer>
   <div class="wrap">
@@ -896,6 +1048,7 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
         <li><a href="usecases.html">Use Cases</a></li>
         <li><a href="about.html">About</a></li>
         <li><a href="resources.html">Resources</a></li>
+        <li><a href="security.html">Security &amp; Compliance</a></li>
       </ul>
       <div class="footer-copy">© 2026 EPICUltra · epicultra.ai</div>
     </div>
@@ -946,15 +1099,15 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 
   // ── Scroll reveal ──
-  const REVEAL = '.card,.agc,.lt-item,.principle,.industry-card,.pillar,.flip-card,.feat-item,.uc-item,.resource-card,.webinar-card,.tenet,.diff-item,.sec-stat,.compliance-item,.mb-item,.section-header';
+  const REVEAL = '.card,.agc,.principle,.industry-card,.pillar,.flip-card,.feat-item,.uc-item,.resource-card,.webinar-card,.tenet,.diff-item,.sec-stat,.compliance-item,.mb-item,.section-header,.res-card';
   const revealEls = document.querySelectorAll(REVEAL);
   revealEls.forEach(el=>{
     el.style.opacity='0';
     el.style.transform='translateY(22px)';
-    el.style.transition='opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1)';
+    el.style.transition='opacity .65s cubic-bezier(.16,1,.3,1),transform .65s cubic-bezier(.16,1,.3,1)';
   });
   // stagger siblings in grid/list containers
-  document.querySelectorAll('.grid-3,.grid-2,.grid-4,.lt-wrap,.mandate-bar,.compliance-grid,.sec-stats,.about-split,.bento,.hscroll-track').forEach(container=>{
+  document.querySelectorAll('.grid-3,.grid-2,.grid-4,.mandate-bar,.compliance-grid,.sec-stats,.about-split,.bento,.res-grid').forEach(container=>{
     Array.from(container.children).forEach((child,i)=>{
       if(child.style.opacity==='0') child.style.transitionDelay=`${i*0.13}s`;
     });
@@ -1006,6 +1159,25 @@ document.addEventListener('DOMContentLoaded',()=>{
   },{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
   revealEls.forEach(el=>revealObs.observe(el));
 
+  // ── Layer timeline pull-in (Five Layers) ──
+  document.querySelectorAll('.lt-item').forEach((el,i)=>{
+    el.style.opacity='0';
+    el.style.transform='translateX(-40px)';
+    // stagger siblings within the same lt-wrap
+    const siblings=Array.from(el.parentElement.querySelectorAll('.lt-item'));
+    const idx=siblings.indexOf(el);
+    el.style.transition=`opacity .55s ${idx*0.1}s cubic-bezier(.16,1,.3,1),transform .55s ${idx*0.1}s cubic-bezier(.16,1,.3,1)`;
+    const ltObs=new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(!e.isIntersecting) return;
+        e.target.style.opacity='1';
+        e.target.style.transform='translateX(0)';
+        ltObs.unobserve(e.target);
+      });
+    },{threshold:0.15,rootMargin:'0px 0px -20px 0px'});
+    ltObs.observe(el);
+  });
+
   // standalone counter observer for elements not inside reveal parents
   const countObs=new IntersectionObserver(entries=>{
     entries.forEach(e=>{
@@ -1041,7 +1213,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 
   // ── Horizontal scroll drag ──
-  document.querySelectorAll('.hscroll').forEach(el=>{
+  document.querySelectorAll('.hscroll:not(.hscroll-auto)').forEach(el=>{
     let down=false,startX,scrollLeft;
     el.addEventListener('mousedown',e=>{down=true;el.classList.add('hs-grab');startX=e.pageX-el.offsetLeft;scrollLeft=el.scrollLeft;});
     el.addEventListener('mouseleave',()=>{down=false;el.classList.remove('hs-grab');});
@@ -1066,9 +1238,76 @@ document.addEventListener('DOMContentLoaded',()=>{
     setTimeout(type,700);
   })();
 
+  // ── Nav scroll progress bar ──
+  (function(){
+    const bar=document.getElementById('nav-progress');
+    if(!bar) return;
+    function update(){
+      const total=document.documentElement.scrollHeight-window.innerHeight;
+      bar.style.width=(total>0?(window.scrollY/total*100):0)+'%';
+    }
+    window.addEventListener('scroll',update,{passive:true});
+  })();
+
+  // ── Hero canvas particle network ──
+  (function(){
+    const canvas=document.getElementById('hero-canvas');
+    if(!canvas) return;
+    const ctx=canvas.getContext('2d');
+    const N=55,MAX_D=155,SPD=0.28;
+    let W,H,dots,raf;
+    function resize(){
+      W=canvas.width=canvas.offsetWidth;
+      H=canvas.height=canvas.offsetHeight;
+    }
+    function init(){
+      resize();
+      dots=Array.from({length:N},()=>({
+        x:Math.random()*W,y:Math.random()*H,
+        vx:(Math.random()-.5)*SPD,vy:(Math.random()-.5)*SPD
+      }));
+    }
+    function frame(){
+      ctx.clearRect(0,0,W,H);
+      const dark=document.documentElement.getAttribute('data-theme')!=='light';
+      const dc=dark?'108,71,255':'90,53,232';
+      const tc=dark?'0,184,148':'0,137,110';
+      dots.forEach(d=>{
+        d.x+=d.vx; d.y+=d.vy;
+        if(d.x<0||d.x>W) d.vx*=-1;
+        if(d.y<0||d.y>H) d.vy*=-1;
+      });
+      for(let i=0;i<dots.length;i++){
+        for(let j=i+1;j<dots.length;j++){
+          const dx=dots[i].x-dots[j].x,dy=dots[i].y-dots[j].y;
+          const dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<MAX_D){
+            const a=(1-dist/MAX_D)*0.18;
+            ctx.strokeStyle=`rgba(${dc},${a})`;
+            ctx.lineWidth=.8;
+            ctx.beginPath();
+            ctx.moveTo(dots[i].x,dots[i].y);
+            ctx.lineTo(dots[j].x,dots[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      dots.forEach((d,i)=>{
+        const c=i%3===0?tc:dc;
+        ctx.fillStyle=`rgba(${c},0.4)`;
+        ctx.beginPath();
+        ctx.arc(d.x,d.y,1.8,0,Math.PI*2);
+        ctx.fill();
+      });
+      raf=requestAnimationFrame(frame);
+    }
+    window.addEventListener('resize',()=>{resize();},{ passive:true });
+    init(); frame();
+  })();
+
   // ── Cyclical tile highlight ──
   const TILE_Q=':scope>.card,:scope>.agc,:scope>.pillar,:scope>.industry-card,:scope>.mb-item,:scope>.feat-item,:scope>.compliance-item,:scope>.sec-stat,:scope>.lt-item';
-  document.querySelectorAll('.grid-3,.grid-2,.grid-4,.mandate-bar,.compliance-grid,.sec-stats,.lt-wrap,.hscroll-track').forEach((grid,gi)=>{
+  document.querySelectorAll('.grid-3,.grid-2,.grid-4,.mandate-bar,.compliance-grid,.sec-stats').forEach((grid,gi)=>{
     const tiles=Array.from(grid.querySelectorAll(TILE_Q));
     if(tiles.length<2) return;
     let started=false,idx=0;
