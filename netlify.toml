@@ -1,6 +1,5 @@
 [build]
   publish = "."
-  command = "python3 build.py"
 
 [[redirects]]
   from = "/home"
