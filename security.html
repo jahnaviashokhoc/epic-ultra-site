@@ -146,6 +146,17 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
 /* ── Scroll reveal ── */
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .55s cubic-bezier(.16,1,.3,1),transform .55s cubic-bezier(.16,1,.3,1)}
 .reveal.visible{opacity:1;transform:none}
+
+/* ── Split image sections ── */
+.split-sec{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:900px){.split-sec{grid-template-columns:1fr;gap:2.5rem}.split-img-first{order:-1}}
+.split-img{border-radius:var(--r2);overflow:hidden;position:relative;aspect-ratio:16/9;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(108,71,255,.2)}
+.split-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease;filter:brightness(.8) saturate(.9)}
+.split-img:hover img{transform:scale(1.03)}
+.split-img::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(108,71,255,.15) 0%,rgba(0,184,148,.08) 100%);mix-blend-mode:overlay;pointer-events:none}
+[data-theme="light"] .split-img img{filter:brightness(.9) saturate(.95)}
+.split-text h2{font-size:clamp(1.7rem,3vw,2.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:1.2rem}
+.split-text p{font-size:.95rem;color:var(--text2);line-height:1.75;margin-bottom:1.5rem}
 </style>
 </head>
 <body>
@@ -179,6 +190,22 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
     <div class="badge">Framework</div>
     <h1 class="page-hero h1">Security &amp; <span class="accent">Compliance</span></h1>
     <p class="page-hero-sub">The EPICUltra framework enforces security end-to-end — from data access and agent execution to audit trails and kill-switch controls. Every layer is built for regulated enterprise environments where accountability is non-negotiable.</p>
+  </div>
+</section>
+
+<section style="padding:5rem 0">
+  <div class="wrap">
+    <div class="split-sec">
+      <div class="split-img split-img-first">
+        <img src="images/AI Images (1).jpg" alt="SOC Ready compliance framework" loading="lazy">
+      </div>
+      <div class="split-text">
+        <div class="badge">SOC Ready</div>
+        <h2>Compliance That Goes Beyond <span class="accent">the Checklist</span></h2>
+        <p>EPICUltra's security posture is designed for regulated enterprise environments. From RBAC and audit logging to kill-switch controls and environment segregation — every control is structural, not a feature added after the fact.</p>
+        <a href="governance.html" class="btn-secondary">View Governance →</a>
+      </div>
+    </div>
   </div>
 </section>
 

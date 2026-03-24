@@ -576,6 +576,17 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
 .footer-banner h2{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;letter-spacing:-.04em;margin-bottom:1rem}
 .footer-banner p{font-size:1.05rem;color:var(--text2);max-width:560px;margin:0 auto 2.5rem;line-height:1.7}
 .footer-banner-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* ── Split image sections ── */
+.split-sec{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+@media(max-width:900px){.split-sec{grid-template-columns:1fr;gap:2.5rem}.split-img-first{order:-1}}
+.split-img{border-radius:var(--r2);overflow:hidden;position:relative;aspect-ratio:16/9;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 0 1px rgba(108,71,255,.2)}
+.split-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s ease;filter:brightness(.8) saturate(.9)}
+.split-img:hover img{transform:scale(1.03)}
+.split-img::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(108,71,255,.15) 0%,rgba(0,184,148,.08) 100%);mix-blend-mode:overlay;pointer-events:none}
+[data-theme="light"] .split-img img{filter:brightness(.9) saturate(.95)}
+.split-text h2{font-size:clamp(1.7rem,3vw,2.4rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;margin-bottom:1.2rem}
+.split-text p{font-size:.95rem;color:var(--text2);line-height:1.75;margin-bottom:1.5rem}
 </style>
 
 </head>
@@ -696,6 +707,22 @@ footer{border-top:1px solid var(--border);padding:2.5rem 0;margin-top:2rem}
         <p>Modern enterprises need more than AI tools. They need <strong style="color:var(--teal)">AI architecture built for controlled execution.</strong></p>
       </div>
       </div></div>
+  </div>
+</section>
+
+<section style="padding:5rem 0">
+  <div class="wrap">
+    <div class="split-sec">
+      <div class="split-text">
+        <div class="badge">Live Operations</div>
+        <h2>Real-Time Intelligence for <span class="accent">Energy Trading</span></h2>
+        <p>EPICUltra agents run continuous monitoring across physical and financial positions — executing risk checks, margin calculations, and settlement workflows with sub-15ms latency, governed and traceable at every step.</p>
+        <a href="usecases.html" class="btn-secondary">See Use Cases →</a>
+      </div>
+      <div class="split-img">
+        <img src="images/AI Images (3).jpg" alt="Real-time energy trading operations" loading="lazy">
+      </div>
+    </div>
   </div>
 </section>
 
